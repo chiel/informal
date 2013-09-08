@@ -90,24 +90,22 @@ The type of field this trigger is linked to will determine how it's triggered.
 
 These options are generic for all field types
 
-- `type`: Defines what field type you desire,
-- `label`: The label text to be used
-- `id`: Id of the field (useful for javascript hooks)
-- `name`: Name of the field. This will be important for your server-side code
-- `defaultValue`: Default value to put into the field
-- `attributes`: An object with key/value pairs for html attributes. Useful for
-  setting placeholders and data attributes
+- `type`: field type
+- `label`: label text to be used
+- `name`: name of the field
+- `value`: default value
+- `required`: true if field is mandatory
+- `attributes`: object with key/value pairs for html attributes
 
 ### Text field
 
-Example field specification:
+Example:
 
 ```json
 {
-	"type": "text",
-	"id": "firstName",
-	"name": "firstName",
-	"defaultValue": ""
+  "type": "text",
+  "id": "firstName",
+  "name": "firstName"
 }
 ```
 

@@ -1963,7 +1963,7 @@
     },
     '18': function (require, module, exports, global) {
         'use strict';
-        var prime = require('6'), FieldBase = require('g'), zen = require('h');
+        var prime = require('6'), forOwn = require('a'), FieldBase = require('g'), zen = require('h');
         require('p');
         var FieldText = prime({
                 inherits: FieldBase,
@@ -1977,6 +1977,20 @@
                     this.wrap = zen('li');
                     zen('label').text(this.spec.label || '').insert(this.wrap);
                     this.input = zen('input').insert(this.wrap);
+                    if (this.spec.name) {
+                        this.input.attribute('name', this.spec.name);
+                    }
+                    if (this.spec.value) {
+                        this.input.value(this.spec.value);
+                    }
+                    if (this.spec.required && this.spec.required === true) {
+                        this.input.attribute('required', true);
+                    }
+                    if (this.spec.attributes) {
+                        forOwn(this.spec.attributes, function (value, key) {
+                            this.input.attribute(key, value);
+                        }.bind(this));
+                    }
                     if (this.spec.triggers) {
                         this.input.on('input', this.checkTriggers.bind(this));
                         this.checkTriggers();

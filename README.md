@@ -133,3 +133,31 @@ Example:
 - `options`: an array of objects, each object specifying a `value` and `text`
   key
 
+### Multiple option preset values
+
+Example:
+
+```json
+{
+  "type": "multi-option",
+  "style": "checkbox",
+  "label": "Interests",
+  "name": "interests",
+  "options": [
+    {"value": "cycling", "text": "Cycling"},
+    {"value": "running", "text": "Running"},
+    {"value": "swimming", "text": "Swimming" },
+    {"value": "gaming", "text": "Gaming" }
+  ],
+  "value": ["cycling", "gaming"]
+}
+```
+
+#### Additional options
+
+- `value`: can also be an array if multiple values should be preselected
+- `style`: how the field should be displayed, as a multiple select box
+  (`select`) or a set of checkboxes (`checkbox`)
+- `options`: an array of objects, each object specifying a `value` and `text`
+  key
+

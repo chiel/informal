@@ -52,124 +52,163 @@
     },
     '5': function (require, module, exports, global) {
         'use strict';
-        var PageBase = require('6'), zen = require('a');
+        var prime = require('6'), PageBase = require('e'), zen = require('h');
         require('p');
-        var PageMain = function (root, spec) {
-            if (!(this instanceof PageMain)) {
-                return new PageMain(root, spec);
-            }
-            PageBase.call(this, root, spec);
-        };
-        PageMain.prototype = Object.create(PageBase.prototype);
-        PageMain.prototype.build = function () {
-            this.wrap = zen('section.page.page-' + this.index).insert(this.root);
-            this.groupContainer = this.wrap;
-        };
+        var PageMain = prime({
+                inherits: PageBase,
+                constructor: function (root, spec) {
+                    if (!(this instanceof PageMain)) {
+                        return new PageMain(root, spec);
+                    }
+                    PageBase.call(this, root, spec);
+                },
+                build: function () {
+                    this.wrap = zen('section.page.page-' + this.index).insert(this.root);
+                    this.groupContainer = this.wrap;
+                }
+            });
         module.exports = PageMain;
     },
     '6': function (require, module, exports, global) {
         'use strict';
-        var groupTypes = require('3'), GroupBase = require('7'), pageIndex = 1;
-        var PageBase = function (root, spec) {
-            this.index = pageIndex++;
-            this.root = root;
-            this.spec = spec;
-            this.groups = [];
-            this.build();
-            this.hide();
-            var i, groupSpec, group;
-            for (i = 0; i < this.spec.groups.length; i++) {
-                groupSpec = this.spec.groups[i];
-                group = new (groupTypes.fetch(groupSpec.type))(this.groupContainer, groupSpec);
-                group.attach();
-                this.addGroup(group);
+        var hasOwn = require('7'), forIn = require('8'), mixIn = require('9'), filter = require('b'), create = require('c'), type = require('d');
+        var defineProperty = Object.defineProperty, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+        try {
+            defineProperty({}, '~', {});
+            getOwnPropertyDescriptor({}, '~');
+        } catch (e) {
+            defineProperty = null;
+            getOwnPropertyDescriptor = null;
+        }
+        var define = function (value, key, from) {
+            defineProperty(this, key, getOwnPropertyDescriptor(from, key) || {
+                writable: true,
+                enumerable: true,
+                configurable: true,
+                value: value
+            });
+        };
+        var copy = function (value, key) {
+            this[key] = value;
+        };
+        var implement = function (proto) {
+            forIn(proto, defineProperty ? define : copy, this.prototype);
+            return this;
+        };
+        var verbs = /^constructor|inherits|mixin$/;
+        var prime = function (proto) {
+            if (type(proto) === 'function')
+                proto = { constructor: proto };
+            var superprime = proto.inherits;
+            var constructor = hasOwn(proto, 'constructor') ? proto.constructor : superprime ? function () {
+                    return superprime.apply(this, arguments);
+                } : function () {
+                };
+            if (superprime) {
+                mixIn(constructor, superprime);
+                var superproto = superprime.prototype;
+                var cproto = constructor.prototype = create(superproto);
+                constructor.parent = superproto;
+                cproto.constructor = constructor;
             }
-        };
-        PageBase.prototype.addGroup = function (group) {
-            if (!(group instanceof GroupBase)) {
-                throw new Error('group needs to extend GroupBase');
+            if (!constructor.implement)
+                constructor.implement = implement;
+            var mixins = proto.mixin;
+            if (mixins) {
+                if (type(mixins) !== 'array')
+                    mixins = [mixins];
+                for (var i = 0; i < mixins.length; i++)
+                    constructor.implement(create(mixins[i].prototype));
             }
-            this.groups.push(group);
+            return constructor.implement(filter(proto, function (value, key) {
+                return !key.match(verbs);
+            }));
         };
-        PageBase.prototype.show = function () {
-            this.wrap[0].style.display = 'block';
-        };
-        PageBase.prototype.hide = function () {
-            this.wrap[0].style.display = 'none';
-        };
-        module.exports = PageBase;
+        module.exports = prime;
     },
     '7': function (require, module, exports, global) {
         'use strict';
-        var fieldTypes = require('4'), FieldBase = require('8'), groupIndex = 1;
-        var GroupBase = function (root, spec) {
-            this.index = groupIndex++;
-            this.root = root;
-            this.spec = spec;
-            this.fields = [];
-            this.build();
-            var i, fieldSpec;
-            for (i = 0; i < this.spec.fields.length; i++) {
-                fieldSpec = this.spec.fields[i];
-                this.addField(new (fieldTypes.fetch(fieldSpec.type))(this.fieldContainer, fieldSpec));
-            }
+        var hasOwnProperty = Object.hasOwnProperty;
+        var hasOwn = function (self, key) {
+            return hasOwnProperty.call(self, key);
         };
-        GroupBase.prototype.addField = function (field) {
-            if (!(field instanceof FieldBase)) {
-                throw new Error('field needs to extend FieldBase');
-            }
-            this.fields.push(field);
-        };
-        GroupBase.prototype.attach = function () {
-            this.wrap.insert(this.root);
-        };
-        GroupBase.prototype.detach = function () {
-            this.wrap.remove();
-        };
-        module.exports = GroupBase;
+        module.exports = hasOwn;
     },
     '8': function (require, module, exports, global) {
         'use strict';
-        var type = require('9'), groupTypes = require('3'), fieldIndex = 1;
-        var FieldBase = function (root, spec) {
-            this.index = fieldIndex++;
-            this.root = root;
-            this.spec = spec;
-            this.activeGroups = [];
-            this.builtGroups = {};
-            this.build();
+        var has = require('7');
+        var forIn = function (self, method, context) {
+            for (var key in self)
+                if (method.call(context, self[key], key, self) === false)
+                    break;
+            return self;
         };
-        FieldBase.prototype.checkTriggers = function () {
-            var values = this.getValue(), value, i, groupSpec;
-            if (type(values) != 'array') {
-                values = [values];
-            }
-            while (this.activeGroups.length) {
-                this.activeGroups.pop().detach();
-            }
-            while (values.length) {
-                value = values.shift();
-                if (value in this.spec.triggers) {
-                    if (!(value in this.builtGroups)) {
-                        this.builtGroups[value] = [];
-                        for (i = 0; i < this.spec.triggers[value].length; i++) {
-                            groupSpec = this.spec.triggers[value][i];
-                            this.builtGroups[value].push(new (groupTypes.fetch(groupSpec.type))(this.wrap, groupSpec));
-                        }
-                    }
-                    for (i = 0; i < this.builtGroups[value].length; i++) {
-                        this.builtGroups[value][i].attach();
-                        this.activeGroups.push(this.builtGroups[value][i]);
-                    }
+        if (!{ valueOf: 0 }.propertyIsEnumerable('valueOf')) {
+            var buggy = 'constructor,toString,valueOf,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString'.split(',');
+            var proto = Object.prototype;
+            forIn = function (self, method, context) {
+                for (var key in self)
+                    if (method.call(context, self[key], key, self) === false)
+                        return self;
+                for (var i = 0; key = buggy[i]; i++) {
+                    var value = self[key];
+                    if ((value !== proto[key] || has(self, key)) && method.call(context, value, key, self) === false)
+                        break;
                 }
-            }
-        };
-        FieldBase.prototype.getValue = function () {
-            return this.input.value();
-        };
-        module.exports = FieldBase;
+                return self;
+            };
+        }
+        module.exports = forIn;
     },
     '9': function (require, module, exports, global) {
+        'use strict';
+        var forOwn = require('a');
+        var copy = function (value, key) {
+            this[key] = value;
+        };
+        var mixIn = function (self) {
+            for (var i = 1, l = arguments.length; i < l; i++)
+                forOwn(arguments[i], copy, self);
+            return self;
+        };
+        module.exports = mixIn;
+    },
+    'a': function (require, module, exports, global) {
+        'use strict';
+        var forIn = require('8'), hasOwn = require('7');
+        var forOwn = function (self, method, context) {
+            forIn(self, function (value, key) {
+                if (hasOwn(self, key))
+                    return method.call(context, value, key, self);
+            });
+            return self;
+        };
+        module.exports = forOwn;
+    },
+    'b': function (require, module, exports, global) {
+        'use strict';
+        var forIn = require('8');
+        var filter = function (self, method, context) {
+            var results = {};
+            forIn(self, function (value, key) {
+                if (method.call(context, value, key, self))
+                    results[key] = value;
+            });
+            return results;
+        };
+        module.exports = filter;
+    },
+    'c': function (require, module, exports, global) {
+        'use strict';
+        var create = function (self) {
+            var constructor = function () {
+            };
+            constructor.prototype = self;
+            return new constructor();
+        };
+        module.exports = create;
+    },
+    'd': function (require, module, exports, global) {
         'use strict';
         var toString = Object.prototype.toString, types = /number|object|array|string|function|date|regexp|boolean/;
         var type = function (object) {
@@ -184,9 +223,117 @@
         };
         module.exports = type;
     },
-    'a': function (require, module, exports, global) {
+    'e': function (require, module, exports, global) {
         'use strict';
-        var $ = require('b'), parse = require('o'), forEach = require('j'), map = require('k');
+        var prime = require('6'), groupTypes = require('3'), GroupBase = require('f'), pageIndex = 1;
+        var PageBase = prime({
+                groups: [],
+                constructor: function (root, spec) {
+                    this.index = pageIndex++;
+                    this.root = root;
+                    this.spec = spec;
+                    this.build();
+                    this.hide();
+                    var i, groupSpec, group;
+                    for (i = 0; i < this.spec.groups.length; i++) {
+                        groupSpec = this.spec.groups[i];
+                        group = new (groupTypes.fetch(groupSpec.type))(this.groupContainer, groupSpec);
+                        group.attach();
+                        this.addGroup(group);
+                    }
+                },
+                addGroup: function (group) {
+                    if (!(group instanceof GroupBase)) {
+                        throw new Error('group needs to extend GroupBase');
+                    }
+                    this.groups.push(group);
+                },
+                show: function () {
+                    this.wrap[0].style.display = 'block';
+                },
+                hide: function () {
+                    this.wrap[0].style.display = 'none';
+                }
+            });
+        module.exports = PageBase;
+    },
+    'f': function (require, module, exports, global) {
+        'use strict';
+        var prime = require('6'), fieldTypes = require('4'), FieldBase = require('g'), groupIndex = 1;
+        var GroupBase = prime({
+                fields: [],
+                constructor: function (root, spec) {
+                    this.index = groupIndex++;
+                    this.root = root;
+                    this.spec = spec;
+                    this.build();
+                    var i, fieldSpec;
+                    for (i = 0; i < this.spec.fields.length; i++) {
+                        fieldSpec = this.spec.fields[i];
+                        this.addField(new (fieldTypes.fetch(fieldSpec.type))(this.fieldContainer, fieldSpec));
+                    }
+                },
+                addField: function (field) {
+                    if (!(field instanceof FieldBase)) {
+                        throw new Error('field needs to extend FieldBase');
+                    }
+                    this.fields.push(field);
+                },
+                attach: function () {
+                    this.wrap.insert(this.root);
+                },
+                detach: function () {
+                    this.wrap.remove();
+                }
+            });
+        module.exports = GroupBase;
+    },
+    'g': function (require, module, exports, global) {
+        'use strict';
+        var prime = require('6'), type = require('d'), groupTypes = require('3'), fieldIndex = 1;
+        var FieldBase = prime({
+                activeGroups: [],
+                builtGroups: {},
+                constructor: function (root, spec) {
+                    this.index = fieldIndex++;
+                    this.root = root;
+                    this.spec = spec;
+                    this.build();
+                },
+                checkTriggers: function () {
+                    var values = this.getValue(), value, i, groupSpec;
+                    if (type(values) != 'array') {
+                        values = [values];
+                    }
+                    while (this.activeGroups.length) {
+                        this.activeGroups.pop().detach();
+                    }
+                    while (values.length) {
+                        value = values.shift();
+                        if (value in this.spec.triggers) {
+                            if (!(value in this.builtGroups)) {
+                                this.builtGroups[value] = [];
+                                for (i = 0; i < this.spec.triggers[value].length; i++) {
+                                    groupSpec = this.spec.triggers[value][i];
+                                    this.builtGroups[value].push(new (groupTypes.fetch(groupSpec.type))(this.wrap, groupSpec));
+                                }
+                            }
+                            for (i = 0; i < this.builtGroups[value].length; i++) {
+                                this.builtGroups[value][i].attach();
+                                this.activeGroups.push(this.builtGroups[value][i]);
+                            }
+                        }
+                    }
+                },
+                getValue: function () {
+                    return this.input.value();
+                }
+            });
+        module.exports = FieldBase;
+    },
+    'h': function (require, module, exports, global) {
+        'use strict';
+        var $ = require('i'), parse = require('o'), forEach = require('j'), map = require('k');
         module.exports = function (expression, doc) {
             return $(map(parse(expression), function (expression) {
                 var previous, result;
@@ -221,9 +368,9 @@
             }));
         };
     },
-    'b': function (require, module, exports, global) {
+    'i': function (require, module, exports, global) {
         'use strict';
-        var prime = require('c'), forEach = require('j'), map = require('k'), filter = require('l'), every = require('m'), some = require('n');
+        var prime = require('6'), forEach = require('j'), map = require('k'), filter = require('l'), every = require('m'), some = require('n');
         var uniqueIndex = 0;
         var uniqueID = function (n) {
             return n === global ? 'global' : n.uniqueNumber || (n.uniqueNumber = 'n:' + (uniqueIndex++).toString(36));
@@ -298,145 +445,6 @@
                 }
             });
         module.exports = $;
-    },
-    'c': function (require, module, exports, global) {
-        'use strict';
-        var hasOwn = require('d'), forIn = require('e'), mixIn = require('f'), filter = require('h'), create = require('i'), type = require('9');
-        var defineProperty = Object.defineProperty, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-        try {
-            defineProperty({}, '~', {});
-            getOwnPropertyDescriptor({}, '~');
-        } catch (e) {
-            defineProperty = null;
-            getOwnPropertyDescriptor = null;
-        }
-        var define = function (value, key, from) {
-            defineProperty(this, key, getOwnPropertyDescriptor(from, key) || {
-                writable: true,
-                enumerable: true,
-                configurable: true,
-                value: value
-            });
-        };
-        var copy = function (value, key) {
-            this[key] = value;
-        };
-        var implement = function (proto) {
-            forIn(proto, defineProperty ? define : copy, this.prototype);
-            return this;
-        };
-        var verbs = /^constructor|inherits|mixin$/;
-        var prime = function (proto) {
-            if (type(proto) === 'function')
-                proto = { constructor: proto };
-            var superprime = proto.inherits;
-            var constructor = hasOwn(proto, 'constructor') ? proto.constructor : superprime ? function () {
-                    return superprime.apply(this, arguments);
-                } : function () {
-                };
-            if (superprime) {
-                mixIn(constructor, superprime);
-                var superproto = superprime.prototype;
-                var cproto = constructor.prototype = create(superproto);
-                constructor.parent = superproto;
-                cproto.constructor = constructor;
-            }
-            if (!constructor.implement)
-                constructor.implement = implement;
-            var mixins = proto.mixin;
-            if (mixins) {
-                if (type(mixins) !== 'array')
-                    mixins = [mixins];
-                for (var i = 0; i < mixins.length; i++)
-                    constructor.implement(create(mixins[i].prototype));
-            }
-            return constructor.implement(filter(proto, function (value, key) {
-                return !key.match(verbs);
-            }));
-        };
-        module.exports = prime;
-    },
-    'd': function (require, module, exports, global) {
-        'use strict';
-        var hasOwnProperty = Object.hasOwnProperty;
-        var hasOwn = function (self, key) {
-            return hasOwnProperty.call(self, key);
-        };
-        module.exports = hasOwn;
-    },
-    'e': function (require, module, exports, global) {
-        'use strict';
-        var has = require('d');
-        var forIn = function (self, method, context) {
-            for (var key in self)
-                if (method.call(context, self[key], key, self) === false)
-                    break;
-            return self;
-        };
-        if (!{ valueOf: 0 }.propertyIsEnumerable('valueOf')) {
-            var buggy = 'constructor,toString,valueOf,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString'.split(',');
-            var proto = Object.prototype;
-            forIn = function (self, method, context) {
-                for (var key in self)
-                    if (method.call(context, self[key], key, self) === false)
-                        return self;
-                for (var i = 0; key = buggy[i]; i++) {
-                    var value = self[key];
-                    if ((value !== proto[key] || has(self, key)) && method.call(context, value, key, self) === false)
-                        break;
-                }
-                return self;
-            };
-        }
-        module.exports = forIn;
-    },
-    'f': function (require, module, exports, global) {
-        'use strict';
-        var forOwn = require('g');
-        var copy = function (value, key) {
-            this[key] = value;
-        };
-        var mixIn = function (self) {
-            for (var i = 1, l = arguments.length; i < l; i++)
-                forOwn(arguments[i], copy, self);
-            return self;
-        };
-        module.exports = mixIn;
-    },
-    'g': function (require, module, exports, global) {
-        'use strict';
-        var forIn = require('e'), hasOwn = require('d');
-        var forOwn = function (self, method, context) {
-            forIn(self, function (value, key) {
-                if (hasOwn(self, key))
-                    return method.call(context, value, key, self);
-            });
-            return self;
-        };
-        module.exports = forOwn;
-    },
-    'h': function (require, module, exports, global) {
-        'use strict';
-        var forIn = require('e');
-        var filter = function (self, method, context) {
-            var results = {};
-            forIn(self, function (value, key) {
-                if (method.call(context, value, key, self))
-                    results[key] = value;
-            });
-            return results;
-        };
-        module.exports = filter;
-    },
-    'i': function (require, module, exports, global) {
-        'use strict';
-        var create = function (self) {
-            var constructor = function () {
-            };
-            constructor.prototype = self;
-            return new constructor();
-        };
-        module.exports = create;
     },
     'j': function (require, module, exports, global) {
         'use strict';
@@ -626,7 +634,7 @@
     },
     'p': function (require, module, exports, global) {
         'use strict';
-        var $ = require('b');
+        var $ = require('i');
         require('q');
         require('u');
         require('11');
@@ -636,7 +644,7 @@
     },
     'q': function (require, module, exports, global) {
         'use strict';
-        var $ = require('b'), clean = require('r'), forEach = require('j'), filter = require('l'), indexOf = require('t');
+        var $ = require('i'), clean = require('r'), forEach = require('j'), filter = require('l'), indexOf = require('t');
         $.implement({
             setAttribute: function (name, value) {
                 return this.forEach(function (node) {
@@ -819,7 +827,7 @@
     },
     'u': function (require, module, exports, global) {
         'use strict';
-        var $ = require('b'), prime = require('c'), Emitter = require('v');
+        var $ = require('i'), prime = require('6'), Emitter = require('v');
         var html = document.documentElement;
         var addEventListener = html.addEventListener ? function (node, event, handle) {
                 node.addEventListener(event, handle, false);
@@ -880,7 +888,7 @@
     },
     'v': function (require, module, exports, global) {
         'use strict';
-        var prime = require('c'), defer = require('w'), uid = require('x'), slice = require('10');
+        var prime = require('6'), defer = require('w'), uid = require('x'), slice = require('10');
         var EID = 0;
         var Emitter = prime({
                 on: function (event, fn) {
@@ -942,7 +950,7 @@
     },
     'w': function (require, module, exports, global) {
         'use strict';
-        var type = require('9'), uid = require('x'), now = require('y'), count = require('z');
+        var type = require('d'), uid = require('x'), now = require('y'), count = require('z');
         var callbacks = {
                 timeout: {},
                 frame: {},
@@ -1041,7 +1049,7 @@
     },
     'z': function (require, module, exports, global) {
         'use strict';
-        var forIn = require('e');
+        var forIn = require('8');
         var count = function (self, n) {
             var length = 0;
             forIn(self, function () {
@@ -1118,7 +1126,7 @@
     },
     '12': function (require, module, exports, global) {
         'use strict';
-        var prime = require('c'), indexOf = require('t');
+        var prime = require('6'), indexOf = require('t');
         var Map = prime({
                 constructor: function Map() {
                     if (!this instanceof Map)
@@ -1216,7 +1224,7 @@
     },
     '13': function (require, module, exports, global) {
         'use strict';
-        var $ = require('b'), map = require('k'), slick = require('14');
+        var $ = require('i'), map = require('k'), slick = require('14');
         var walk = function (combinator, method) {
             return function (expression) {
                 var parts = slick.parse(expression || '*');
@@ -1865,7 +1873,7 @@
     },
     '16': function (require, module, exports, global) {
         'use strict';
-        var $ = require('b');
+        var $ = require('i');
         $.implement({
             appendChild: function (child) {
                 this[0].appendChild($(child)[0]);
@@ -1935,48 +1943,52 @@
     },
     '17': function (require, module, exports, global) {
         'use strict';
-        var GroupBase = require('7'), zen = require('a');
+        var prime = require('6'), GroupBase = require('f'), zen = require('h');
         require('p');
-        var GroupMain = function (root, spec) {
-            if (!(this instanceof GroupMain)) {
-                return new GroupMain(root, spec);
-            }
-            GroupBase.call(this, root, spec);
-        };
-        GroupMain.prototype = Object.create(GroupBase.prototype);
-        GroupMain.prototype.build = function () {
-            this.wrap = zen('fieldset');
-            this.fieldContainer = zen('ul').insert(this.wrap);
-            this.wrap.insert(this.root);
-        };
+        var GroupMain = prime({
+                inherits: GroupBase,
+                constructor: function (root, spec) {
+                    if (!(this instanceof GroupMain)) {
+                        return new GroupMain(root, spec);
+                    }
+                    GroupBase.call(this, root, spec);
+                },
+                build: function () {
+                    this.wrap = zen('fieldset');
+                    this.fieldContainer = zen('ul').insert(this.wrap);
+                    this.wrap.insert(this.root);
+                }
+            });
         module.exports = GroupMain;
     },
     '18': function (require, module, exports, global) {
         'use strict';
-        var FieldBase = require('8'), zen = require('a');
+        var prime = require('6'), FieldBase = require('g'), zen = require('h');
         require('p');
-        var FieldText = function (root, spec) {
-            if (!(this instanceof FieldText)) {
-                return new FieldText(root, spec);
-            }
-            FieldBase.call(this, root, spec);
-        };
-        FieldText.prototype = Object.create(FieldBase.prototype);
-        FieldText.prototype.build = function () {
-            this.wrap = zen('li');
-            zen('label').text(this.spec.label || '').insert(this.wrap);
-            this.input = zen('input').insert(this.wrap);
-            if (this.spec.triggers) {
-                this.input.on('input', this.checkTriggers.bind(this));
-                this.checkTriggers();
-            }
-            this.wrap.insert(this.root);
-        };
+        var FieldText = prime({
+                inherits: FieldBase,
+                constructor: function (root, spec) {
+                    if (!(this instanceof FieldText)) {
+                        return new FieldText(root, spec);
+                    }
+                    FieldBase.call(this, root, spec);
+                },
+                build: function () {
+                    this.wrap = zen('li');
+                    zen('label').text(this.spec.label || '').insert(this.wrap);
+                    this.input = zen('input').insert(this.wrap);
+                    if (this.spec.triggers) {
+                        this.input.on('input', this.checkTriggers.bind(this));
+                        this.checkTriggers();
+                    }
+                    this.wrap.insert(this.root);
+                }
+            });
         module.exports = FieldText;
     },
     '19': function (require, module, exports, global) {
         'use strict';
-        var type = require('9'), pageTypes = require('1'), PageBase = require('6'), zen = require('a');
+        var type = require('d'), pageTypes = require('1'), PageBase = require('e'), zen = require('h');
         require('p');
         var Form = function (root, spec) {
             if (!(this instanceof Form)) {

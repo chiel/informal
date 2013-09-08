@@ -1,6 +1,7 @@
 'use strict';
 
-var PageBase = require('./base'),
+var prime = require('prime'),
+	PageBase = require('./base'),
 	zen = require('elements/zen');
 
 require('./../elements');
@@ -8,22 +9,28 @@ require('./../elements');
 /**
  *
  */
-var PageMain = function(root, spec){
-	if (!(this instanceof PageMain)){
-		return new PageMain(root, spec);
+var PageMain = prime({
+	inherits: PageBase,
+
+	/**
+	 * @param {Element} root
+	 * @param {Object} spec
+	 */
+	constructor: function(root, spec){
+		if (!(this instanceof PageMain)){
+			return new PageMain(root, spec);
+		}
+		PageBase.call(this, root, spec);
+	},
+
+	/**
+	 * Build up the elements for the page
+	 */
+	build: function(){
+		this.wrap = zen('section.page.page-' + this.index).insert(this.root);
+		this.groupContainer = this.wrap;
 	}
-	PageBase.call(this, root, spec);
-};
-
-PageMain.prototype = Object.create(PageBase.prototype);
-
-/**
- * Build up the elements for the page
- */
-PageMain.prototype.build = function(){
-	this.wrap = zen('section.page.page-' + this.index).insert(this.root);
-	this.groupContainer = this.wrap;
-};
+});
 
 module.exports = PageMain;
 

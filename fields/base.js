@@ -1,62 +1,69 @@
 'use strict';
 
-var type = require('prime/type'),
+var prime = require('prime'),
+	type = require('prime/type'),
 	groupTypes = require('./../groups'),
 	fieldIndex = 1;
 
 /**
  * Extendable base for fields
- * @param {Object} spec
  */
-var FieldBase = function(root, spec){
-	this.index = fieldIndex++;
-	this.root = root;
-	this.spec = spec;
-	this.activeGroups = [];
-	this.builtGroups = {};
-	this.build();
-};
+var FieldBase = prime({
+	activeGroups: [],
+	builtGroups: {},
 
-/**
- * Check if any groups should be triggered
- */
-FieldBase.prototype.checkTriggers = function(){
-	var values = this.getValue(),
-		value, i, groupSpec;
+	/**
+	 * @param {Element} root
+	 * @param {Object} spec
+	 */
+	constructor: function(root, spec){
+		this.index = fieldIndex++;
+		this.root = root;
+		this.spec = spec;
+		this.build();
+	},
 
-	if (type(values) != 'array') {
-		values = [values];
-	}
+	/**
+	 * Check if any groups should be triggered
+	 */
+	checkTriggers: function(){
+		var values = this.getValue(),
+			value, i, groupSpec;
 
-	while (this.activeGroups.length) {
-		this.activeGroups.pop().detach();
-	}
+		if (type(values) != 'array') {
+			values = [values];
+		}
 
-	while (values.length) {
-		value = values.shift();
-		if (value in this.spec.triggers) {
-			if (!(value in this.builtGroups)) {
-				this.builtGroups[value] = [];
-				for (i = 0; i < this.spec.triggers[value].length; i++) {
-					groupSpec = this.spec.triggers[value][i];
-					this.builtGroups[value].push(new (groupTypes.fetch(groupSpec.type))(this.wrap, groupSpec));
+		while (this.activeGroups.length) {
+			this.activeGroups.pop().detach();
+		}
+
+		while (values.length) {
+			value = values.shift();
+			if (value in this.spec.triggers) {
+				if (!(value in this.builtGroups)) {
+					this.builtGroups[value] = [];
+					for (i = 0; i < this.spec.triggers[value].length; i++) {
+						groupSpec = this.spec.triggers[value][i];
+						this.builtGroups[value].push(new (groupTypes.fetch(groupSpec.type))(this.wrap, groupSpec));
+					}
+				}
+				for (i = 0; i < this.builtGroups[value].length; i++) {
+					this.builtGroups[value][i].attach();
+					this.activeGroups.push(this.builtGroups[value][i]);
 				}
 			}
-			for (i = 0; i < this.builtGroups[value].length; i++) {
-				this.builtGroups[value][i].attach();
-				this.activeGroups.push(this.builtGroups[value][i]);
-			}
 		}
-	}
-};
+	},
 
-/**
- * Get value
- * @return {Mixed}
- */
-FieldBase.prototype.getValue = function(){
-	return this.input.value();
-};
+	/**
+	 * Get value
+	 * @return {Mixed}
+	 */
+	getValue: function(){
+		return this.input.value();
+	}
+});
 
 module.exports = FieldBase;
 

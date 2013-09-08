@@ -87,10 +87,7 @@ var FieldSingleOption = prime({
 		var inputs = [],
 			fieldset = zen('fieldset.options').insert(this.wrap),
 			ul = zen('ul').insert(fieldset),
-			i, opt, li, option,
-			applyAttribute = function(value, key){
-				option.attribute(key, value);
-			}.bind(this);
+			i, opt, li, option;
 
 		for (i = 0; i < this.spec.options.length; i++){
 			opt = this.spec.options[i];
@@ -107,9 +104,12 @@ var FieldSingleOption = prime({
 			if (this.spec.required){
 				option.attribute('required', true);
 			}
-			if (this.spec.attributes){
-				forOwn(this.spec.attributes, applyAttribute);
-			}
+		}
+
+		if (this.spec.attributes){
+			forOwn(this.spec.attributes, function(value, key){
+				fieldset.attribute(key, value);
+			}.bind(this));
 		}
 
 		this.input = $(inputs);

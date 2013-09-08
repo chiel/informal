@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Formal example</title>
+	</head>
+
+	<body>
+		<div id="sample-form"></div>
+		<script type="application/json" id="formal-data">
+			{
+				"action": "#",
+				"pages": [{
+					"type": "main",
+					"title": "Page 1",
+					"groups": [{
+						"type": "main",
+						"title": "Page 1, Group 1",
+						"fields": [{
+							"type": "text",
+							"label": "First name",
+							"triggers": {
+								"chiel": [{
+									"type": "main",
+									"title": "Trigger group",
+									"fields": [{
+										"type": "text",
+										"label": "whatever"
+									}]
+								}]
+							}
+						}, {
+							"type": "text",
+							"label": "Last name"
+						}]
+					}]
+				}, {
+					"type": "main",
+					"title": "Page 2",
+					"groups": [{
+						"type": "main",
+						"title": "Page 2, Group 1",
+						"fields": [{
+							"type": "text",
+							"label": "Test"
+						}]
+					}]
+				}]
+			}
+		</script>
+		<script src="formal.js"></script>
+		<script>
+			var form = new formal.Form(
+				document.getElementById('sample-form'),
+				JSON.parse(document.getElementById('formal-data').innerHTML)
+			);
+			form.attach();
+		</script>
+	</body>
+</html>
+

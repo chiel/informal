@@ -70,15 +70,15 @@ will have an array of group definitions.
 
 ```json
 {
-	"triggers": {
-		"value to trigger on": [{
-			"type": "inline",
-			"fields": [{
-				"type": "text",
-				...
-			}]
-		}]
-	}
+  "triggers": {
+    "value to trigger on": [{
+      "type": "inline",
+      "fields": [{
+        "type": "text",
+        ...
+      }]
+    }]
+  }
 }
 ```
 

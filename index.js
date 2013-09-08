@@ -7,6 +7,7 @@ var pageTypes = require('./pages'),
 pageTypes.register('main', require('./pages/main'));
 groupTypes.register('main', require('./groups/main'));
 fieldTypes.register('text', require('./fields/text'));
+fieldTypes.register('single-option', require('./fields/single-option'));
 
 module.exports = {
 	Form: require('./form')

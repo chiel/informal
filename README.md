@@ -109,3 +109,27 @@ Example:
 }
 ```
 
+### Single option preset values
+
+Example:
+
+```json
+{
+  "type": "single-option",
+  "style": "radio",
+  "label": "Title",
+  "name": "title",
+  "options": [
+    {"value": "mr", "text": "Mr."},
+    {"value": "mrs", "text": "Mrs." }
+  ]
+}
+```
+
+#### Additional options
+
+- `style`: how the field should be displayed, as a select box (`select`) or a
+  set of radio buttons (`radio`)
+- `options`: an array of objects, each object specifying a `value` and `text`
+  key
+

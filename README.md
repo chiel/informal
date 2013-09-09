@@ -58,7 +58,44 @@ hierarchy. A sample `formal` specification would look something like this:
 The hierarchy, as you can see, is always `form` > `pages` > `groups` > `fields`.
 We'll elaborate on these types and their options further down
 
-## Trigger groups
+## Form
+
+### Options
+
+- `method`: defaults to `post`
+- `action`: defaults to `#`
+- `pages`: array of page objects
+
+## Pages
+
+### Options
+
+- `type`: page type
+- `title`: page title
+- `groups`: array of group objects
+
+## Groups
+
+### Options
+
+- `type`: group type
+- `title`: group title
+- `fields`: array of field objects
+
+## Field types
+
+### Options
+
+These options are generic for all field types
+
+- `type`: field type
+- `label`: label text to be used
+- `name`: name of the field
+- `value`: default value
+- `required`: true if field is mandatory
+- `attributes`: object with key/value pairs for html attributes
+
+### Triggers
 
 Sometimes, cases arise where you want to be able to show some extra values
 depending on the value of a field. To do this, there's a mechanism called
@@ -83,19 +120,6 @@ will have an array of group definitions.
 ```
 
 The type of field this trigger is linked to will determine how it's triggered.
-
-## Field types
-
-### Options
-
-These options are generic for all field types
-
-- `type`: field type
-- `label`: label text to be used
-- `name`: name of the field
-- `value`: default value
-- `required`: true if field is mandatory
-- `attributes`: object with key/value pairs for html attributes
 
 ### Text field
 

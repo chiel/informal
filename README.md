@@ -1,31 +1,23 @@
-# Formal
+# Informal
 
-Formal is a form-building library, it takes a JSON object and builds up all the
-required elements as needed. The reason for using a JSON object is mainly cause
-it makes it easy to share form configurations (validation etc) easier to share
-between front and backend, no matter what language you're using.
-
-## Building
-
-In order to build, you'll need to run something along these lines:
-
-```shell
-$ npm install
-$ ./node_modules/wrapup/bin/wrup.js -r formal ./index.js -o ./build/formal.js --globalize window
-```
-
-This will create `./build/formal.js` and when you load it into your html, it'll
-expose `window.formal`.
+Informal is a form-building library, it takes a JSON object and builds up all
+the required elements as needed. The reason for using a JSON object is mainly
+cause it makes it easy to share form configurations (validation etc) easier to
+share between front and backend, no matter what language you're using.
 
 ## Usage
 
-Once you've built, you can use formal like so:
-
-```javascript
-new formal.Form(document.getElementById('myForm'), specification);
+```shell
+npm install informal
 ```
 
-Where specification is your javascript object representing the form.
+```javascript
+var informal = require('informal');
+var form = new informal.Form(spec, data);
+form.toHTML();
+```
+
+Where `spec` is your javascript object representing the form.
 
 ## Format
 
@@ -62,7 +54,7 @@ We'll elaborate on these types and their options further down
 
 ### Options
 
-- `method`: defaults to `post`
+- `method`: defaults to `get`
 - `action`: defaults to `#`
 - `pages`: array of page objects
 
@@ -95,33 +87,7 @@ These options are generic for all field types
 - `required`: true if field is mandatory
 - `attributes`: object with key/value pairs for html attributes
 
-### Triggers
-
-Sometimes, cases arise where you want to be able to show some extra values
-depending on the value of a field. To do this, there's a mechanism called
-trigger groups.
-
-You can add triggers to any type of field, by adding a `triggers` key, which
-takes an object with values to trigger on as it's keys. Each of these values
-will have an array of group definitions.
-
-```json
-{
-  "triggers": {
-    "value to trigger on": [{
-      "type": "inline",
-      "fields": [{
-        "type": "text",
-        ...
-      }]
-    }]
-  }
-}
-```
-
-The type of field this trigger is linked to will determine how it's triggered.
-
-### Text field
+### Text, email, password field
 
 Example:
 
@@ -132,6 +98,8 @@ Example:
   "name": "firstName"
 }
 ```
+
+`type` will be one of `text`, `email` or `password`.
 
 ### Single option preset values
 
@@ -145,7 +113,7 @@ Example:
   "name": "title",
   "options": [
     {"value": "mr", "text": "Mr."},
-    {"value": "mrs", "text": "Mrs." }
+    {"value": "mrs", "text": "Mrs."}
   ]
 }
 ```
@@ -170,8 +138,8 @@ Example:
   "options": [
     {"value": "cycling", "text": "Cycling"},
     {"value": "running", "text": "Running"},
-    {"value": "swimming", "text": "Swimming" },
-    {"value": "gaming", "text": "Gaming" }
+    {"value": "swimming", "text": "Swimming"},
+    {"value": "gaming", "text": "Gaming"}
   ],
   "value": ["cycling", "gaming"]
 }

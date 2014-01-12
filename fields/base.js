@@ -14,6 +14,13 @@ var FieldBase = prime({
 		this.value = value;
 
 		this.spec.attributes = this.spec.attributes || {};
+	},
+
+	/**
+	 *
+	 */
+	isValid: function(){
+		return !this.spec.required || !!this.value;
 	}
 });
 

@@ -33,6 +33,18 @@ var GroupBase = prime({
 	/**
 	 *
 	 */
+	isValid: function(){
+		for (var i = 0; i < this.fieldCount; i++){
+			if (!this.fields[i].isValid()){
+				return false;
+			}
+		}
+		return true;
+	},
+
+	/**
+	 *
+	 */
 	fieldsToHTML: function(){
 		var html = '', i;
 		for (i = 0; i < this.fieldCount; i++){

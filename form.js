@@ -50,6 +50,18 @@ var Form = prime({
 	/**
 	 *
 	 */
+	isValid: function(){
+		for (var i = 0; i < this.pageCount; i++){
+			if (!this.pages[i].isValid()){
+				return false;
+			}
+		}
+		return true;
+	},
+
+	/**
+	 *
+	 */
 	pagesToHTML: function(){
 		var html = '', i;
 		for (i = 0; i < this.pageCount; i++){

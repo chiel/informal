@@ -33,6 +33,18 @@ var PageBase = prime({
 	/**
 	 *
 	 */
+	isValid: function(){
+		for (var i = 0; i < this.groupCount; i++){
+			if (!this.groups[i].isValid()){
+				return false;
+			}
+		}
+		return true;
+	},
+
+	/**
+	 *
+	 */
 	groupsToHTML: function(){
 		var html = '', i;
 		for (i = 0; i < this.groupCount; i++){

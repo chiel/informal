@@ -7,6 +7,8 @@ var pageTypes = require('./pages'),
 pageTypes.register('main', require('./pages/main'));
 groupTypes.register('main', require('./groups/main'));
 fieldTypes.register('text', require('./fields/text'));
+fieldTypes.register('email', require('./fields/email'));
+fieldTypes.register('password', require('./fields/password'));
 fieldTypes.register('single-option', require('./fields/single-option'));
 fieldTypes.register('multi-option', require('./fields/multi-option'));
 

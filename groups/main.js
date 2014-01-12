@@ -1,35 +1,29 @@
 'use strict';
 
 var prime = require('prime'),
-	GroupBase = require('./base'),
-	zen = require('elements/zen');
+	GroupBase = require('./base');
 
-require('./../elements');
-
-/**
- *
- */
 var GroupMain = prime({
 	inherits: GroupBase,
 
 	/**
-	 * @param {Element} root
 	 * @param {Object} spec
 	 */
-	constructor: function(root, spec){
+	constructor: function(spec){
 		if (!(this instanceof GroupMain)){
-			return new GroupMain(root, spec);
+			return new GroupMain(spec);
 		}
-		GroupBase.call(this, root, spec);
+		GroupBase.call(this, spec);
 	},
 
 	/**
-	 * Build up the elements for this group
+	 *
 	 */
-	build: function(){
-		this.wrap = zen('fieldset');
-		this.fieldContainer = zen('ul').insert(this.wrap);
-		this.wrap.insert(this.root);
+	toHTML: function(){
+		var html = '<fieldset class="group" data-formal-group-index="' + this.index + '"><ul>';
+		html += this.fieldsToHTML();
+		html += '</ul></fieldset>';
+		return html;
 	}
 });
 

@@ -1,14 +1,11 @@
 {
 	"name": "formal",
-	"version": "0.0.2",
+	"version": "0.0.3-dev",
 	"description": "Forms made simple",
-	"author": "Chiel Kunkels (@chielkunkels)",
+	"author": "Chiel Kunkels <chiel@kunkels.me>",
 	"main": "index.js",
 	"dependencies": {
-		"prime": "0.3.x",
-		"elements": "0.2.x"
-	},
-	"devDependencies": {
-		"wrapup": "0.12.x"
+		"mout": "0.8",
+		"prime": "0.3"
 	}
 }

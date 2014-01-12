@@ -3,17 +3,18 @@
 var prime = require('prime'),
 	FieldBase = require('./base');
 
-var FieldText = prime({
+var FieldEmail = prime({
 	inherits: FieldBase,
 
 	/**
 	 * @param {Object} spec
+	 * @param {String} value
 	 */
-	constructor: function(spec){
-		if (!(this instanceof FieldText)){
-			return new FieldText(spec);
+	constructor: function(spec, value){
+		if (!(this instanceof FieldEmail)){
+			return new FieldEmail(spec);
 		}
-		FieldBase.call(this, spec);
+		FieldBase.call(this, spec, value);
 	},
 
 	/**
@@ -24,10 +25,10 @@ var FieldText = prime({
 		if (this.spec.label){
 			html += '<label>' + this.spec.label + '</label>';
 		}
-		html += '<input type="text"></li>';
+		html += '<input type="email"></li>';
 		return html;
 	}
 });
 
-module.exports = FieldText;
+module.exports = FieldEmail;
 

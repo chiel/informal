@@ -1,34 +1,29 @@
 'use strict';
 
 var prime = require('prime'),
-	PageBase = require('./base'),
-	zen = require('elements/zen');
+	PageBase = require('./base');
 
-require('./../elements');
-
-/**
- *
- */
 var PageMain = prime({
 	inherits: PageBase,
 
 	/**
-	 * @param {Element} root
 	 * @param {Object} spec
 	 */
-	constructor: function(root, spec){
+	constructor: function(spec){
 		if (!(this instanceof PageMain)){
-			return new PageMain(root, spec);
+			return new PageMain(spec);
 		}
-		PageBase.call(this, root, spec);
+		PageBase.call(this, spec);
 	},
 
 	/**
-	 * Build up the elements for the page
+	 *
 	 */
-	build: function(){
-		this.wrap = zen('section.page.page-' + this.index).insert(this.root);
-		this.groupContainer = this.wrap;
+	toHTML: function(){
+		var html = '<section class="page" data-formal-page-index="' + this.index + '">';
+		html += this.groupsToHTML();
+		html += '</section>';
+		return html;
 	}
 });
 

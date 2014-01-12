@@ -1,132 +1,67 @@
 'use strict';
 
-var type = require('prime/type'),
-	pageTypes = require('./pages'),
-	PageBase = require('./pages/base'),
-	zen = require('elements/zen');
+var prime = require('prime'),
+	isArray = require('mout/lang/isArray'),
+	isObject = require('mout/lang/isObject'),
+	pageTypes = require('./pages');
 
-require('./elements');
-
-/**
- * Create a new form
- * @param {Array} pages
- */
-var Form = function(root, spec){
-	if (!(this instanceof Form)){
-		return new Form(root, spec);
-	}
-
-	if (type(spec) != 'object'){
-		throw new Error('pages needs to be an array');
-	}
-
-	this.root = root;
-	this.spec = spec;
-	this.pages = {};
-	this.pageCount = this.spec.pages.length;
-
-	this.build();
-
-	if (this.pageCount > 1){
-		this.buildPaging();
-		this.activePage = -1;
-		this.showPage(0);
-	}
-};
-
-/**
- * Add a new page to the form
- * @param {Object} page
- */
-Form.prototype.addPage = function(page){
-	if (!(page instanceof PageBase)){
-		throw new Error('page needs to extend PageBase');
-	}
-	this.pages.push(page);
-};
-
-/**
- * Build up the form elements
- */
-Form.prototype.build = function(){
-	this.wrap = zen('form')
-		.attribute('method', this.spec.method || 'post')
-		.attribute('action', this.spec.action || '#');
-	this.pageContainer = this.wrap;
-};
-
-/**
- * Build up page navigation
- */
-Form.prototype.buildPaging = function(){
-	var i, html = '<ul><li><a href="#prev">Previous</a></li>';
-	for (i = 0; i < this.pageCount; i++){
-		html += '<li><a href="#' + i + '">' + (i + 1) + '</a></li>';
-	}
-	html += '<li><a href="#next">Next</a></li></ul>';
-	this.paging = zen('nav').html(html).insert(this.root);
-
-	this.paging.delegate('click', 'a', function(e, el){
-		e.preventDefault();
-		var index = el.attribute('href').replace(/^[^#]*#/, '');
-		switch (index){
-			case 'next': this.showPage(this.activePage + 1); break;
-			case 'prev': this.showPage(this.activePage - 1); break;
-			default: this.showPage(index);
+var Form = prime({
+	/**
+	 * @param {Object} pages
+	 * @param {Object} data
+	 */
+	constructor: function(spec, data){
+		if (!(this instanceof Form)){
+			return new Form(spec);
 		}
-	}.bind(this));
-};
 
-/**
- * Show page by index
- * @param {Number} index
- */
-Form.prototype.showPage = function(index){
-	index = parseInt(index, 0);
-	if (type(index) != 'number') {
-		return;
+		if (!isObject(spec)){
+			throw new Error('Spec needs to be an object');
+		}
+
+		if (!isArray(spec.pages)){
+			throw new Error('No pages found in spec');
+		}
+
+		this.spec = spec;
+		this.data = data;
+		this.pageCount = this.spec.pages.length;
+
+		this.spec.method = this.spec.method || 'get';
+		this.spec.action = this.spec.action || '#';
+		this.spec.attributes = this.spec.attributes || {};
+	},
+
+	/**
+	 *
+	 */
+	pagesToHTML: function(){
+		var html = '', i, pageSpec, page;
+		for (i = 0; i < this.pageCount; i++){
+			pageSpec = this.spec.pages[i];
+			page = new (pageTypes.fetch(pageSpec.type))(pageSpec);
+			html += page.toHTML();
+		}
+		return html;
+	},
+
+	/**
+	 *
+	 */
+	toHTML: function(){
+		var html = '<form method="' + this.spec.method + '"';
+		html += ' action="' + this.spec.action + '"';
+		if (this.spec.attributes.classes){
+			html += ' class="' + this.spec.attributes.classes.join(' ') + '"';
+		}
+		html += '>';
+		html += this.pagesToHTML();
+		html += '<input type="submit" value="Save">';
+		html += '</form>';
+		return html;
 	}
 
-	if (index < 0 || index > (this.pageCount - 1)) {
-		return;
-	}
-
-	if (!(index in this.pages)) {
-		var pageSpec = this.spec.pages[index];
-		this.pages[index] = new (pageTypes.fetch(pageSpec.type))(this.pageContainer, pageSpec);
-	}
-
-	if (this.activePage >= 0) {
-		this.hidePage(this.activePage);
-	}
-
-	this.pages[index].show();
-	this.activePage = index;
-};
-
-/**
- * Hide page by index
- * @param {Number} index
- */
-Form.prototype.hidePage = function(index){
-	index = parseInt(index, 0);
-	if (type(index) != 'number') {
-		return;
-	}
-
-	if (!(index in this.pages)) {
-		return;
-	}
-
-	this.pages[index].hide();
-};
-
-/**
- *
- */
-Form.prototype.attach = function(){
-	this.wrap.insert(this.root);
-};
+});
 
 module.exports = Form;
 

@@ -9,11 +9,11 @@ var GroupMain = prime({
 	/**
 	 * @param {Object} spec
 	 */
-	constructor: function(spec){
+	constructor: function(spec, data){
 		if (!(this instanceof GroupMain)){
-			return new GroupMain(spec);
+			return new GroupMain(spec, data);
 		}
-		GroupBase.call(this, spec);
+		GroupBase.call(this, spec, data);
 	},
 
 	/**

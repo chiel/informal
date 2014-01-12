@@ -6,6 +6,8 @@ var prime = require('prime'),
 	pageTypes = require('./pages');
 
 var Form = prime({
+	pages: [],
+
 	/**
 	 * @param {Object} pages
 	 * @param {Object} data
@@ -24,23 +26,34 @@ var Form = prime({
 		}
 
 		this.spec = spec;
-		this.data = data;
+		this.data = data || {};
 		this.pageCount = this.spec.pages.length;
 
 		this.spec.method = this.spec.method || 'get';
 		this.spec.action = this.spec.action || '#';
 		this.spec.attributes = this.spec.attributes || {};
+
+		this.createPages();
+	},
+
+	/**
+	 *
+	 */
+	createPages: function(){
+		var i, pageSpec;
+		for (i = 0; i < this.pageCount; i++){
+			pageSpec = this.spec.pages[i];
+			this.pages.push(new (pageTypes.fetch(pageSpec.type))(pageSpec, this.data));
+		}
 	},
 
 	/**
 	 *
 	 */
 	pagesToHTML: function(){
-		var html = '', i, pageSpec, page;
+		var html = '', i;
 		for (i = 0; i < this.pageCount; i++){
-			pageSpec = this.spec.pages[i];
-			page = new (pageTypes.fetch(pageSpec.type))(pageSpec);
-			html += page.toHTML();
+			html += this.pages[i].toHTML();
 		}
 		return html;
 	},

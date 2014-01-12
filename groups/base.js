@@ -5,24 +5,38 @@ var prime = require('prime'),
 	groupIndex = 0;
 
 var GroupBase = prime({
+	fields: [],
+
 	/**
 	 * @param {Object} spec
 	 */
-	constructor: function(spec){
+	constructor: function(spec, data){
 		this.index = groupIndex++;
 		this.spec = spec;
+		this.data = data;
 		this.fieldCount = this.spec.fields.length;
+
+		this.createFields();
+	},
+
+	/**
+	 *
+	 */
+	createFields: function(){
+		var i, fieldSpec;
+		for (i = 0; i < this.fieldCount; i++){
+			fieldSpec = this.spec.fields[i];
+			this.fields.push(new (fieldTypes.fetch(fieldSpec.type))(fieldSpec, this.data[fieldSpec.name]));
+		}
 	},
 
 	/**
 	 *
 	 */
 	fieldsToHTML: function(){
-		var html = '', i, fieldSpec, field;
+		var html = '', i;
 		for (i = 0; i < this.fieldCount; i++){
-			fieldSpec = this.spec.fields[i];
-			field = new (fieldTypes.fetch(fieldSpec.type))(fieldSpec);
-			html += field.toHTML();
+			html += this.fields[i].toHTML();
 		}
 		return html;
 	}

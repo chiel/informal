@@ -1,10 +1,10 @@
 'use strict';
 
 var prime = require('prime'),
-	FieldBase = require('./base');
+	FieldText = require('./text');
 
 var FieldEmail = prime({
-	inherits: FieldBase,
+	inherits: FieldText,
 
 	/**
 	 * @param {Object} spec
@@ -12,21 +12,9 @@ var FieldEmail = prime({
 	 */
 	constructor: function(spec, value){
 		if (!(this instanceof FieldEmail)){
-			return new FieldEmail(spec);
+			return new FieldEmail(spec, value);
 		}
-		FieldBase.call(this, spec, value);
-	},
-
-	/**
-	 *
-	 */
-	toHTML: function(){
-		var html = '<li>';
-		if (this.spec.label){
-			html += '<label>' + this.spec.label + '</label>';
-		}
-		html += '<input type="email"></li>';
-		return html;
+		FieldText.call(this, spec, value);
 	}
 });
 

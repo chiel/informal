@@ -12,6 +12,8 @@ var FieldBase = prime({
 		this.index = fieldIndex++;
 		this.spec = spec;
 		this.value = value;
+
+		this.spec.attributes = this.spec.attributes || {};
 	}
 });
 

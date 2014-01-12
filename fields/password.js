@@ -1,10 +1,10 @@
 'use strict';
 
 var prime = require('prime'),
-	FieldBase = require('./base');
+	FieldText = require('./text');
 
 var FieldPassword = prime({
-	inherits: FieldBase,
+	inherits: FieldText,
 
 	/**
 	 * @param {Object} spec
@@ -12,21 +12,9 @@ var FieldPassword = prime({
 	 */
 	constructor: function(spec, value){
 		if (!(this instanceof FieldPassword)){
-			return new FieldPassword(spec);
+			return new FieldPassword(spec, value);
 		}
-		FieldBase.call(this, spec, value);
-	},
-
-	/**
-	 *
-	 */
-	toHTML: function(){
-		var html = '<li>';
-		if (this.spec.label){
-			html += '<label>' + this.spec.label + '</label>';
-		}
-		html += '<input type="password"></li>';
-		return html;
+		FieldText.call(this, spec, value);
 	}
 });
 

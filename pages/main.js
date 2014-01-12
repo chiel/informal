@@ -9,11 +9,11 @@ var PageMain = prime({
 	/**
 	 * @param {Object} spec
 	 */
-	constructor: function(spec){
+	constructor: function(spec, data){
 		if (!(this instanceof PageMain)){
-			return new PageMain(spec);
+			return new PageMain(spec, data);
 		}
-		PageBase.call(this, spec);
+		PageBase.call(this, spec, data);
 	},
 
 	/**

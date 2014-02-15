@@ -43,6 +43,7 @@ var Form = prime({
 		var i, pageSpec;
 		for (i = 0; i < this.pageCount; i++){
 			pageSpec = this.spec.pages[i];
+			pageSpec.type = pageSpec.type || 'default';
 			this.pages.push(new (pageTypes.fetch(pageSpec.type))(pageSpec, this.data));
 		}
 	},

@@ -3,15 +3,15 @@
 var prime = require('prime'),
 	GroupBase = require('./base');
 
-var GroupMain = prime({
+var GroupDefault = prime({
 	inherits: GroupBase,
 
 	/**
 	 * @param {Object} spec
 	 */
 	constructor: function(spec, data){
-		if (!(this instanceof GroupMain)){
-			return new GroupMain(spec, data);
+		if (!(this instanceof GroupDefault)){
+			return new GroupDefault(spec, data);
 		}
 		GroupBase.call(this, spec, data);
 	},
@@ -27,5 +27,5 @@ var GroupMain = prime({
 	}
 });
 
-module.exports = GroupMain;
+module.exports = GroupDefault;
 

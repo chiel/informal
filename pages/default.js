@@ -3,15 +3,15 @@
 var prime = require('prime'),
 	PageBase = require('./base');
 
-var PageMain = prime({
+var PageDefault = prime({
 	inherits: PageBase,
 
 	/**
 	 * @param {Object} spec
 	 */
 	constructor: function(spec, data){
-		if (!(this instanceof PageMain)){
-			return new PageMain(spec, data);
+		if (!(this instanceof PageDefault)){
+			return new PageDefault(spec, data);
 		}
 		PageBase.call(this, spec, data);
 	},
@@ -27,5 +27,5 @@ var PageMain = prime({
 	}
 });
 
-module.exports = PageMain;
+module.exports = PageDefault;
 

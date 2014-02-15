@@ -26,6 +26,7 @@ var PageBase = prime({
 		var i, groupSpec;
 		for (i = 0; i < this.groupCount; i++){
 			groupSpec = this.spec.groups[i];
+			groupSpec.type = groupSpec.type || 'default';
 			this.groups.push(new (groupTypes.fetch(groupSpec.type))(groupSpec, this.data));
 		}
 	},

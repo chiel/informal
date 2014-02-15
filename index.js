@@ -4,8 +4,8 @@ var pageTypes = require('./pages'),
 	groupTypes = require('./groups'),
 	fieldTypes = require('./fields');
 
-pageTypes.register('main', require('./pages/main'));
-groupTypes.register('main', require('./groups/main'));
+pageTypes.register('default', require('./pages/default'));
+groupTypes.register('default', require('./groups/default'));
 fieldTypes.register('text', require('./fields/text'));
 fieldTypes.register('email', require('./fields/email'));
 fieldTypes.register('password', require('./fields/password'));

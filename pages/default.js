@@ -21,6 +21,7 @@ var PageDefault = prime({
 	 */
 	toHTML: function(){
 		var html = '<section class="page" data-formal-page-index="' + this.index + '">';
+		html += this.spec.name ? '<h3>' + this.spec.name + '</h3>' : '';
 		html += this.groupsToHTML();
 		html += '</section>';
 		return html;

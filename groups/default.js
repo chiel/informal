@@ -21,6 +21,7 @@ var GroupDefault = prime({
 	 */
 	toHTML: function(){
 		var html = '<fieldset class="group" data-formal-group-index="' + this.index + '"><ul>';
+		html += this.spec.name ? '<legend>' + this.spec.name + '</legend>' : '';
 		html += this.fieldsToHTML();
 		html += '</ul></fieldset>';
 		return html;

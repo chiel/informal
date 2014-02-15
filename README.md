@@ -152,4 +152,3 @@ Example:
   (`select`) or a set of checkboxes (`checkbox`)
 - `options`: an array of objects, each object specifying a `value` and `text`
   key
-

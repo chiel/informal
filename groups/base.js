@@ -55,4 +55,3 @@ var GroupBase = prime({
 });
 
 module.exports = GroupBase;
-

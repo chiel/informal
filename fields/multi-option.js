@@ -76,4 +76,3 @@ var FieldMultiOption = prime({
 });
 
 module.exports = FieldMultiOption;
-

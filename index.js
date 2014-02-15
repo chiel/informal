@@ -15,4 +15,3 @@ fieldTypes.register('multi-option', require('./fields/multi-option'));
 module.exports = {
 	Form: require('./form')
 };
-

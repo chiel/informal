@@ -25,4 +25,3 @@ var FieldBase = prime({
 });
 
 module.exports = FieldBase;
-

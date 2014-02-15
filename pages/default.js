@@ -28,4 +28,3 @@ var PageDefault = prime({
 });
 
 module.exports = PageDefault;
-

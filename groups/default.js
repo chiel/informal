@@ -28,4 +28,3 @@ var GroupDefault = prime({
 });
 
 module.exports = GroupDefault;
-

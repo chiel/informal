@@ -19,4 +19,3 @@ var FieldEmail = prime({
 });
 
 module.exports = FieldEmail;
-

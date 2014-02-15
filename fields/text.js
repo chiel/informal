@@ -61,4 +61,3 @@ var FieldText = prime({
 });
 
 module.exports = FieldText;
-

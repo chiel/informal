@@ -77,4 +77,3 @@ var FieldSingleOption = prime({
 });
 
 module.exports = FieldSingleOption;
-

@@ -56,4 +56,3 @@ var PageBase = prime({
 });
 
 module.exports = PageBase;
-

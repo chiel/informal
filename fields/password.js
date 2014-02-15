@@ -19,4 +19,3 @@ var FieldPassword = prime({
 });
 
 module.exports = FieldPassword;
-

@@ -34,4 +34,3 @@ Factory.prototype.fetch = function(type){
 };
 
 module.exports = Factory;
-

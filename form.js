@@ -6,8 +6,6 @@ var prime = require('prime'),
 	pageTypes = require('./pages');
 
 var Form = prime({
-	pages: [],
-
 	/**
 	 * @param {Object} pages
 	 * @param {Object} data
@@ -25,6 +23,7 @@ var Form = prime({
 			throw new Error('No pages found in spec');
 		}
 
+		this.pages = [];
 		this.spec = spec;
 		this.data = data || {};
 		this.pageCount = this.spec.pages.length;

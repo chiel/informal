@@ -5,12 +5,11 @@ var prime = require('prime'),
 	groupIndex = 0;
 
 var GroupBase = prime({
-	fields: [],
-
 	/**
 	 * @param {Object} spec
 	 */
 	constructor: function(spec, data){
+		this.fields = [];
 		this.index = groupIndex++;
 		this.spec = spec;
 		this.data = data;

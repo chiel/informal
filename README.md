@@ -29,21 +29,26 @@ hierarchy. A sample `formal` specification would look something like this:
 {
   "method": "get",
   "action": "#",
-  "pages": [{
-    "type": "main",
-    "title": "Personal details",
-    "groups": [{
-      "type": "main",
-      "title": "Your name",
-      "fields": [{
-        "type": "text",
-        "label": "First name"
-      }, {
-        "type": "text",
-        "label": "Last name"
-      }]
-    }]
-  }]
+  "pages": [
+    {
+      "title": "Personal details",
+      "groups": [
+        {
+          "title": "Your name",
+          "fields": [
+            {
+              "type": "text",
+              "label": "First name"
+            },
+            {
+              "type": "text",
+              "label": "Last name"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -62,7 +67,7 @@ We'll elaborate on these types and their options further down
 
 ### Options
 
-- `type`: page type
+- `type`: page type; defaults to `default`
 - `title`: page title
 - `groups`: array of group objects
 
@@ -70,7 +75,7 @@ We'll elaborate on these types and their options further down
 
 ### Options
 
-- `type`: group type
+- `type`: group type; defaults to `default`
 - `title`: group title
 - `fields`: array of field objects
 

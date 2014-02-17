@@ -6,7 +6,8 @@ var prime = require('prime'),
 	isObject = require('mout/lang/isObject'),
 	$ = require('elements'),
 	zen = require('elements/zen'),
-	pageTypes = require('./pages');
+	pageTypes = require('./pages'),
+	pagerTypes = require('./pagers');
 
 require('elements/attributes');
 require('elements/delegation');
@@ -40,6 +41,9 @@ var Form = prime({
 		this.spec.action = this.spec.action || '#';
 		this.spec.attributes = this.spec.attributes || {};
 
+		this.spec.pager = this.spec.pager || {};
+		this.spec.pager.position = this.spec.pager.position || 'bottom';
+		this.spec.pager.type = this.spec.pager.type || 'default';
 	},
 
 	/**
@@ -53,14 +57,34 @@ var Form = prime({
 		this.pageContainer = zen('div.pages').insert(this.wrap);
 
 		if (this.pageCount > 1){
+			this.buildPager();
 			this.activePage = -1;
 			this.showPage(0);
 		}
 	},
 
 	/**
-	 *
+	 * Build up required elements for pagination
 	 */
+	buildPager: function(){
+		var activeTab;
+		this.pagerWrap = zen('nav.nav-pager.type-' + this.spec.pager.type + '.position-' + this.spec.pager.position);
+		this.pagerWrap.delegate('click', 'li', bind(function(e, el){
+			e.preventDefault();
+			activeTab.removeClass('active');
+			el.addClass('active');
+			activeTab = el;
+			this.showPage(el.data('index'));
+		}, this));
+
+		this.pager = new (pagerTypes.fetch(this.spec.pager.type))(this.spec, this.data);
+		this.pager.attach(this.pagerWrap);
+
+		activeTab = $(this.pagerWrap.search('li')[0]);
+		activeTab.addClass('active');
+
+		var method = this.spec.pager.position == 'top' ? 'before' : 'after';
+		this.pagerWrap[method](this.pageContainer);
 	},
 
 	/**

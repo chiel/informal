@@ -19,6 +19,7 @@ var Factory = function(type){
  */
 Factory.prototype.register = function(type, definition){
 	this.types[type] = definition;
+	return this;
 };
 
 /**

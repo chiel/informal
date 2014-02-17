@@ -1,6 +1,7 @@
 'use strict';
 
 var prime = require('prime'),
+	zen = require('elements/zen'),
 	GroupBase = require('./base');
 
 var GroupDefault = prime({
@@ -19,12 +20,14 @@ var GroupDefault = prime({
 	/**
 	 *
 	 */
-	toHTML: function(){
-		var html = '<fieldset class="group" data-formal-group-index="' + this.index + '"><ul>';
-		html += this.spec.name ? '<legend>' + this.spec.name + '</legend>' : '';
-		html += this.fieldsToHTML();
-		html += '</ul></fieldset>';
-		return html;
+	build: function(){
+		if (this.wrap) return;
+		this.wrap = zen('fieldset');
+		if (this.spec.name){
+			zen('legend').text(this.spec.name).insert(this.wrap);
+		}
+		this.fieldContainer = zen('ul').insert(this.wrap);
+		this.buildFields();
 	}
 });
 

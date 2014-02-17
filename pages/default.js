@@ -1,6 +1,7 @@
 'use strict';
 
 var prime = require('prime'),
+	zen = require('elements/zen'),
 	PageBase = require('./base');
 
 var PageDefault = prime({
@@ -19,12 +20,11 @@ var PageDefault = prime({
 	/**
 	 *
 	 */
-	toHTML: function(){
-		var html = '<section class="page" data-formal-page-index="' + this.index + '">';
-		html += this.spec.name ? '<h3>' + this.spec.name + '</h3>' : '';
-		html += this.groupsToHTML();
-		html += '</section>';
-		return html;
+	build: function(){
+		if (this.wrap) return;
+		this.wrap = zen('section.page.page-' + this.index);
+		this.groupContainer = this.wrap;
+		this.buildGroups();
 	}
 });
 

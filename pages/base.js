@@ -14,43 +14,45 @@ var PageBase = prime({
 		this.spec = spec;
 		this.data = data;
 		this.groupCount = this.spec.groups.length;
-
-		this.createGroups();
 	},
 
 	/**
 	 *
 	 */
-	createGroups: function(){
-		var i, groupSpec;
+	buildGroups: function(){
+		var i, spec, group;
 		for (i = 0; i < this.groupCount; i++){
-			groupSpec = this.spec.groups[i];
-			groupSpec.type = groupSpec.type || 'default';
-			this.groups.push(new (groupTypes.fetch(groupSpec.type))(groupSpec, this.data));
+			spec = this.spec.groups[i];
+			spec.type = spec.type || 'default';
+			group = new (groupTypes.fetch(spec.type))(spec, this.data);
+			group.attach(this.groupContainer);
+			this.groups.push(group);
 		}
 	},
 
 	/**
 	 *
 	 */
-	isValid: function(){
-		for (var i = 0; i < this.groupCount; i++){
-			if (!this.groups[i].isValid()){
-				return false;
-			}
-		}
-		return true;
+	attach: function(parent){
+		this.build();
+		this.wrap.insert(parent);
+		return this;
 	},
 
 	/**
 	 *
 	 */
-	groupsToHTML: function(){
-		var html = '', i;
-		for (i = 0; i < this.groupCount; i++){
-			html += this.groups[i].toHTML();
-		}
-		return html;
+	show: function(){
+		this.wrap[0].style.display = 'block';
+		return this;
+	},
+
+	/**
+	 *
+	 */
+	hide: function(){
+		this.wrap[0].style.display = 'none';
+		return this;
 	}
 });
 

@@ -19,8 +19,9 @@ var FieldBase = prime({
 	/**
 	 *
 	 */
-	isValid: function(){
-		return !this.spec.required || !!this.value;
+	attach: function(parent){
+		this.build();
+		this.wrap.insert(parent);
 	}
 });
 

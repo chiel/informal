@@ -14,42 +14,27 @@ var GroupBase = prime({
 		this.spec = spec;
 		this.data = data;
 		this.fieldCount = this.spec.fields.length;
-
-		this.createFields();
 	},
 
 	/**
 	 *
 	 */
-	createFields: function(){
-		var i, fieldSpec;
+	buildFields: function(){
+		var i, spec, field;
 		for (i = 0; i < this.fieldCount; i++){
-			fieldSpec = this.spec.fields[i];
-			this.fields.push(new (fieldTypes.fetch(fieldSpec.type))(fieldSpec, this.data[fieldSpec.name]));
+			spec = this.spec.fields[i];
+			field = new (fieldTypes.fetch(spec.type))(spec, this.data[spec.name]);
+			field.attach(this.fieldContainer);
+			this.fields.push(field);
 		}
 	},
 
 	/**
 	 *
 	 */
-	isValid: function(){
-		for (var i = 0; i < this.fieldCount; i++){
-			if (!this.fields[i].isValid()){
-				return false;
-			}
-		}
-		return true;
-	},
-
-	/**
-	 *
-	 */
-	fieldsToHTML: function(){
-		var html = '', i;
-		for (i = 0; i < this.fieldCount; i++){
-			html += this.fields[i].toHTML();
-		}
-		return html;
+	attach: function(parent){
+		this.build();
+		this.wrap.insert(parent);
 	}
 });
 

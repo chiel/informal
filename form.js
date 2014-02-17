@@ -1,14 +1,22 @@
 'use strict';
 
 var prime = require('prime'),
+	bind = require('mout/function/bind'),
 	isArray = require('mout/lang/isArray'),
 	isObject = require('mout/lang/isObject'),
+	$ = require('elements'),
+	zen = require('elements/zen'),
 	pageTypes = require('./pages');
+
+require('elements/attributes');
+require('elements/delegation');
+require('elements/insertion');
+require('elements/traversal');
 
 var Form = prime({
 	/**
-	 * @param {Object} pages
-	 * @param {Object} data
+	 * @param {object} pages
+	 * @param {object} data
 	 */
 	constructor: function(spec, data){
 		if (!(this instanceof Form)){
@@ -23,7 +31,7 @@ var Form = prime({
 			throw new Error('No pages found in spec');
 		}
 
-		this.pages = [];
+		this.pages = {};
 		this.spec = spec;
 		this.data = data || {};
 		this.pageCount = this.spec.pages.length;
@@ -32,60 +40,72 @@ var Form = prime({
 		this.spec.action = this.spec.action || '#';
 		this.spec.attributes = this.spec.attributes || {};
 
-		this.createPages();
 	},
 
 	/**
-	 *
+	 * Build up required elements for the base form
 	 */
-	createPages: function(){
-		var i, pageSpec;
-		for (i = 0; i < this.pageCount; i++){
-			pageSpec = this.spec.pages[i];
-			pageSpec.type = pageSpec.type || 'default';
-			this.pages.push(new (pageTypes.fetch(pageSpec.type))(pageSpec, this.data));
+	build: function(){
+		if (this.wrap) return;
+		this.wrap = zen('form.informal')
+			.attribute('method', this.spec.method)
+			.attribute('action', this.spec.action);
+		this.pageContainer = zen('div.pages').insert(this.wrap);
+
+		if (this.pageCount > 1){
+			this.activePage = -1;
+			this.showPage(0);
 		}
 	},
 
 	/**
 	 *
 	 */
-	isValid: function(){
-		for (var i = 0; i < this.pageCount; i++){
-			if (!this.pages[i].isValid()){
-				return false;
-			}
-		}
-		return true;
 	},
 
 	/**
-	 *
+	 * Attach the form to a dom node
+	 * @param {element} parent
 	 */
-	pagesToHTML: function(){
-		var html = '', i;
-		for (i = 0; i < this.pageCount; i++){
-			html += this.pages[i].toHTML();
-		}
-		return html;
+	attach: function(parent){
+		this.build();
+		this.wrap.insert(parent);
 	},
 
 	/**
-	 *
+	 * Show a page by index
+	 * @param {number} index
 	 */
-	toHTML: function(){
-		var html = '<form method="' + this.spec.method + '"';
-		html += ' action="' + this.spec.action + '"';
-		if (this.spec.attributes.classes){
-			html += ' class="' + this.spec.attributes.classes.join(' ') + '"';
+	showPage: function(index){
+		index = parseInt(index, 0);
+		if (isNaN(index) || !this.spec.pages[index] || index == this.activepage) return;
+
+		if (!(index in this.pages)) {
+			var spec = this.spec.pages[index], page;
+			spec.type = spec.type || 'default';
+			page = new (pageTypes.fetch(spec.type))(spec, this.data);
+			page.attach(this.pageContainer);
+			this.pages[index] = page;
 		}
-		html += '>';
-		html += this.pagesToHTML();
-		html += '<input type="submit" value="Save">';
-		html += '</form>';
-		return html;
+
+		if (this.activePage > -1) {
+			this.hidePage(this.activePage);
+		}
+
+		this.pages[index].show();
+		this.activePage = index;
+	},
+
+	/**
+	 * Hide a page by index
+	 * @param {number} index
+	 */
+	hidePage: function(index){
+		index = parseInt(index, 0);
+		if (isNaN(index) || !(index in this.pages)) return;
+
+		this.pages[index].hide();
 	}
-
 });
 
 module.exports = Form;

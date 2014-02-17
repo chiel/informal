@@ -9,9 +9,7 @@ groups.register('default', require('./groups/default'));
 fields
 	.register('text', require('./fields/text'))
 	.register('email', require('./fields/email'))
-	.register('password', require('./fields/password'))
-	.register('single-option', require('./fields/single-option'))
-	.register('multi-option', require('./fields/multi-option'));
+	.register('password', require('./fields/password'));
 
 module.exports = {
 	Form: require('./form')

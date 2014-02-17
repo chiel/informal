@@ -1,7 +1,8 @@
 'use strict';
 
 var prime = require('prime'),
-	isArray = require('mout/lang/isArray'),
+	forOwn = require('mout/object/forOwn'),
+	zen = require('elements/zen'),
 	FieldBase = require('./base');
 
 var FieldText = prime({
@@ -20,43 +21,25 @@ var FieldText = prime({
 	/**
 	 *
 	 */
-	toHTML: function(){
-		var html = '<li>';
-		if (this.spec.label){
-			html += '<label>' + this.spec.label + '</label>';
-		}
-		html += '<input type="' + this.spec.type + '"';
-
-		var classes = this.spec.attributes.class;
-		if (!classes){
-			classes = [];
-		}
-		if (!isArray(classes)){
-			classes = [classes];
-		}
-
-		if (this.spec.required && !this.value){
-			classes.push('error');
-		}
+	build: function(){
+		this.wrap = zen('li');
+		zen('label').text(this.spec.label || '').insert(this.wrap);
+		this.input = zen('input[type=text]').insert(this.wrap);
 
 		if (this.spec.name){
-			html += ' name="' + this.spec.name + '"';
+			this.input.attribute('name', this.spec.name);
 		}
-
-		if (this.value || this.spec.value){
-			html += ' value="' + (this.value || this.spec.value) + '"';
+		if (this.spec.value){
+			this.input.value(this.spec.value);
 		}
-
-		if (classes.length){
-			html += ' class="' + classes.join(' ') + '"';
+		if (this.spec.required && this.spec.required === true){
+			this.input.attribute('required', true);
 		}
-
-		if (this.spec.required){
-			html += ' required';
+		if (this.spec.attributes){
+			forOwn(this.spec.attributes, function(value, key){
+				this.input.attribute(key, value);
+			}.bind(this));
 		}
-
-		html += '></li>';
-		return html;
 	}
 });
 

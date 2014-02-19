@@ -59,8 +59,9 @@ var Form = prime({
 		if (this.pageCount > 1){
 			this.buildPager();
 			this.activePage = -1;
-			this.showPage(0);
 		}
+
+		this.showPage(0);
 	},
 
 	/**

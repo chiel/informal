@@ -16,5 +16,14 @@ fields
 	.register('password', require('./fields/password'));
 
 module.exports = {
-	Form: require('./form')
+	Form: require('./form'),
+	registerPage: function(type, definition){
+		return pages.register(type, definition);
+	},
+	registerGroup: function(type, definition){
+		return groups.register(type, definition);
+	},
+	registerField: function(type, definition){
+		return fields.register(type, definition);
+	}
 };

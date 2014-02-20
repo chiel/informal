@@ -1,38 +1,28 @@
 'use strict';
 
-var prime = require('prime'),
-	zen = require('elements/zen');
+var zen = require('elements/zen'),
+	PagerBase = require('./base');
 
-var PagerTabbed = prime({
-	/**
-	 *
-	 */
-	constructor: function(spec){
-		this.spec = spec;
-	},
+var PagerTabbed = function(spec){
+	this.spec = spec;
+};
 
-	/**
-	 *
-	 */
-	build: function(){
-		this.wrap = zen('ul');
+PagerTabbed.prototype = Object.create(PagerBase.prototype);
+PagerTabbed.prototype.constructor = PagerTabbed;
 
-		var i, len = this.spec.pages.length;
-		for (i = 0; i < len; i++){
-			zen('li')
-				.data('index', i)
-				.text(this.spec.pages[i].name)
-				.insert(this.wrap);
-		}
-	},
+/**
+ *
+ */
+PagerTabbed.prototype.build = function(){
+	this.wrap = zen('ul');
 
-	/**
-	 *
-	 */
-	attach: function(parent){
-		this.build();
-		this.wrap.insert(parent);
+	var i, len = this.spec.pages.length;
+	for (i = 0; i < len; i++){
+		zen('li')
+			.data('index', i)
+			.text(this.spec.pages[i].name)
+			.insert(this.wrap);
 	}
-});
+};
 
 module.exports = PagerTabbed;

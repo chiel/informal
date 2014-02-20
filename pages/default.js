@@ -1,31 +1,29 @@
 'use strict';
 
-var prime = require('prime'),
-	zen = require('elements/zen'),
+var zen = require('elements/zen'),
 	PageBase = require('./base');
 
-var PageDefault = prime({
-	inherits: PageBase,
-
-	/**
-	 * @param {Object} spec
-	 */
-	constructor: function(spec, data){
-		if (!(this instanceof PageDefault)){
-			return new PageDefault(spec, data);
-		}
-		PageBase.call(this, spec, data);
-	},
-
-	/**
-	 *
-	 */
-	build: function(){
-		if (this.wrap) return;
-		this.wrap = zen('section.page.page-' + this.index);
-		this.groupContainer = this.wrap;
-		this.buildGroups();
+/**
+ * @param {Object} spec
+ */
+var PageDefault = function(spec, data){
+	if (!(this instanceof PageDefault)){
+		return new PageDefault(spec, data);
 	}
-});
+	PageBase.call(this, spec, data);
+};
+
+PageDefault.prototype = Object.create(PageBase.prototype);
+PageDefault.prototype.constructor = PageDefault;
+
+/**
+ *
+ */
+PageDefault.prototype.build = function(){
+	if (this.wrap) return;
+	this.wrap = zen('section.page.page-' + this.index);
+	this.groupContainer = this.wrap;
+	this.buildGroups();
+};
 
 module.exports = PageDefault;

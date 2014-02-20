@@ -1,21 +1,19 @@
 'use strict';
 
-var prime = require('prime'),
-	FieldText = require('./text');
+var FieldText = require('./text');
 
-var FieldPassword = prime({
-	inherits: FieldText,
-
-	/**
-	 * @param {Object} spec
-	 * @param {String} value
-	 */
-	constructor: function(spec, value){
-		if (!(this instanceof FieldPassword)){
-			return new FieldPassword(spec, value);
-		}
-		FieldText.call(this, spec, value);
+/**
+ * @param {Object} spec
+ * @param {String} value
+ */
+var FieldPassword = function(spec, value){
+	if (!(this instanceof FieldPassword)){
+		return new FieldPassword(spec, value);
 	}
-});
+	FieldText.call(this, spec, value);
+};
+
+FieldPassword.prototype = Object.create(FieldText.prototype);
+FieldPassword.prototype.constructor = FieldPassword;
 
 module.exports = FieldPassword;

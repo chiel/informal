@@ -18,6 +18,12 @@ fields
 
 module.exports = {
 	Form: require('./form'),
+	bases: {
+		Page: require('./pages/base'),
+		Pager: require('./pagers/base'),
+		Group: require('./groups/base'),
+		Field: require('./fields/base')
+	},
 	registerPage: function(type, definition){
 		return pages.register(type, definition);
 	},

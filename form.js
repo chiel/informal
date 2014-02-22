@@ -1,12 +1,15 @@
 'use strict';
 
 var bind = require('mout/function/bind'),
+	forOwn = require('mout/object/forOwn'),
 	isArray = require('mout/lang/isArray'),
 	isObject = require('mout/lang/isObject'),
 	$ = require('elements'),
 	zen = require('elements/zen'),
 	pageTypes = require('./pages'),
-	pagerTypes = require('./pagers');
+	pagerTypes = require('./pagers'),
+	groupTypes = require('./groups'),
+	fieldTypes = require('./fields');
 
 require('elements/attributes');
 require('elements/delegation');
@@ -31,6 +34,8 @@ var Form = function(spec, data){
 	}
 
 	this.pages = {};
+	this.groups = {};
+	this.fields = {};
 	this.spec = spec;
 	this.data = data || {};
 	this.pageCount = this.spec.pages.length;
@@ -96,6 +101,53 @@ Form.prototype.attach = function(parent){
 };
 
 /**
+ * Build group by index
+ * @param {number} index
+ */
+Form.prototype.buildPage = function(index){
+	var spec = this.spec.pages[index], page, i, group;
+	spec.type = spec.type || 'default';
+	page = new (pageTypes.fetch(spec.type))(spec);
+
+	for (i = 0; i < spec.groups.length; i++){
+		group = this.buildGroup(spec.groups[i]);
+		page.appendGroup(group);
+	}
+
+	this.pages[index] = page;
+	return page;
+};
+
+/**
+ * Build group by name
+ * @param {string} name
+ */
+Form.prototype.buildGroup = function(name){
+	var spec = this.spec.groups[name], group, i, field;
+	spec.type = spec.type || 'default';
+	group = new (groupTypes.fetch(spec.type))(spec);
+
+	for (i = 0; i < spec.fields.length; i++){
+		field = this.buildField(spec.fields[i]);
+		group.appendField(field);
+	}
+
+	this.groups[name] = group;
+	return group;
+};
+
+/**
+ * Build a field by name
+ * @param {string} name
+ */
+Form.prototype.buildField = function(name){
+	var spec = this.spec.fields[name], field;
+	field = new (fieldTypes.fetch(spec.type))(spec, this.data[spec.name]);
+	this.fields[name] = field;
+	return field;
+};
+
+/**
  * Show a page by index
  * @param {number} index
  */
@@ -104,11 +156,8 @@ Form.prototype.showPage = function(index){
 	if (isNaN(index) || !this.spec.pages[index] || index == this.activepage) return;
 
 	if (!(index in this.pages)) {
-		var spec = this.spec.pages[index], page;
-		spec.type = spec.type || 'default';
-		page = new (pageTypes.fetch(spec.type))(spec, this.data);
+		var page = this.buildPage(index);
 		page.attach(this.pageContainer);
-		this.pages[index] = page;
 	}
 
 	if (this.activePage > -1) {

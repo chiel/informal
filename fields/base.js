@@ -15,7 +15,8 @@ var FieldBase = function(spec, value){
 };
 
 /**
- *
+ * Attach field to an element
+ * @param {element} parent
  */
 FieldBase.prototype.attach = function(parent){
 	this.build();

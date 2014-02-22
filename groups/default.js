@@ -6,18 +6,18 @@ var zen = require('elements/zen'),
 /**
  * @param {object} spec
  */
-var GroupDefault = function(spec, data){
+var GroupDefault = function(spec){
 	if (!(this instanceof GroupDefault)){
-		return new GroupDefault(spec, data);
+		return new GroupDefault(spec);
 	}
-	GroupBase.call(this, spec, data);
+	GroupBase.call(this, spec);
 };
 
 GroupDefault.prototype = Object.create(GroupBase.prototype);
 GroupDefault.prototype.constructor = GroupDefault;
 
 /**
- *
+ * Build required elements for the group
  */
 GroupDefault.prototype.build = function(){
 	if (this.wrap) return;
@@ -26,7 +26,6 @@ GroupDefault.prototype.build = function(){
 		zen('legend').text(this.spec.name).insert(this.wrap);
 	}
 	this.fieldContainer = zen('ul').insert(this.wrap);
-	this.buildFields();
 };
 
 module.exports = GroupDefault;

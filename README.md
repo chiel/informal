@@ -31,24 +31,28 @@ hierarchy. A sample `formal` specification would look something like this:
   "action": "#",
   "pages": [
     {
-      "title": "Personal details",
-      "groups": [
-        {
-          "title": "Your name",
-          "fields": [
-            {
-              "type": "text",
-              "label": "First name"
-            },
-            {
-              "type": "text",
-              "label": "Last name"
-            }
-          ]
-        }
-      ]
+      "name": "Personal details",
+      "groups": ["group1"]
     }
-  ]
+  ],
+
+  "groups": {
+    "group1": {
+      "name": "Your name",
+      "fields": ["first_name", "last_name"]
+    }
+  },
+
+  "fields": {
+    "first_name": {
+      "type": "text",
+      "label": "First name"
+    },
+    "last_name": {
+      "type": "text",
+      "label": "Last name"
+    }
+  }
 }
 ```
 

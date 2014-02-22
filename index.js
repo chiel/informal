@@ -12,6 +12,7 @@ pagers
 groups.register('default', require('./groups/default'));
 fields
 	.register('text', require('./fields/text'))
+	.register('textarea', require('./fields/textarea'))
 	.register('email', require('./fields/email'))
 	.register('password', require('./fields/password'));
 

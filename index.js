@@ -23,11 +23,30 @@ fields
 
 module.exports = {
 	Form: require('./form'),
-	bases: {
-		Page: require('./pages/base'),
-		Pager: require('./pagers/base'),
-		Group: require('./groups/base'),
-		Field: require('./fields/base')
+	pages: {
+		Base: require('./pages/base'),
+		Default: require('./pages/default')
+	},
+	pagers: {
+		Base: require('./pagers/base'),
+		Default: require('./pagers/default'),
+		Tabbed: require('./pagers/tabbed')
+	},
+	groups: {
+		Base: require('./groups/base'),
+		Default: require('./groups/default')
+	},
+	fields: {
+		Base: require('./fields/base'),
+		Text: require('./fields/text'),
+		Textarea: require('./fields/textarea'),
+		Email: require('./fields/email'),
+		Password: require('./fields/password'),
+		Number: require('./fields/number'),
+		Date: require('./fields/date'),
+		Boolean: require('./fields/boolean'),
+		SingleOption: require('./fields/single-option'),
+		MultiOption: require('./fields/multi-option')
 	},
 	registerPage: function(type, definition){
 		return pages.register(type, definition);

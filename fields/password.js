@@ -11,6 +11,7 @@ var FieldPassword = function(spec, value){
 		return new FieldPassword(spec, value);
 	}
 	FieldText.call(this, spec, value);
+	this.type = 'password';
 };
 
 FieldPassword.prototype = Object.create(FieldText.prototype);

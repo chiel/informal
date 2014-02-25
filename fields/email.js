@@ -11,6 +11,7 @@ var FieldEmail = function(spec, value){
 		return new FieldEmail(spec, value);
 	}
 	FieldText.call(this, spec, value);
+	this.type = 'email';
 };
 
 FieldEmail.prototype = Object.create(FieldText.prototype);

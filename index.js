@@ -14,7 +14,12 @@ fields
 	.register('text', require('./fields/text'))
 	.register('textarea', require('./fields/textarea'))
 	.register('email', require('./fields/email'))
-	.register('password', require('./fields/password'));
+	.register('password', require('./fields/password'))
+	.register('number', require('./fields/number'))
+	.register('date', require('./fields/date'))
+	.register('boolean', require('./fields/boolean'))
+	.register('single-option', require('./fields/single-option'))
+	.register('multi-option', require('./fields/multi-option'));
 
 module.exports = {
 	Form: require('./form'),

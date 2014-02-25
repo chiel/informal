@@ -7,24 +7,23 @@ var forOwn = require('mout/object/forOwn'),
 /**
  * @param {Object} spec
  */
-var FieldText = function(spec, value){
-	if (!(this instanceof FieldText)){
-		return new FieldText(spec, value);
+var FieldBoolean = function(spec, value){
+	if (!(this instanceof FieldBoolean)){
+		return new FieldBoolean(spec, value);
 	}
 	FieldBase.call(this, spec, value);
-	this.type = 'text';
 };
 
-FieldText.prototype = Object.create(FieldBase.prototype);
-FieldText.prototype.constructor = FieldText;
+FieldBoolean.prototype = Object.create(FieldBase.prototype);
+FieldBoolean.prototype.constructor = FieldBoolean;
 
 /**
  *
  */
-FieldText.prototype.build = function(){
+FieldBoolean.prototype.build = function(){
 	this.wrap = zen('li');
 	zen('label').text(this.spec.label || '').insert(this.wrap);
-	this.input = zen('input[type=' + this.type + ']').insert(this.wrap);
+	this.input = zen('input[type=checkbox]').insert(this.wrap);
 
 	if (this.spec.name){
 		this.input.attribute('name', this.spec.name);
@@ -42,4 +41,4 @@ FieldText.prototype.build = function(){
 	}
 };
 
-module.exports = FieldText;
+module.exports = FieldBoolean;

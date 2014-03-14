@@ -43,6 +43,10 @@ FieldMultiOption.prototype.build = function(){
 FieldMultiOption.prototype.buildSelect = function(){
 	this.input = zen('select[multiple]').insert(this.wrap);
 
+	if (this.spec.name){
+		this.input.attribute('name', this.spec.name + '[]');
+	}
+
 	var i, len = this.spec.options.length, opt;
 	for (i = 0; i < len; i++){
 		opt = this.spec.options[i];

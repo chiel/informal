@@ -44,6 +44,10 @@ FieldSingleOption.prototype.buildSelect = function(){
 	this.input = zen('select').insert(this.wrap);
 	zen('option').value('').text('...').insert(this.input);
 
+	if (this.spec.name){
+		this.input.attribute('name', this.spec.name);
+	}
+
 	var i, len = this.spec.options.length, opt;
 	for (i = 0; i < len; i++){
 		opt = this.spec.options[i];

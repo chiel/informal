@@ -4,6 +4,7 @@ var bind = require('mout/function/bind'),
 	forOwn = require('mout/object/forOwn'),
 	isArray = require('mout/lang/isArray'),
 	isObject = require('mout/lang/isObject'),
+	delve = require('delve'),
 	$ = require('elements'),
 	zen = require('elements/zen'),
 	pageTypes = require('./pages'),
@@ -141,8 +142,9 @@ Form.prototype.buildGroup = function(name){
  * @param {string} name
  */
 Form.prototype.buildField = function(name){
-	var spec = this.spec.fields[name], field;
-	field = new (fieldTypes.fetch(spec.type))(spec, this.data[spec.name]);
+	var spec = this.spec.fields[name], field,
+		fieldName = spec.name.replace('][', '.').replace('[', '.').replace(/\]$/, '');
+	field = new (fieldTypes.fetch(spec.type))(spec, delve(this.data, fieldName));
 	this.fields[name] = field;
 	return field;
 };

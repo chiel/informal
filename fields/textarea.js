@@ -39,6 +39,9 @@ FieldTextarea.prototype.build = function(){
 			this.input.attribute(key, value);
 		}.bind(this));
 	}
+	if (this.value){
+		this.input.value(this.value);
+	}
 };
 
 module.exports = FieldTextarea;

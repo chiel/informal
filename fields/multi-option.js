@@ -7,11 +7,11 @@ var indexOf = require('mout/array/indexOf'),
 /**
  * @param {Object} spec
  */
-var FieldMultiOption = function(spec){
+var FieldMultiOption = function(spec, value){
 	if (!(this instanceof FieldMultiOption)){
-		return new FieldMultiOption(spec);
+		return new FieldMultiOption(spec, value);
 	}
-	FieldBase.call(this, spec);
+	FieldBase.call(this, spec, value);
 
 	this.styles = ['select', 'checkbox'];
 
@@ -50,7 +50,9 @@ FieldMultiOption.prototype.buildSelect = function(){
 	var i, len = this.spec.options.length, opt;
 	for (i = 0; i < len; i++){
 		opt = this.spec.options[i];
-		zen('option').value(opt.value).text(opt.label).insert(this.input);
+		zen('option').value(opt.value).text(opt.label)
+			.selected(indexOf(this.value, opt.value) != -1)
+			.insert(this.input);
 	}
 };
 

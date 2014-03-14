@@ -24,12 +24,10 @@ FieldBoolean.prototype.build = function(){
 	this.wrap = zen('li');
 	zen('label').text(this.spec.label || '').insert(this.wrap);
 	this.input = zen('input[type=checkbox]').insert(this.wrap);
+	this.input.value(true);
 
 	if (this.spec.name){
 		this.input.attribute('name', this.spec.name);
-	}
-	if (this.spec.value){
-		this.input.value(this.spec.value);
 	}
 	if (this.spec.required && this.spec.required === true){
 		this.input.attribute('required', true);
@@ -39,6 +37,7 @@ FieldBoolean.prototype.build = function(){
 			this.input.attribute(key, value);
 		}.bind(this));
 	}
+	this.input.checked(this.value === true);
 };
 
 module.exports = FieldBoolean;

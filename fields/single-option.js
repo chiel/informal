@@ -7,11 +7,11 @@ var indexOf = require('mout/array/indexOf'),
 /**
  * @param {Object} spec
  */
-var FieldSingleOption = function(spec){
+var FieldSingleOption = function(spec, value){
 	if (!(this instanceof FieldSingleOption)){
-		return new FieldSingleOption(spec);
+		return new FieldSingleOption(spec, value);
 	}
-	FieldBase.call(this, spec);
+	FieldBase.call(this, spec, value);
 
 	this.styles = ['select', 'radio'];
 
@@ -51,7 +51,9 @@ FieldSingleOption.prototype.buildSelect = function(){
 	var i, len = this.spec.options.length, opt;
 	for (i = 0; i < len; i++){
 		opt = this.spec.options[i];
-		zen('option').value(opt.value).text(opt.label).insert(this.input);
+		zen('option').value(opt.value).text(opt.label)
+			.selected(opt.value == this.value)
+			.insert(this.input);
 	}
 };
 

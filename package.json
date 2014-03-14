@@ -5,6 +5,7 @@
 	"author": "Chiel Kunkels <chiel@kunkels.me>",
 	"main": "index.js",
 	"dependencies": {
+		"delve": "0.3",
 		"elements": "0.3",
 		"mout": "0.8"
 	}

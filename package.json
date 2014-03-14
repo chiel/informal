@@ -1,6 +1,6 @@
 {
 	"name": "informal",
-	"version": "0.0.5",
+	"version": "0.1.0",
 	"description": "Forms made simple",
 	"author": "Chiel Kunkels <chiel@kunkels.me>",
 	"main": "index.js",

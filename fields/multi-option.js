@@ -47,6 +47,8 @@ FieldMultiOption.prototype.buildSelect = function(){
 		this.input.attribute('name', this.spec.name + '[]');
 	}
 
+	if (!this.spec.options || !this.spec.options.length) return;
+
 	var i, len = this.spec.options.length, opt;
 	for (i = 0; i < len; i++){
 		opt = this.spec.options[i];
@@ -61,9 +63,11 @@ FieldMultiOption.prototype.buildSelect = function(){
  */
 FieldMultiOption.prototype.buildCheckbox = function(){
 	var fieldset = zen('fieldset.options').insert(this.wrap),
-		ul = zen('ul').insert(fieldset),
-		i, len = this.spec.options.length, opt, li;
+		ul = zen('ul').insert(fieldset);
 
+	if (!this.spec.options || !this.spec.options.length) return;
+
+	var i, len = this.spec.options.length, opt, li;
 	for (i = 0; i < len; i++){
 		opt = this.spec.options[i];
 		li = zen('li').insert(ul);

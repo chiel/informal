@@ -17,6 +17,7 @@ fields
 	.register('password', require('./fields/password'))
 	.register('number', require('./fields/number'))
 	.register('date', require('./fields/date'))
+	.register('time', require('./fields/time'))
 	.register('boolean', require('./fields/boolean'))
 	.register('single-option', require('./fields/single-option'))
 	.register('multi-option', require('./fields/multi-option'));
@@ -44,6 +45,7 @@ module.exports = {
 		Password: require('./fields/password'),
 		Number: require('./fields/number'),
 		Date: require('./fields/date'),
+		Time: require('./fields/time'),
 		Boolean: require('./fields/boolean'),
 		SingleOption: require('./fields/single-option'),
 		MultiOption: require('./fields/multi-option')

@@ -12,11 +12,6 @@ var bind = require('mout/function/bind'),
 	groupTypes = require('./groups'),
 	fieldTypes = require('./fields');
 
-require('elements/attributes');
-require('elements/delegation');
-require('elements/insertion');
-require('elements/traversal');
-
 /**
  * @param {object} pages
  * @param {object} data

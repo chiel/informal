@@ -6,7 +6,7 @@
 	"main": "index.js",
 	"dependencies": {
 		"delve": "0.3",
-		"elements": "0.3",
+		"elements": "0.5",
 		"mout": "0.9"
 	}
 }

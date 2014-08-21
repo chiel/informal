@@ -78,7 +78,7 @@ var Form = prime({
 			this.showPage(el.data('index'));
 		}, this));
 
-		this.pager = new (pagerTypes.fetch(this.spec.pager.type))(this.spec, this.data);
+		this.pager = new pagerTypes[this.spec.pager.type](this.spec, this.data);
 		this.pager.attach(this.pagerWrap);
 
 		activeTab = $(this.pagerWrap.search('li')[0]);
@@ -104,7 +104,7 @@ var Form = prime({
 	buildPage: function(index){
 		var spec = this.spec.pages[index], page, i, group;
 		spec.type = spec.type || 'default';
-		page = new (pageTypes.fetch(spec.type))(spec);
+		page = new pageTypes[spec.type](spec);
 
 		for (i = 0; i < spec.groups.length; i++){
 			group = this.buildGroup(spec.groups[i]);
@@ -122,7 +122,7 @@ var Form = prime({
 	buildGroup: function(name){
 		var spec = this.spec.groups[name], group, i, field;
 		spec.type = spec.type || 'default';
-		group = new (groupTypes.fetch(spec.type))(spec);
+		group = new groupTypes[spec.type](spec);
 
 		for (i = 0; i < spec.fields.length; i++){
 			field = this.buildField(spec.fields[i]);
@@ -140,7 +140,7 @@ var Form = prime({
 	buildField: function(name){
 		var spec = this.spec.fields[name], field,
 			fieldName = spec.name.replace('][', '.').replace('[', '.').replace(/\]$/, '');
-		field = new (fieldTypes.fetch(spec.type))(spec, delve(this.data, fieldName));
+		field = new fieldTypes[spec.type](spec, delve(this.data, fieldName));
 		this.fields[name] = field;
 		return field;
 	},

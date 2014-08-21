@@ -1,3 +1,7 @@
 'use strict';
 
-module.exports = new (require('./../factory'))('pager');
+module.exports = {
+	base: require('./base'),
+	default: require('./default'),
+	tabbed: require('./tabbed')
+};

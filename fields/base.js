@@ -1,26 +1,31 @@
 'use strict';
 
-var fieldIndex = 0;
+var prime = require('prime'),
+	fieldIndex = 0;
 
-/**
- * @param {object} spec
- * @param {mixed} value
- */
-var FieldBase = function(spec, value){
-	this.index = fieldIndex++;
-	this.spec = spec;
-	this.value = value;
+module.exports = prime({
+	constructor: function(spec, value){
+		this.index = fieldIndex++;
+		this.spec = spec;
+		this.value = value;
+		this.language = 0;
 
-	this.spec.attributes = this.spec.attributes || {};
-};
+		this.spec.attributes = this.spec.attributes || {};
+	},
 
-/**
- * Attach field to an element
- * @param {element} parent
- */
-FieldBase.prototype.attach = function(parent){
-	this.build();
-	this.wrap.insert(parent);
-};
+	setLanguage: function(index){
+		if (!this.spec.multilingual) return;
 
-module.exports = FieldBase;
+		this.inputs[this.language].style.display = 'none';
+		this.inputs[index].style.display = '';
+
+		this.languageLabel.text(this.spec.languages[index]);
+
+		this.language = index;
+	},
+
+	attach: function(parent){
+		this.build();
+		this.wrap.insert(parent);
+	}
+});

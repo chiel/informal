@@ -1,19 +1,15 @@
 'use strict';
 
-/**
- * @param {object} spec
- */
-var PagerBase = function(spec){
-	this.spec = spec;
-};
+var prime = require('prime');
 
-/**
- *
- */
-PagerBase.prototype.attach = function(parent){
-	this.build();
-	this.wrap.insert(parent);
-	return this;
-};
+module.exports = prime({
+	constructor: function(spec){
+		this.spec = spec;
+	},
 
-module.exports = PagerBase;
+	attach: function(parent){
+		this.build();
+		this.wrap.insert(parent);
+		return this;
+	}
+});

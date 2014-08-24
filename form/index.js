@@ -71,6 +71,16 @@ var Form = prime({
 	attach: function(parent){
 		this.build();
 		this.wrap.insert(parent);
+	},
+
+	serialize: function(){
+		var values = {};
+
+		forOwn(this.fields, function(field, name){
+			values[name] = field.serialize();
+		});
+
+		return values;
 	}
 });
 

@@ -27,5 +27,9 @@ module.exports = prime({
 	attach: function(parent){
 		this.build();
 		this.wrap.insert(parent);
+	},
+
+	serialize: function(){
+		return this.input.value();
 	}
 });

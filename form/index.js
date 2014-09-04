@@ -61,6 +61,12 @@ var Form = prime({
 			this.activePage = -1;
 		}
 
+		if (this.spec.save){
+			zen('input[type=submit]')
+				.value(this.spec.save.label || 'Save')
+				.insert(this.wrap);
+		}
+
 		this.showPage(0);
 	},
 

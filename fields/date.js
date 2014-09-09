@@ -5,14 +5,7 @@ var prime = require('prime'),
 
 var FieldDate = prime({
 	inherits: FieldText,
-
-	constructor: function(spec, value){
-		if (!(this instanceof FieldDate)){
-			return new FieldDate(spec, value);
-		}
-		FieldText.call(this, spec, value);
-		this.type = 'date';
-	}
+	type: 'date'
 });
 
 module.exports = FieldDate;

@@ -7,13 +7,13 @@ var prime = require('prime'),
 
 var FieldText = prime({
 	inherits: FieldBase,
+	type: 'text',
 
 	constructor: function(spec, value){
 		if (!(this instanceof FieldText)){
 			return new FieldText(spec, value);
 		}
 		FieldBase.call(this, spec, value);
-		this.type = 'text';
 	},
 
 	build: function(){

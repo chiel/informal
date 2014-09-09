@@ -5,14 +5,7 @@ var prime = require('prime'),
 
 var FieldPassword = prime({
 	inherits: FieldText,
-
-	constructor: function(spec){
-		if (!(this instanceof FieldPassword)){
-			return new FieldPassword(spec);
-		}
-		FieldText.call(this, spec);
-		this.type = 'password';
-	}
+	type: 'password'
 });
 
 module.exports = FieldPassword;

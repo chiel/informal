@@ -62,9 +62,15 @@ var Form = prime({
 		}
 
 		if (this.spec.save){
-			zen('input[type=submit]')
+			this.save = zen('input[type=submit]')
 				.value(this.spec.save.label || 'Save')
 				.insert(this.wrap);
+
+			if (this.spec.save.attributes){
+				forOwn(this.spec.save.attributes, function(value, key){
+					this.save.attribute(key, value);
+				}.bind(this));
+			}
 		}
 
 		this.showPage(0);

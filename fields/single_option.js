@@ -47,7 +47,7 @@ var FieldSingleOption = prime({
 		var i, len = this.spec.options.length, opt;
 		for (i = 0; i < len; i++){
 			opt = this.spec.options[i];
-			zen('option').value(opt.value).text(opt.label)
+			zen('option').value(opt.value).text(opt.label || opt.value)
 				.selected(opt.value == this.value)
 				.insert(this.input);
 		}

@@ -5,6 +5,8 @@ var prime = require('prime'),
 	zen = require('elements/zen'),
 	FieldBase = require('./base');
 
+require('elements/attributes');
+
 var FieldSingleOption = prime({
 	inherits: FieldBase,
 

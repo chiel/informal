@@ -58,11 +58,16 @@ var FieldMultiOption = prime({
 
 		if (!this.spec.options || !this.spec.options.length) return;
 
-		var i, len = this.spec.options.length, opt, li;
+		var i, len = this.spec.options.length, opt, li, input;
 		for (i = 0; i < len; i++){
 			opt = this.spec.options[i];
 			li = zen('li').insert(ul);
-			zen('input[type=checkbox]').value(opt.value).insert(li);
+			input = zen('input[type=checkbox]').value(opt.value)
+				.checked(indexOf(this.value, opt.value) != -1)
+				.insert(li);
+			if (this.spec.name){
+				input.attribute('name', this.spec.name + '[]');
+			}
 			zen('label').text(opt.label || opt.value).insert(li);
 		}
 	}

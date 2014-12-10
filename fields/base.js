@@ -4,6 +4,8 @@ var prime = require('prime'),
 	fieldIndex = 0;
 
 module.exports = prime({
+	mixin: require('prime/emitter'),
+
 	constructor: function(spec, value){
 		this.index = fieldIndex++;
 		this.spec = spec;
@@ -26,6 +28,12 @@ module.exports = prime({
 
 	attach: function(parent){
 		this.build();
+		if (this.input && this.input.on){
+			var self = this;
+			this.input.on('change', function(){
+				self.emit('change', self.serialize());
+			});
+		}
 		this.wrap.insert(parent);
 	},
 

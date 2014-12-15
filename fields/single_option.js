@@ -64,7 +64,7 @@ var FieldSingleOption = prime({
 			opt = this.spec.options[i];
 			li = zen('li').insert(ul);
 			zen('input[type=radio]').attribute('name', this.spec.name).value(opt.value).insert(li);
-			zen('label').text(opt.label).insert(li);
+			zen('label').text(opt.label || opt.value).insert(li);
 		}
 	}
 });

@@ -73,6 +73,10 @@ var Form = prime({
 			}
 		}
 
+		for (var i = 0; i < this.pageCount; i++){
+			this.buildPage(i);
+		}
+
 		this.showPage(0);
 	},
 

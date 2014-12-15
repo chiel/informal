@@ -18,6 +18,8 @@ module.exports = prime({
 			page.appendGroup(group);
 		}
 
+		page.attach(this.pageContainer);
+		page.hide();
 		this.pages[index] = page;
 		return page;
 	},
@@ -46,11 +48,6 @@ module.exports = prime({
 	showPage: function(index){
 		index = parseInt(index, 0);
 		if (isNaN(index) || !this.spec.pages[index] || index == this.activepage) return;
-
-		if (!(index in this.pages)) {
-			var page = this.buildPage(index);
-			page.attach(this.pageContainer);
-		}
 
 		if (this.activePage > -1) {
 			this.hidePage(this.activePage);

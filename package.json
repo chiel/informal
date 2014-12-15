@@ -1,13 +1,13 @@
 {
-	"name": "informal",
-	"version": "0.2.7",
-	"description": "Forms made simple",
-	"author": "Chiel Kunkels <chiel@kunkels.me>",
-	"main": "index.js",
-	"dependencies": {
-		"delve": "0.3",
-		"elements": "0.5",
-		"mout": "0.9",
-		"prime": "0.4"
-	}
+  "name": "informal",
+  "version": "0.2.8",
+  "description": "Forms made simple",
+  "author": "Chiel Kunkels <chiel@kunkels.me>",
+  "main": "index.js",
+  "dependencies": {
+    "delve": "0.3",
+    "elements": "0.5",
+    "mout": "0.9",
+    "prime": "0.4"
+  }
 }

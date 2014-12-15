@@ -27,6 +27,9 @@ module.exports = prime({
 					this.links[conn] = [];
 				}
 				this.links[conn].push(name);
+				if (field.notify){
+					field.notify(conn, delve(this.data, conn));
+				}
 			}
 		}
 

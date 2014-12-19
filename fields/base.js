@@ -39,5 +39,11 @@ module.exports = prime({
 
 	serialize: function(){
 		return this.input.value();
+	},
+
+	clear: function(){
+		if (this.input){
+			this.input.value('');
+		}
 	}
 });

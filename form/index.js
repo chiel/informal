@@ -97,6 +97,15 @@ var Form = prime({
 		});
 
 		return values;
+	},
+
+	/**
+	 * Clear contents of each field
+	 */
+	clear: function(){
+		forOwn(this.fields, function(field, name){
+			if (field.clear) field.clear();
+		});
 	}
 });
 

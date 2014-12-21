@@ -1,30 +1,29 @@
 'use strict';
 
-var prime = require('prime'),
-	pageIndex = 0;
+var pageIndex = 0;
 
-module.exports = prime({
-	constructor: function(spec){
-		this.groups = [];
-		this.index = pageIndex++;
-		this.spec = spec;
-	},
+var PageBase = function(spec){
+	this.groups = [];
+	this.index = pageIndex++;
+	this.spec = spec;
+};
 
-	appendGroup: function(group){
-		this.build();
-		group.attach(this.groupContainer);
-	},
+PageBase.prototype.appendGroup = function(group){
+	this.build();
+	group.attach(this.groupContainer);
+};
 
-	attach: function(parent){
-		this.build();
-		this.wrap.insert(parent);
-	},
+PageBase.prototype.attach = function(parent){
+	this.build();
+	this.wrap.insert(parent);
+};
 
-	show: function(){
-		this.wrap[0].style.display = 'block';
-	},
+PageBase.prototype.show = function(){
+	this.wrap[0].style.display = 'block';
+};
 
-	hide: function(){
-		this.wrap[0].style.display = 'none';
-	}
-});
+PageBase.prototype.hide = function(){
+	this.wrap[0].style.display = 'none';
+};
+
+module.exports = PageBase;

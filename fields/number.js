@@ -1,11 +1,17 @@
 'use strict';
 
-var prime = require('prime'),
+var inherits = require('inherits'),
 	FieldText = require('./text');
 
-var FieldNumber = prime({
-	inherits: FieldText,
-	type: 'number'
-});
+var FieldNumber = function(spec, value){
+	if (!(this instanceof FieldNumber)){
+		return new FieldNumber(spec, value);
+	}
+	FieldText.call(this, spec, value);
+
+	this.type = 'number';
+};
+
+inherits(FieldNumber, FieldText);
 
 module.exports = FieldNumber;

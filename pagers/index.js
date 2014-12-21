@@ -2,6 +2,6 @@
 
 module.exports = {
 	base: require('./base'),
-	default: require('./default'),
-	tabbed: require('./tabbed')
+	numbered: require('./numbered'),
+	named: require('./named')
 };

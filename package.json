@@ -3,11 +3,14 @@
   "version": "0.2.8",
   "description": "Forms made simple",
   "author": "Chiel Kunkels <chiel@kunkels.me>",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
-    "delve": "0.3",
-    "elements": "0.5",
-    "mout": "0.9",
-    "prime": "0.4"
+    "inherits": "^2.0.1",
+    "mout": "^0.9.1"
+  },
+  "devDependencies": {
+    "browserify": "^8.1.0",
+    "gulp": "^3.8.10",
+    "vinyl-source-stream": "^1.0.0"
   }
 }

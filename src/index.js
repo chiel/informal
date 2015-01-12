@@ -11,6 +11,9 @@ module.exports = {
 	pages: pages,
 	groups: groups,
 	fields: fields,
+	registerPager: function(type, definition){
+		pagers[type] = definition;
+	},
 	registerPage: function(type, definition){
 		pages[type] = definition;
 	},

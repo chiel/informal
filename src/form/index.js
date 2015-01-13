@@ -87,7 +87,7 @@ Form.prototype.buildPager = function(){
 	if (spec.position == 'top'){
 		this.wrap.insertBefore(wrap, this.wrap.firstChild);
 	} else if (spec.position == 'bottom'){
-
+		this.wrap.appendChild(wrap);
 	} else {
 		console.error('Invalid position `%s` for pager', spec.position);
 	}

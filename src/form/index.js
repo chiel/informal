@@ -122,7 +122,7 @@ Form.prototype.buildPage = function(index){
 	}
 	if (!spec.groups || !spec.groups.length) return page;
 
-	if (kindOf(spec.groups != 'Array')){
+	if (kindOf(spec.groups) != 'Array'){
 		spec.groups = [spec.groups];
 	}
 

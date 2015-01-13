@@ -5,6 +5,7 @@ var pagers = require('../pagers'),
 	groups = require('../groups'),
 	fields = require('../fields'),
 	get = require('mout/object/get'),
+	set = require('mout/object/set'),
 	forOwn = require('mout/object/forOwn'),
 	kindOf = require('mout/lang/kindOf');
 
@@ -201,7 +202,7 @@ Form.prototype.buildField = function(name){
 
 	if (!spec.name) spec.name = name;
 
-	var fieldName = spec.name.replace('][', '.').replace('[', '.').replace(/\]$/, ''),
+	var fieldName = spec.name.replace(/\[/g, '.').replace(/\]/g, ''),
 		field = new Field(spec, get(this.data, fieldName));
 
 	this.fields[name] = field;
@@ -293,10 +294,11 @@ Form.prototype.processTriggers = function(name){
  *
  */
 Form.prototype.getValues = function(){
-	var values = {};
+	var values = {}, fieldName;
 
 	forOwn(this.fields, function(field, name){
-		values[name] = field.getValue();
+		fieldName = field.spec.name.replace(/\[/g, '.').replace(/\]/g, '');
+		set(values, fieldName, field.getValue());
 	});
 
 	return values;

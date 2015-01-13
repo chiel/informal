@@ -1,34 +1,41 @@
 # Informal
 
-Informal is a form-building library, it takes a JSON object and builds up all
-the required elements as needed. The reason for using a JSON object is mainly
-cause it makes it easy to share form configurations (validation etc) easier to
-share between front and backend, no matter what language you're using.
+Informal is a form-building library. It takes a JavaScript object which specify
+how the form should look and then takes it from there. Using a JavaScript object
+as the source of the form means you can store it in a JSON file and write a
+server-side validation script for it, meaning you can keep things in one
+location.
+
 
 ## Usage
+Informal is written in CommonJS format and can be installed through `npm`. Using
+this, you can use a tool such as [browserify][browserify] to add it to your
+build.
 
-```shell
-npm install informal
+```bash
+$ npm install --save informal
 ```
+
+Once installed, you can use Informal as follows:
 
 ```javascript
 var informal = require('informal');
 var form = new informal.Form(spec, data);
-form.toHTML();
+myElement.appendChild(form.wrap);
 ```
 
-Where `spec` is your javascript object representing the form.
+Where `spec` is your form definition , and `data` is an object with values for
+your fields.
+
 
 ## Format
 
-In order to stay consistent, each form consists of at least one `page`, `group`
-and `field`. Even if you have only a single page or group, it still expects this
-hierarchy. A sample `formal` specification would look something like this:
+Forms created by Informal always consist of at least one `page`, `group` and
+`field`. Even if you require only a single page or group, this hierarchy is
+still expected. A sample form definition would look something like this:
 
 ```json
 {
-  "method": "get",
-  "action": "#",
   "pages": [
     {
       "name": "Personal details",
@@ -56,108 +63,118 @@ hierarchy. A sample `formal` specification would look something like this:
 }
 ```
 
-The hierarchy, as you can see, is always `form` > `pages` > `groups` > `fields`.
-We'll elaborate on these types and their options further down
+The hierarchy, as you can see, is always `pages` > `groups` > `fields`. The
+reason they're not actually nested is cause this way it'll be easier to also use
+for validation, for example.
+
 
 ## Form
 
-### Options
-
-- `method`: defaults to `get`
-- `action`: defaults to `#`
+- `pager`: pager options
 - `pages`: array of page objects
+- `group`: object of groups
+- `fields`: object of fields
 
-## Pages
 
-### Options
+## `pager`
 
-- `type`: page type; defaults to `default`
-- `title`: page title
-- `groups`: array of group objects
+The pager object has two possible keys
 
-## Groups
+- `type`: pager type, defaults to `numbered`
+- `position`: where to put the pager, can be `top` or `bottom`
 
-### Options
 
-- `type`: group type; defaults to `default`
-- `title`: group title
-- `fields`: array of field objects
+## `pages`
 
-## Field types
+Each item in the array is a page: an object with the following keys
 
-### Options
+- `type`: page type, defaults to `default`
+- `name`: page name
+- `groups`: array of group names
 
-These options are generic for all field types
+
+## `groups`
+
+The keys in this object are referenced by the `groups` property of each page.
+Each group can contain the following keys
+
+- `type`: group type, defaults to `default`
+- `name`: group name
+- `fields`: array of field names
+
+
+## `fields`
+
+The keys in this object are referenced by the `fields` property of each group.
+Each key is also used as the `name` if it isn't specified. The following keys
+are generic for each field type
 
 - `type`: field type
-- `label`: label text to be used
+- `label`: label text
 - `name`: name of the field
 - `value`: default value
-- `required`: true if field is mandatory
+- `required`: true if field is required
 - `attributes`: object with key/value pairs for html attributes
 
-### Text, email, password field
 
-Example:
+### `text`/`email`/`password`/`number`/`date`/`time`
 
 ```json
 {
   "type": "text",
-  "id": "firstName",
-  "name": "firstName"
+  "label": "First name"
 }
 ```
 
-`type` will be one of `text`, `email` or `password`.
+- `type`: one of `text`, `email`, `password`, `number`, `date` or `time`
 
-### Single option preset values
 
-Example:
+### `single_option`
 
 ```json
 {
-  "type": "single-option",
+  "type": "single_option",
   "style": "radio",
-  "label": "Title",
-  "name": "title",
+  "label": "Gender",
   "options": [
-    {"value": "mr", "text": "Mr."},
-    {"value": "mrs", "text": "Mrs."}
+    { "value": "male", "label": "Male" },
+    { "value": "female", "label": "Female" }
   ]
 }
 ```
 
-#### Additional options
+#### Options
 
-- `style`: how the field should be displayed, as a select box (`select`) or a
-  set of radio buttons (`radio`)
-- `options`: an array of objects, each object specifying a `value` and `text`
-  key
+- `style`: rendering style, select box (`select`, default) or radio buttons
+  (`radio`)
+- `options`: an array of objects
+  - `value`: actual value of the option
+  - `label`: display value of the option, defaults to `value`
 
-### Multiple option preset values
 
-Example:
+### `multi_option`
 
 ```json
 {
-  "type": "multi-option",
+  "type": "multi_option",
   "style": "checkbox",
   "label": "Interests",
-  "name": "interests",
   "options": [
-    {"value": "cycling", "text": "Cycling"},
-    {"value": "running", "text": "Running"},
-    {"value": "swimming", "text": "Swimming"},
-    {"value": "gaming", "text": "Gaming"}
+    { "value": "cycling", "text": "Cycling" },
+    { "value": "gaming", "text": "Gaming" },
+    { "value": "skateboarding", "text": "Skateboarding" },
+    { "value": "swimming", "text": "Swimming" }
   ],
-  "value": ["cycling", "gaming"]
+  "value": ["cycling", "skateboarding"]
 }
 ```
 
-#### Additional options
+#### Options
 
-- `value`: can also be an array if multiple values should be preselected
-- `style`: how the field should be displayed, as a multiple select box
-  (`select`) or a set of checkboxes (`checkbox`)
-- `options`: an array of objects, each object specifying a `value` and `text`
-  key
+- `style`: rendering style, select box (`select`, default) or checkboxes
+  (`checkbox`)
+- `options`: an array of objects
+  - `value`: actual value of the option
+  - `label`: display value of the option, defaults to `value`
+- `value`: can also be an array for this field type, if multiple options are
+  selected

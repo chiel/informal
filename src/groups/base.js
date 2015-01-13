@@ -14,6 +14,12 @@ var Base = function(spec){
 Base.prototype.build = function(){
 	this.wrap = document.createElement('fieldset');
 	this.wrap.classList.add('informal--group');
+
+	if (this.spec.name){
+		this.legend = document.createElement('legend');
+		this.legend.innerText = this.spec.name;
+		this.wrap.appendChild(this.legend);
+	}
 };
 
 module.exports = Base;

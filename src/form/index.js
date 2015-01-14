@@ -112,6 +112,8 @@ Form.prototype.buildPager = function(){
 Form.prototype.buildPage = function(index){
 	index = parseInt(index, 10);
 
+	if (this.pages[index]) return this.pages[index];
+
 	var spec = this.spec.pages[index];
 	if (!spec){
 		console.error('Cannot find page with index %d', index);
@@ -144,8 +146,6 @@ Form.prototype.buildPage = function(index){
 		groups.push(group);
 	}
 
-	page.groups = groups;
-
 	return page;
 };
 
@@ -154,6 +154,8 @@ Form.prototype.buildPage = function(index){
  * @param {String} name
  */
 Form.prototype.buildGroup = function(name){
+	if (this.groups[name]) return this.groups[name];
+
 	var spec = this.spec.groups[name];
 	if (!spec){
 		console.error('Cannot find group by name `%s`', name);
@@ -183,8 +185,6 @@ Form.prototype.buildGroup = function(name){
 		fields[spec.fields[i]] = field;
 	}
 
-	group.fields = fields;
-
 	return group;
 };
 
@@ -193,6 +193,8 @@ Form.prototype.buildGroup = function(name){
  * @param {String} name
  */
 Form.prototype.buildField = function(name){
+	if (this.fields[name]) return this.fields[name];
+
 	var spec = this.spec.fields[name];
 	if (!spec){
 		console.error('Cannot find field by name `%s`', name);

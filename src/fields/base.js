@@ -4,11 +4,13 @@
  * Field base
  * @param {Object} spec
  * @param {Mixed} value
+ * @param {Object} subValues
  */
-var Base = function(spec, value){
-	if (!(this instanceof Base)) return new Base(spec, value);
+var Base = function(spec, value, subValues){
+	if (!(this instanceof Base)) return new Base(spec, value, subValues);
 	this.spec = spec;
 	this.value = value;
+	this.subValues = subValues;
 	this.tag = this.tag || 'input';
 	this.build();
 	this.setEvents();

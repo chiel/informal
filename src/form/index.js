@@ -214,8 +214,19 @@ Form.prototype.buildField = function(name){
 
 	if (!spec.name) spec.name = name;
 
-	var fieldName = spec.name.replace(/\[/g, '.').replace(/\]/g, ''),
-		field = new Field(spec, get(this.data, fieldName));
+	var subValues = {}, i, fieldName;
+	if (spec.subscribe){
+		if (kindOf(spec.subscribe) != 'Array') spec.subscribe = [spec.subscribe];
+
+		for (i = 0; i < spec.subscribe.length; i++){
+			fieldName = this.spec.fields[spec.subscribe[i]].name || spec.subscribe[i];
+			fieldName = fieldName.replace(/\[/g, '.').replace(/\]/g, '');
+			subValues[spec.subscribe[i]] = get(this.data, fieldName);
+		}
+	}
+
+	fieldName = spec.name.replace(/\[/g, '.').replace(/\]/g, '');
+	var field = new Field(spec, get(this.data, fieldName), subValues);
 
 	this.fields[name] = field;
 	this.processNotifications(name);

@@ -22,6 +22,7 @@ var Form = function(spec, data){
 	this.pages = {};
 	this.groups = {};
 	this.fields = {};
+	this.subscriptions = {};
 	this.index = 0;
 	this.build();
 };
@@ -226,10 +227,22 @@ Form.prototype.buildField = function(name){
 	}
 
 	fieldName = spec.name.replace(/\[/g, '.').replace(/\]/g, '');
-	var field = new Field(spec, get(this.data, fieldName), subValues);
+	var field = new Field(spec, get(this.data, fieldName), subValues),
+		self = this;
+
+	field.on('change', function(value){
+		var subs = self.subscriptions[name];
+		if (!subs) return;
+
+		for (var i = 0; i < subs.length; i++){
+			if (self.fields[subs[i]] && self.fields[subs[i]].notify){
+				self.fields[subs[i]].notify(name, value);
+			}
+		}
+	});
 
 	this.fields[name] = field;
-	this.processNotifications(name);
+	this.processSubscriptions(name);
 	this.processTriggers(name);
 	return field;
 };
@@ -247,22 +260,24 @@ Form.prototype.showPage = function(index){
 };
 
 /**
- *
+ * Process subscriptions for a field
+ * @param {String} name
  */
-Form.prototype.processNotifications = function(name){
+Form.prototype.processSubscriptions = function(name){
 	var spec = this.spec.fields[name];
-	if (!spec || !spec.notify) return;
+	if (!spec || !spec.subscribe) return;
 
-	if (kindOf(spec.notify) != 'Array'){
-		spec.notify = [spec.notify];
+	if (kindOf(spec.subscribe) != 'Array'){
+		spec.subscribe = [spec.subscribe];
 	}
 
-	var self = this;
-	this.fields[name].on('change', function(value){
-		for (var i = 0; i < spec.notify.length; i++){
-			self.fields[spec.notify[i]].notify(name, value);
+	for (var i = 0; i < spec.subscribe.length; i++){
+		if (!this.subscriptions[spec.subscribe[i]]){
+			this.subscriptions[spec.subscribe[i]] = [];
 		}
-	});
+
+		this.subscriptions[spec.subscribe[i]].push(name);
+	}
 };
 
 /**

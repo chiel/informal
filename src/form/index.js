@@ -71,13 +71,23 @@ Form.prototype.buildPager = function(){
 
 	var pager = new Pager(this.spec.pages),
 		wrap = document.createElement('nav'),
-		self = this;
+		firstTab = pager.wrap.querySelector('[data-index]'),
+		self = this, activeTab = firstTab;
+
+	firstTab.classList.add('active');
 
 	wrap.classList.add('informal--pager');
 	wrap.classList.add('informal--pager-' + spec.type);
 	wrap.addEventListener('click', function(e){
 		e.preventDefault();
-		self.showPage(e.target.getAttribute('data-index'));
+
+		var index = e.target.getAttribute('data-index');
+		if (index){
+			activeTab.classList.remove('active');
+			e.target.classList.add('active');
+			activeTab = e.target;
+			self.showPage(index);
+		}
 	});
 
 	wrap.appendChild(pager.wrap);

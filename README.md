@@ -68,15 +68,19 @@ reason they're not actually nested is cause this way it'll be easier to also use
 for validation, for example.
 
 
-## Form
+## Basic usage
+
+The main definition can contain the following keys
 
 - `pager`: pager options
 - `pages`: array of page objects
 - `group`: object of groups
 - `fields`: object of fields
 
+All are required, except `pager`.
 
-## `pager`
+
+### `pager`
 
 The pager object has two possible keys
 
@@ -84,7 +88,7 @@ The pager object has two possible keys
 - `position`: where to put the pager, can be `top` or `bottom`
 
 
-## `pages`
+### `pages`
 
 Each item in the array is a page: an object with the following keys
 
@@ -93,7 +97,7 @@ Each item in the array is a page: an object with the following keys
 - `groups`: array of group names
 
 
-## `groups`
+### `groups`
 
 The keys in this object are referenced by the `groups` property of each page.
 Each group can contain the following keys
@@ -103,7 +107,7 @@ Each group can contain the following keys
 - `fields`: array of field names
 
 
-## `fields`
+### `fields`
 
 The keys in this object are referenced by the `fields` property of each group.
 Each key is also used as the `name` if it isn't specified. The following keys
@@ -117,7 +121,7 @@ are generic for each field type
 - `attributes`: object with key/value pairs for html attributes
 
 
-### `text`/`email`/`password`/`number`/`date`/`time`
+#### `text`/`email`/`password`/`number`/`date`/`time`
 
 ```json
 {
@@ -129,7 +133,7 @@ are generic for each field type
 - `type`: one of `text`, `email`, `password`, `number`, `date` or `time`
 
 
-### `single_option`
+#### `single_option`
 
 ```json
 {
@@ -143,7 +147,7 @@ are generic for each field type
 }
 ```
 
-#### Options
+##### Options
 
 - `style`: rendering style, select box (`select`, default) or radio buttons
   (`radio`)
@@ -152,7 +156,7 @@ are generic for each field type
   - `label`: display value of the option, defaults to `value`
 
 
-### `multi_option`
+#### `multi_option`
 
 ```json
 {
@@ -169,7 +173,7 @@ are generic for each field type
 }
 ```
 
-#### Options
+##### Options
 
 - `style`: rendering style, select box (`select`, default) or checkboxes
   (`checkbox`)

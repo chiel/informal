@@ -29,7 +29,7 @@ Base.prototype.build = function(){
 	this.input = document.createElement(this.tag);
 
 	if (this.spec.label){
-		label.innerText = this.spec.label;
+		label.innerHTML = this.spec.label;
 	}
 
 	this.setAttributes(this.input, this.spec.attributes);

@@ -29,7 +29,7 @@ Bool.prototype.build = function(){
  * Get boolean field value
  */
 Bool.prototype.getValue = function(){
-	return !!this.input.getAttribute('checked');
+	if (this.input.checked) return true;
 };
 
 module.exports = Bool;

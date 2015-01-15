@@ -20,7 +20,7 @@ require('inherits')(Bool, Base);
 Bool.prototype.build = function(){
 	Base.prototype.build.call(this);
 	this.input.setAttribute('type', 'checkbox');
-	if ((this.value || this.spec.value) === true){
+	if ((this.value || this.spec.value)){
 		this.input.setAttribute('checked', true);
 	}
 };

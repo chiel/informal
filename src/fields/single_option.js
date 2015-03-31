@@ -40,20 +40,24 @@ SingleOption.prototype.buildSelect = function(){
 	Base.prototype.build.call(this);
 
 	var attr = this.spec.attributes;
-	this.input.innerHTML += '<option value="">' +
-		(attr && attr.placeholder ? attr.placeholder : '&hellip;') +
-		'</option>';
+	this.input.innerHTML += this.buildSelectOption('', attr && attr.placeholder ? attr.placeholder : '&hellip;');
 
 	var opts = this.spec.options, i, opt;
-	for (i = 0; i < opts.length; i++){
-		opt = opts[i];
-		this.input.innerHTML += '<option' +
-			' value="' + opt.value + '"' +
-			((this.value || this.spec.value) == opt.value ? ' selected' : '') +
-			'>' +
-			(opt.label || opt.value) +
-			'</option>';
+	if (opts && opts.length){
+		for (i = 0; i < opts.length; i++){
+			opt = opts[i];
+			this.input.innerHTML += this.buildSelectOption(opt.value, opt.label);
+		}
 	}
+};
+
+SingleOption.prototype.buildSelectOption = function(value, label){
+	return '<option' +
+		' value="' + value + '"' +
+		((this.value || this.spec.value) == value ? ' selected' : '') +
+		'>' +
+		(label || value) +
+		'</option>';
 };
 
 /**
@@ -67,20 +71,27 @@ SingleOption.prototype.buildRadio = function(){
 		fieldset = document.createElement('fieldset');
 
 	var opts = this.spec.options, i, opt;
-	for (i = 0; i < opts.length; i++){
-		opt = opts[i];
-		fieldset.innerHTML += '<label>' +
-			'<input type="radio" name="' + this.spec.name + '"' +
-			' value="' + opt.value + '"' +
-			(this.spec.required ? ' required' : '') +
-			((this.value || this.spec.value) == opt.value ? ' checked' : '') +
-			'><span>' + (opt.label || opt.value) + '</span></label>';
+	if (opts && opts.length){
+		for (i = 0; i < opts.length; i++){
+			opt = opts[i];
+			fieldset.innerHTML += this.buildRadioOption(opt.value, opt.label);
+		}
 	}
 
+	this.fieldset = fieldset;
 	this.inputs = fieldset.querySelectorAll('input');
 
 	this.wrap.appendChild(label);
 	this.wrap.appendChild(fieldset);
+};
+
+SingleOption.prototype.buildRadioOption = function(value, label){
+	return '<label>' +
+		'<input type="radio" name="' + this.spec.name + '"' +
+		' value="' + value + '"' +
+		(this.spec.required ? ' required' : '') +
+		((this.value || this.spec.value) == value ? ' checked' : '') +
+		'><span>' + (label || value) + '</span></label>';
 };
 
 /**

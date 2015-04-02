@@ -27,6 +27,8 @@ var Form = function(spec, data){
 	this.build();
 };
 
+require('inherits')(Form, require('events').EventEmitter);
+
 /**
  * Build all form elements
  */
@@ -147,6 +149,8 @@ Form.prototype.buildPage = function(index){
 		groups.push(group);
 	}
 
+	this.emit('page.build', index, page);
+
 	return page;
 };
 
@@ -185,6 +189,8 @@ Form.prototype.buildGroup = function(name){
 		group.wrap.appendChild(field.wrap);
 		fields[spec.fields[i]] = field;
 	}
+
+	this.emit('group.build', name, group);
 
 	return group;
 };
@@ -244,6 +250,9 @@ Form.prototype.buildField = function(name){
 	this.fields[name] = field;
 	this.processSubscriptions(name);
 	this.processTriggers(name);
+
+	this.emit('field.build', name, field);
+
 	return field;
 };
 

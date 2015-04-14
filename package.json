@@ -2,7 +2,7 @@
   "name": "informal",
   "version": "0.3.7",
   "description": "Forms made simple",
-  "author": "Chiel Kunkels <chiel@kunkels.me>",
+  "author": "chielkunkels",
   "main": "src/index.js",
   "dependencies": {
     "inherits": "^2.0.1",

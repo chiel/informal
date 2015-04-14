@@ -70,6 +70,10 @@ MultiOption.prototype.buildCheckbox = function(){
 	var label = document.createElement('label'),
 		fieldset = document.createElement('fieldset');
 
+	if (this.spec.label){
+		label.innerHTML = this.spec.label;
+	}
+
 	var opts = this.spec.options, i, opt;
 	if (opts && opts.length){
 		for (i = 0; i < opts.length; i++){

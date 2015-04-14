@@ -74,6 +74,8 @@ MultiOption.prototype.buildCheckbox = function(){
 		label.innerHTML = this.spec.label;
 	}
 
+	fieldset.classList.add('informal--field-options');
+
 	var opts = this.spec.options, i, opt;
 	if (opts && opts.length){
 		for (i = 0; i < opts.length; i++){

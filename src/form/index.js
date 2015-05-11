@@ -251,7 +251,9 @@ Form.prototype.buildField = function(name){
 	this.processSubscriptions(name);
 	this.processTriggers(name);
 
-	this.emit('field.build', name, field);
+	setTimeout(function(){
+		self.emit('field.build', name, field);
+	}, 0);
 
 	return field;
 };

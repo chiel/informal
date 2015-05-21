@@ -2,5 +2,5 @@
 
 module.exports = {
 	base: require('./base'),
-	default: require('./default')
+	'default': require('./default')
 };

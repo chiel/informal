@@ -17,7 +17,7 @@ Base.prototype.build = function(){
 
 	if (this.spec.name){
 		this.legend = document.createElement('legend');
-		this.legend.innerText = this.spec.name;
+		this.legend.textContent = this.spec.name;
 		this.wrap.appendChild(this.legend);
 	}
 };

@@ -4,6 +4,7 @@ module.exports = {
 	base: require('./base'),
 	text: require('./text'),
 	email: require('./text'),
+	hidden: require('./text'),
 	password: require('./text'),
 	number: require('./text'),
 	date: require('./text'),

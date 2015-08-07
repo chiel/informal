@@ -1,5 +1,7 @@
 'use strict';
 
+var indexOf = require('mout/array/indexOf');
+
 /**
  * TagsField
  *
@@ -17,6 +19,7 @@ var TagsField = function(name, spec){
 
 	this.name = name;
 	this.spec = spec;
+	this.tags = [];
 	this.build();
 	this.setEvents();
 };
@@ -82,7 +85,7 @@ TagsField.prototype.setEvents = function(){
 
 	self.input.addEventListener('keydown', function(e){
 		if (e.keyCode === 8 && self.input.selectionStart === 0 && !self.input.value && self.tagsList.lastChild){
-			self.tagsList.removeChild(self.tagsList.lastChild);
+			self.remove(self.tags.length - 1);
 		}
 
 		if ([ 9, 13 ].indexOf(e.keyCode) > -1){
@@ -112,7 +115,7 @@ TagsField.prototype.setEvents = function(){
 
 	self.tagWrap.addEventListener('click', function(e){
 		if (e.target.dataset.tagRemove !== undefined){
-			self.tagsList.removeChild(e.target.parentNode);
+			self.remove(indexOf(self.tagsList.children, e.target.parentNode));
 		}
 
 		self.input.focus();
@@ -131,9 +134,23 @@ TagsField.prototype.add = function(value){
 	li.innerHTML = '<span>' + value + '</span>' +
 		'<button type="button" data-tag-remove>remove</button>';
 	this.tagsList.appendChild(li);
+	this.tags.push(value);
 
 	this.tagGhost.textContent = '';
 	this.input.value = '';
+};
+
+/**
+ * Remove a tag by index
+ *
+ * @param {Number} index
+ */
+TagsField.prototype.remove = function(index){
+	index = parseInt(index, 10);
+	if (!this.tags[index]) return;
+
+	this.tagsList.removeChild(this.tagsList.children[index]);
+	this.tags.splice(index, 1);
 };
 
 module.exports = TagsField;

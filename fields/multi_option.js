@@ -19,6 +19,7 @@ var MultiOptionField = function(name, spec){
 	this.name = name;
 	this.spec = spec;
 	this.build();
+	this.setEvents();
 };
 
 /**
@@ -33,6 +34,13 @@ MultiOptionField.prototype.build = function(){
 	var label = document.createElement('label');
 	label.textContent = this.spec.label;
 	wrap.appendChild(label);
+
+	var clearBtn = document.createElement('button');
+	clearBtn.type = 'button';
+	clearBtn.tabIndex = -1;
+	clearBtn.textContent = 'clear selection';
+	label.appendChild(clearBtn);
+	this.clearBtn = clearBtn;
 
 	var inputWrap = document.createElement('div');
 	inputWrap.classList.add('informal-input');
@@ -57,6 +65,24 @@ MultiOptionField.prototype.build = function(){
 
 	this.input = input;
 	this.wrap = wrap;
+};
+
+/**
+ * Set events
+ */
+MultiOptionField.prototype.setEvents = function(){
+	var self = this;
+
+	self.clearBtn.addEventListener('click', function(e){
+		self.clear();
+	});
+};
+
+/**
+ * Clear selection
+ */
+MultiOptionField.prototype.clear = function(){
+	this.input.selectedIndex = -1;
 };
 
 module.exports = MultiOptionField;

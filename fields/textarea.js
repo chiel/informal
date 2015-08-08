@@ -1,5 +1,7 @@
 'use strict';
 
+var forOwn = require('mout/object/forOwn');
+
 /**
  * TextareaField
  *
@@ -57,6 +59,12 @@ TextareaField.prototype.build = function(){
 		});
 	} else{
 		inputWrap.appendChild(input);
+	}
+
+	if (this.spec.attributes){
+		forOwn(this.spec.attributes, function(value, attribute){
+			input.setAttribute(attribute, value);
+		});
 	}
 
 	this.inputWrap = inputWrap;

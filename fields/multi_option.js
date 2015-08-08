@@ -1,5 +1,7 @@
 'use strict';
 
+var forOwn = require('mout/object/forOwn');
+
 /**
  * MultiOptionField
  *
@@ -50,6 +52,12 @@ MultiOptionField.prototype.build = function(){
 	input.name = this.spec.name || this.name;
 	input.multiple = true;
 	inputWrap.appendChild(input);
+
+	if (this.spec.attributes){
+		forOwn(this.spec.attributes, function(value, attribute){
+			input.setAttribute(attribute, value);
+		});
+	}
 
 	if (this.spec.options){
 		var opt;

@@ -208,13 +208,39 @@ Form.prototype.buildField = function(name, spec){
 		throw new Error('Field type not found: `' + spec.type + '`');
 	}
 
-	var field = new Form.fields[spec.type](name, spec);
+	var field = new Form.fields[spec.type](name, this.normalizeAttributes(spec));
 
 	if (!field.wrap){
 		throw new Error('Field has no wrap');
 	}
 
 	return field;
+};
+
+/**
+ * Normalize attributes into an attributes object for easy looping
+ *
+ * @param {Object} spec
+ *
+ * @return {Object}
+ */
+Form.prototype.normalizeAttributes = function(spec){
+	var attributes = spec.attributes || {};
+
+	var attrs = [ 'placeholder', 'maxlength', 'id' ];
+	var attr;
+	for (var i = 0; i < attrs.length; i++){
+		attr = attrs[i];
+		if (!spec[attr]) continue;
+		attributes[attr] = spec[attr];
+		delete spec[attr];
+	}
+
+	if (Object.keys(attributes).length){
+		spec.attributes = attributes;
+	}
+
+	return spec;
 };
 
 /**

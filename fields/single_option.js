@@ -1,5 +1,7 @@
 'use strict';
 
+var forOwn = require('mout/object/forOwn');
+
 /**
  * SingleOptionField
  *
@@ -41,6 +43,12 @@ SingleOptionField.prototype.build = function(){
 	var input = document.createElement('select');
 	input.name = this.spec.name || this.name;
 	inputWrap.appendChild(input);
+
+	if (this.spec.attributes){
+		forOwn(this.spec.attributes, function(value, attribute){
+			input.setAttribute(attribute, value);
+		});
+	}
 
 	if (this.spec.options){
 		var opt;

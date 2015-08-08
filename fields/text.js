@@ -1,5 +1,7 @@
 'use strict';
 
+var forOwn = require('mout/object/forOwn');
+
 /**
  * TextField
  *
@@ -40,6 +42,12 @@ TextField.prototype.build = function(){
 	var input = document.createElement('input');
 	input.name = this.spec.name || this.name;
 	inputWrap.appendChild(input);
+
+	if (this.spec.attributes){
+		forOwn(this.spec.attributes, function(value, attribute){
+			input.setAttribute(attribute, value);
+		});
+	}
 
 	this.input = input;
 	this.wrap = wrap;

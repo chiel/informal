@@ -46,11 +46,16 @@ TagsField.prototype.build = function(){
 	inputWrap.classList.add('informal-input');
 	wrap.appendChild(inputWrap);
 
-
 	var tagWrap = document.createElement('div');
 	tagWrap.classList.add('informal-input-tags-wrap');
 	inputWrap.appendChild(tagWrap);
 	this.tagWrap = tagWrap;
+
+	var tagPlaceholder = document.createElement('span');
+	tagPlaceholder.classList.add('informal-input-tags-placeholder');
+	tagPlaceholder.textContent = this.spec.attributes.placeholder || '';
+	tagWrap.appendChild(tagPlaceholder);
+	this.tagPlaceholder = tagPlaceholder;
 
 	var tagsList = document.createElement('ul');
 	tagsList.classList.add('informal-input-tags-list');
@@ -106,6 +111,7 @@ TagsField.prototype.setEvents = function(){
 	});
 
 	self.input.addEventListener('input', function(e){
+		self.tagPlaceholder.style.display = self.input.value || self.tags.length ? 'none' : 'block';
 		self.tagGhost.textContent = self.input.value;
 	});
 
@@ -157,6 +163,7 @@ TagsField.prototype.remove = function(index){
 
 	this.tagsList.removeChild(this.tagsList.children[index]);
 	this.tags.splice(index, 1);
+	this.tagPlaceholder.style.display = this.input.value || this.tags.length ? 'none' : 'block';
 };
 
 module.exports = TagsField;

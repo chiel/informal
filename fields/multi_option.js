@@ -21,7 +21,6 @@ var MultiOptionField = function(name, spec){
 	this.name = name;
 	this.spec = spec;
 	this.build();
-	this.setEvents();
 };
 
 /**
@@ -73,6 +72,7 @@ MultiOptionField.prototype.build = function(){
 
 	this.input = input;
 	this.wrap = wrap;
+	this.setEvents();
 };
 
 /**

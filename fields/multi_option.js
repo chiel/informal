@@ -100,8 +100,7 @@ MultiOptionField.prototype.buildOptions = function(options){
 MultiOptionField.prototype.buildSelectOptions = function(options){
 	if (!options) return;
 
-	var opt;
-	var option;
+	var opt, option;
 	for (var i = 0; i < options.length; i++){
 		opt = options[i];
 		option = document.createElement('option');
@@ -119,10 +118,7 @@ MultiOptionField.prototype.buildCheckboxOptions = function(options){
 
 	this.inputs = [];
 
-	var opt;
-	var label;
-	var input;
-	var span;
+	var opt, label, input, span;
 	for (var i = 0; i < options.length; i++){
 		opt = options[i];
 		label = document.createElement('label');

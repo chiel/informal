@@ -100,12 +100,15 @@ MultiOptionField.prototype.buildOptions = function(options){
 MultiOptionField.prototype.buildSelectOptions = function(options){
 	if (!options) return;
 
+	this.options = [];
+
 	var opt, option;
 	for (var i = 0; i < options.length; i++){
 		opt = options[i];
 		option = document.createElement('option');
 		option.value = opt.value || opt.label;
 		option.textContent = opt.label || opt.value;
+		this.options.push(option);
 		this.input.appendChild(option);
 	}
 };
@@ -159,6 +162,28 @@ MultiOptionField.prototype.clear = function(){
 	} else{
 		this.input.selectedIndex = -1;
 	}
+};
+
+/**
+ *
+ */
+MultiOptionField.prototype.getValue = function(){
+	var values = [];
+	if (this.spec.style === 'checkbox'){
+		for (var i = 0; i < this.inputs.length; i++){
+			if (this.inputs[i].checked){
+				values.push(this.inputs[i].value);
+			}
+		}
+	} else{
+		for (var i = 0; i < this.options.length; i++){
+			if (this.options[i].selected){
+				values.push(this.options[i].value);
+			}
+		}
+	}
+
+	return values;
 };
 
 module.exports = MultiOptionField;

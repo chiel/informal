@@ -35,7 +35,7 @@ require('util').inherits(Form, require('events').EventEmitter);
 /**
  * Build the form
  *
- * @param {[Object]} tabs
+ * @param {Object[]} tabs
  */
 Form.prototype.build = function(tabs){
 	var wrap = document.createElement('div');
@@ -100,7 +100,7 @@ Form.prototype.buildObjects = function(objects, wrap){
 /**
  * Build tabs
  *
- * @param {[String]} tabs
+ * @param {String[]} tabs
  */
 Form.prototype.buildTabs = function(tabs){
 	var wrap = document.createElement('nav');

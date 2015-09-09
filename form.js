@@ -24,6 +24,7 @@ var Form = function(spec, data){
 	this.data = data || {};
 	this.tabs = [];
 	this.fields = {};
+	this.subscriptions = [];
 	this.build(this.spec.tabs);
 	this.current = -1;
 	this.showTab(0);
@@ -219,12 +220,28 @@ Form.prototype.buildField = function(name, spec){
 		this.normalizeAttributes(spec),
 		get(this.data, name)
 	);
+	this.processSubscriptions(name, spec, field);
 
 	if (!field.wrap){
 		throw new Error('Field has no wrap');
 	}
 
 	this.fields[name] = field;
+
+	if (field.on){
+		var self = this;
+		field.on('change', function(value){
+			var subs = self.subscriptions[name];
+			if (!subs) return;
+
+			for (var i = 0; i < subs.length; i++){
+				if (self.fields[subs[i]] && self.fields[subs[i]].notify){
+					self.fields[subs[i]].notify(name, value);
+				}
+			}
+		});
+	}
+
 	return field;
 };
 
@@ -250,6 +267,30 @@ Form.prototype.normalizeAttributes = function(spec){
 	spec.attributes = attributes;
 
 	return spec;
+};
+
+/**
+ * Process a field's subscriptions
+ *
+ * @param {String} name
+ * @param {Object} spec
+ */
+Form.prototype.processSubscriptions = function(name, spec){
+	if (!spec.subscribe) return;
+
+	if (!isArray(spec.subscribe)){
+		spec.subscribe = [ spec.subscribe ];
+	}
+
+	var sub;
+	for (var i = 0; i < spec.subscribe.length; i++){
+		sub = spec.subscribe[i];
+		if (!this.subscriptions[sub]){
+			this.subscriptions[sub] = [];
+		}
+
+		this.subscriptions[sub].push(name);
+	}
 };
 
 /**

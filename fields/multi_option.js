@@ -5,20 +5,18 @@ var forOwn = require('mout/object/forOwn');
 /**
  * MultiOptionField
  *
- * @param {String} name
  * @param {Object} spec
- * @param {String} spec.name - Name of the field if you want to change it
+ * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  * @param {Array} spec.options - Options for the multi option field
  *
  * @return {MultiOptionField}
  */
-var MultiOptionField = function(name, spec){
+var MultiOptionField = function(spec){
 	if (!(this instanceof MultiOptionField)){
 		return new MultiOptionField(spec);
 	}
 
-	this.name = name;
 	this.spec = spec;
 	this.build();
 };
@@ -63,7 +61,7 @@ MultiOptionField.prototype.build = function(){
  */
 MultiOptionField.prototype.buildSelect = function(){
 	var input = document.createElement('select');
-	input.name = this.spec.name || this.name;
+	input.name = this.spec.name;
 	input.multiple = true;
 	this.inputWrap.appendChild(input);
 

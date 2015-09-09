@@ -5,20 +5,18 @@ var forOwn = require('mout/object/forOwn');
 /**
  * SingleOptionField
  *
- * @param {String} name
  * @param {Object} spec
- * @param {String} spec.name - Name of the field if you want to change it
+ * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  * @param {Array} spec.options - Options for the single option field
  *
  * @return {SingleOptionField}
  */
-var SingleOptionField = function(name, spec){
+var SingleOptionField = function(spec){
 	if (!(this instanceof SingleOptionField)){
 		return new SingleOptionField(spec);
 	}
 
-	this.name = name;
 	this.spec = spec;
 	this.build();
 };
@@ -43,7 +41,7 @@ SingleOptionField.prototype.build = function(){
 	wrap.appendChild(inputWrap);
 
 	var input = document.createElement('select');
-	input.name = this.spec.name || this.name;
+	input.name = this.spec.name;
 	inputWrap.appendChild(input);
 
 	if (this.spec.attributes){

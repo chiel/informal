@@ -5,20 +5,18 @@ var forOwn = require('mout/object/forOwn');
 /**
  * TextareaField
  *
- * @param {String} name
  * @param {Object} spec
- * @param {String} spec.name - Name of the field if you want to change it
+ * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  * @param {Boolean} spec.expand - Whether you want the field to expand when a user types in it
  *
- * @return {TextField}
+ * @return {TextareaField}
  */
-var TextareaField = function(name, spec){
+var TextareaField = function(spec){
 	if (!(this instanceof TextareaField)){
-		return new TextareaField(name, spec);
+		return new TextareaField(spec);
 	}
 
-	this.name = name;
 	this.spec = spec;
 	this.build();
 };

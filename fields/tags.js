@@ -5,20 +5,18 @@ var indexOf = require('mout/array/indexOf');
 /**
  * TagsField
  *
- * @param {String} name
  * @param {Object} spec
- * @param {String} spec.name - Name of the field if you want to change it
+ * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  * @param {String} spec.unique - Whether the tag values should be unique
  *
  * @return {TagsField}
  */
-var TagsField = function(name, spec){
+var TagsField = function(spec){
 	if (!(this instanceof TagsField)){
-		return new TagsField(name, spec);
+		return new TagsField(spec);
 	}
 
-	this.name = name;
 	this.spec = spec;
 	this.tags = [];
 
@@ -73,7 +71,7 @@ TagsField.prototype.build = function(){
 	tagInput.appendChild(document.createElement('br'));
 
 	var input = document.createElement('input');
-	input.name = this.spec.name || this.name;
+	input.name = this.spec.name;
 	tagInput.appendChild(input);
 
 	this.input = input;

@@ -230,8 +230,7 @@ Form.prototype.buildField = function(name, spec){
 	}
 
 	var field = new Form.fields[spec.type](
-		name,
-		this.normalizeAttributes(spec),
+		this.normalizeSpec(name, spec),
 		get(this.data, name),
 		subscriptionValues
 	);
@@ -261,25 +260,29 @@ Form.prototype.buildField = function(name, spec){
 };
 
 /**
- * Normalize attributes into an attributes object for easy looping
+ * Normalize spec for easy use in fields
  *
+ * @param {String} name
  * @param {Object} spec
  *
  * @return {Object}
  */
-Form.prototype.normalizeAttributes = function(spec){
-	var attributes = spec.attributes || {};
+Form.prototype.normalizeSpec = function(name, spec){
+	spec.name = spec.name || name;
 
-	var attrs = [ 'placeholder', 'maxlength', 'id' ];
-	var attr;
-	for (var i = 0; i < attrs.length; i++){
-		attr = attrs[i];
-		if (!spec[attr]) continue;
-		attributes[attr] = spec[attr];
-		delete spec[attr];
-	}
+	if (!isObject(spec.attributes)) spec.attributes = {};
 
-	spec.attributes = attributes;
+	[
+		'autofocus',
+		'id',
+		'maxlength',
+		'placeholder',
+		'required'
+	].forEach(function(attribute){
+		if (!spec[attribute]) return;
+		spec.attributes[attribute] = spec[attribute];
+		delete spec[attribute];
+	});
 
 	return spec;
 };

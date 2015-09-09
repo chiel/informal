@@ -5,19 +5,17 @@ var forOwn = require('mout/object/forOwn');
 /**
  * BooleanField
  *
- * @param {String} name
  * @param {Object} spec
- * @param {String} spec.name - Name of the field if you want to change it
+ * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  *
  * @return {BooleanField}
  */
-var BooleanField = function(name, spec){
+var BooleanField = function(spec){
 	if (!(this instanceof BooleanField)){
-		return new BooleanField(name, spec);
+		return new BooleanField(spec);
 	}
 
-	this.name = name;
 	this.spec = spec;
 	this.build();
 };
@@ -43,7 +41,7 @@ BooleanField.prototype.build = function(){
 
 	var input = document.createElement('input');
 	input.type = 'checkbox';
-	input.name = this.spec.name || this.name;
+	input.name = this.spec.name;
 	inputWrap.appendChild(input);
 
 	if (this.spec.attributes){

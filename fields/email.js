@@ -6,19 +6,18 @@ var TextField = require('./text');
 /**
  * EmailField
  *
- * @param {String} name
  * @param {Object} spec
- * @param {String} spec.name - Name of the field if you want to change it
+ * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  *
  * @return {EmailField}
  */
-var EmailField = function(name, spec){
+var EmailField = function(spec){
 	if (!(this instanceof EmailField)){
-		return new EmailField(name, spec);
+		return new EmailField(spec);
 	}
 
-	TextField.call(this, name, spec);
+	TextField.call(this, spec);
 };
 
 require('util').inherits(EmailField, TextField);

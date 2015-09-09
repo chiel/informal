@@ -5,21 +5,19 @@ var forOwn = require('mout/object/forOwn');
 /**
  * TextField
  *
- * @param {String} name
  * @param {Object} spec
- * @param {String} spec.name - Name of the field if you want to change it
+ * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  *
  * @return {TextField}
  */
-var TextField = function(name, spec){
+var TextField = function(spec){
 	if (!(this instanceof TextField)){
-		return new TextField(name, spec);
+		return new TextField(spec);
 	}
 
 	spec.attributes.type = spec.type;
 
-	this.name = name;
 	this.spec = spec;
 	this.build();
 };
@@ -44,7 +42,7 @@ TextField.prototype.build = function(){
 	wrap.appendChild(inputWrap);
 
 	var input = document.createElement('input');
-	input.name = this.spec.name || this.name;
+	input.name = this.spec.name;
 	inputWrap.appendChild(input);
 
 	if (this.spec.attributes){

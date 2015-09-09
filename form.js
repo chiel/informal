@@ -1,5 +1,6 @@
 'use strict';
 
+var get = require('mout/object/get');
 var isArray = require('mout/lang/isArray');
 var isObject = require('mout/lang/isObject');
 var map = require('mout/array/map');
@@ -11,12 +12,13 @@ var map = require('mout/array/map');
  *
  * @return {Form}
  */
-var Form = function(spec){
+var Form = function(spec, data){
 	if (!(this instanceof Form)){
 		return new Form(spec);
 	}
 
 	this.spec = spec;
+	this.data = data || {};
 	this.tabs = [];
 	this.build(this.spec.tabs);
 	this.current = -1;
@@ -208,7 +210,11 @@ Form.prototype.buildField = function(name, spec){
 		throw new Error('Field type not found: `' + spec.type + '`');
 	}
 
-	var field = new Form.fields[spec.type](name, this.normalizeAttributes(spec));
+	var field = new Form.fields[spec.type](
+		name,
+		this.normalizeAttributes(spec),
+		get(this.data, name)
+	);
 
 	if (!field.wrap){
 		throw new Error('Field has no wrap');

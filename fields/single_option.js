@@ -23,6 +23,8 @@ var SingleOptionField = function(name, spec){
 	this.build();
 };
 
+require('util').inherits(SingleOptionField, require('events').EventEmitter);
+
 /**
  * Build the field
  */
@@ -64,6 +66,19 @@ SingleOptionField.prototype.build = function(){
 
 	this.input = input;
 	this.wrap = wrap;
+	this.setEvents();
+};
+
+
+/**
+ * Set events
+ */
+SingleOptionField.prototype.setEvents = function(){
+	var self = this;
+
+	self.input.addEventListener('change', function(){
+		self.emit('change', self.input.value);
+	});
 };
 
 module.exports = SingleOptionField;

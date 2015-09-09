@@ -8,14 +8,8 @@ var forOwn = require('mout/object/forOwn');
  * @param {Object} spec
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
- *
- * @return {TextField}
  */
 var TextField = function(spec){
-	if (!(this instanceof TextField)){
-		return new TextField(spec);
-	}
-
 	spec.attributes.type = spec.type;
 
 	this.spec = spec;

@@ -9,14 +9,8 @@ var indexOf = require('mout/array/indexOf');
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  * @param {String} spec.unique - Whether the tag values should be unique
- *
- * @return {TagsField}
  */
 var TagsField = function(spec){
-	if (!(this instanceof TagsField)){
-		return new TagsField(spec);
-	}
-
 	this.spec = spec;
 	this.tags = [];
 

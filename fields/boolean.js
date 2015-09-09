@@ -8,14 +8,8 @@ var forOwn = require('mout/object/forOwn');
  * @param {Object} spec
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
- *
- * @return {BooleanField}
  */
 var BooleanField = function(spec){
-	if (!(this instanceof BooleanField)){
-		return new BooleanField(spec);
-	}
-
 	this.spec = spec;
 	this.build();
 };

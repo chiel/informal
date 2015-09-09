@@ -9,14 +9,8 @@ var forOwn = require('mout/object/forOwn');
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  * @param {Array} spec.options - Options for the single option field
- *
- * @return {SingleOptionField}
  */
 var SingleOptionField = function(spec){
-	if (!(this instanceof SingleOptionField)){
-		return new SingleOptionField(spec);
-	}
-
 	this.spec = spec;
 	this.build();
 };

@@ -9,14 +9,8 @@ var forOwn = require('mout/object/forOwn');
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  * @param {Array} spec.options - Options for the multi option field
- *
- * @return {MultiOptionField}
  */
 var MultiOptionField = function(spec){
-	if (!(this instanceof MultiOptionField)){
-		return new MultiOptionField(spec);
-	}
-
 	this.spec = spec;
 	this.build();
 };

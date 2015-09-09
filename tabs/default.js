@@ -6,10 +6,6 @@
  * @param {Object} spec
  */
 var DefaultPage = function(spec){
-	if (!(this instanceof DefaultPage)){
-		return new DefaultPage(spec);
-	}
-
 	this.build(spec);
 };
 

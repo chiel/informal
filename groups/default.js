@@ -4,14 +4,8 @@
  * DefaultGroup
  *
  * @param {Object} spec
- *
- * @return {DefaultGroup}
  */
 var DefaultGroup = function(spec){
-	if (!(this instanceof DefaultGroup)){
-		return new DefaultGroup(spec);
-	}
-
 	this.build(spec);
 };
 

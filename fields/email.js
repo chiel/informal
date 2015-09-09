@@ -9,14 +9,8 @@ var TextField = require('./text');
  * @param {Object} spec
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
- *
- * @return {EmailField}
  */
 var EmailField = function(spec){
-	if (!(this instanceof EmailField)){
-		return new EmailField(spec);
-	}
-
 	TextField.call(this, spec);
 };
 

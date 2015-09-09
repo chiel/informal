@@ -27,7 +27,6 @@ var TagsField = function(name, spec){
 	}
 
 	this.build();
-	this.setEvents();
 };
 
 /**
@@ -74,6 +73,7 @@ TagsField.prototype.build = function(){
 
 	this.input = input;
 	this.wrap = wrap;
+	this.setEvents();
 };
 
 /**

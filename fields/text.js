@@ -22,6 +22,8 @@ var TextField = function(name, spec){
 	this.build();
 };
 
+require('util').inherits(TextField, require('events').EventEmitter);
+
 /**
  * Build the field
  */
@@ -51,6 +53,18 @@ TextField.prototype.build = function(){
 
 	this.input = input;
 	this.wrap = wrap;
+	this.setEvents();
+};
+
+/**
+ * Set events
+ */
+TextField.prototype.setEvents = function(){
+	var self = this;
+
+	self.input.addEventListener('input', function(){
+		self.emit('change', self.input.value);
+	});
 };
 
 module.exports = TextField;

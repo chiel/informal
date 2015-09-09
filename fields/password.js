@@ -11,7 +11,7 @@ var TextField = require('./text');
  * @param {String} spec.label - The label for the field
  */
 var PasswordField = function(spec){
-	TextField.call(this, name, spec);
+	TextField.call(this, spec);
 };
 
 require('util').inherits(PasswordField, TextField);

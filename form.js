@@ -1,9 +1,12 @@
 'use strict';
 
+var forOwn = require('mout/object/forOwn');
 var get = require('mout/object/get');
 var isArray = require('mout/lang/isArray');
+var isFunction = require('mout/lang/isFunction');
 var isObject = require('mout/lang/isObject');
 var map = require('mout/array/map');
+var set = require('mout/object/set');
 
 /**
  * Form
@@ -270,6 +273,26 @@ Form.prototype.showTab = function(index){
 	this.tabs[index].wrap.classList.add('is-shown');
 
 	this.current = index;
+};
+
+/**
+ * Get current values for all fields
+ */
+Form.prototype.getValues = function(){
+	var values = {};
+	var fieldName;
+	var value;
+
+	forOwn(this.fields, function(field, name){
+		if (!isFunction(field.getValue)) return;
+
+		fieldName = (field.spec.name || name).replace(/\[/g, '.').replace(/\]/g, '');
+		value = field.getValue();
+
+		if (value) set(values, fieldName, value);
+	});
+
+	return values;
 };
 
 module.exports = Form;

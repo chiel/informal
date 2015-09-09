@@ -67,4 +67,11 @@ TextField.prototype.setEvents = function(){
 	});
 };
 
+/**
+ * Returns the current value of the input
+ */
+TextField.prototype.getValue = function(){
+	return this.input.value;
+};
+
 module.exports = TextField;

@@ -9,6 +9,7 @@ var indexOf = require('mout/array/indexOf');
  * @param {Object} spec
  * @param {String} spec.name - Name of the field if you want to change it
  * @param {String} spec.label - The label for the field
+ * @param {String} spec.unique - Whether the tag values should be unique
  *
  * @return {TagsField}
  */
@@ -20,6 +21,11 @@ var TagsField = function(name, spec){
 	this.name = name;
 	this.spec = spec;
 	this.tags = [];
+
+	if (this.spec.unique === undefined){
+		this.spec.unique = true;
+	}
+
 	this.build();
 	this.setEvents();
 };
@@ -128,7 +134,7 @@ TagsField.prototype.setEvents = function(){
  * @param {String} value
  */
 TagsField.prototype.add = function(value){
-	if (!value) return;
+	if (!value || (this.spec.unique && this.tags.indexOf(value) > -1)) return;
 
 	var li = document.createElement('li');
 	li.innerHTML = '<span>' + value + '</span>' +

@@ -17,6 +17,8 @@ var TextField = function(name, spec){
 		return new TextField(name, spec);
 	}
 
+	spec.attributes.type = spec.type;
+
 	this.name = name;
 	this.spec = spec;
 	this.build();

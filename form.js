@@ -236,9 +236,7 @@ Form.prototype.normalizeAttributes = function(spec){
 		delete spec[attr];
 	}
 
-	if (Object.keys(attributes).length){
-		spec.attributes = attributes;
-	}
+	spec.attributes = attributes;
 
 	return spec;
 };

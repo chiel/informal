@@ -8,9 +8,11 @@ var forOwn = require('mout/object/forOwn');
  * @param {Object} spec
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
+ * @param {Boolean} value
  */
-var BooleanField = function(spec){
+var BooleanField = function(spec, value){
 	this.spec = spec;
+	this.value = value;
 	this.build();
 };
 
@@ -36,6 +38,7 @@ BooleanField.prototype.build = function(){
 	var input = document.createElement('input');
 	input.type = 'checkbox';
 	input.name = this.spec.name;
+	input.checked = this.value === true;
 	inputWrap.appendChild(input);
 
 	if (this.spec.attributes){

@@ -17,7 +17,7 @@ var set = require('mout/object/set');
  */
 var Form = function(spec, data){
 	if (!(this instanceof Form)){
-		return new Form(spec);
+		return new Form(spec, data);
 	}
 
 	this.spec = spec;

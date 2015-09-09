@@ -9,9 +9,11 @@ var forOwn = require('mout/object/forOwn');
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  * @param {Array} spec.options - Options for the multi option field
+ * @param {Array} values
  */
-var MultiOptionField = function(spec){
+var MultiOptionField = function(spec, values){
 	this.spec = spec;
+	this.values = values;
 	this.build();
 };
 
@@ -108,6 +110,7 @@ MultiOptionField.prototype.buildSelectOptions = function(options){
 		option = document.createElement('option');
 		option.value = opt.value || opt.label;
 		option.textContent = opt.label || opt.value;
+		option.selected = this.values && this.values.indexOf(opt.value || opt.label) > -1;
 		this.options.push(option);
 		this.input.appendChild(option);
 	}
@@ -129,6 +132,7 @@ MultiOptionField.prototype.buildCheckboxOptions = function(options){
 		input = document.createElement('input');
 		input.type = 'checkbox';
 		input.value = opt.value || opt.label;
+		input.checked = this.values && this.values.indexOf(opt.value || opt.label) > -1;
 		this.inputs.push(input);
 
 		span = document.createElement('span');

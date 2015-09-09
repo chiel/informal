@@ -20,6 +20,7 @@ var Form = function(spec, data){
 	this.spec = spec;
 	this.data = data || {};
 	this.tabs = [];
+	this.fields = {};
 	this.build(this.spec.tabs);
 	this.current = -1;
 	this.showTab(0);
@@ -220,6 +221,7 @@ Form.prototype.buildField = function(name, spec){
 		throw new Error('Field has no wrap');
 	}
 
+	this.fields[name] = field;
 	return field;
 };
 

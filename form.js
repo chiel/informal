@@ -215,10 +215,25 @@ Form.prototype.buildField = function(name, spec){
 		throw new Error('Field type not found: `' + spec.type + '`');
 	}
 
+	var subscriptionValues = {};
+	if (spec.subscribe){
+		if (!isArray(spec.subscribe)) spec.subscribe = [ spec.subscribe ];
+
+		var fieldName;
+		var subSpec;
+		for (var i = 0; i < spec.subscribe.length; i++){
+			subSpec = this.spec.fields[spec.subscribe[i]];
+			fieldName = subSpec.name || spec.subscribe[i];
+			fieldName = fieldName.replace(/\[/g, '.').replace(/\]/g, '');
+			subscriptionValues[spec.subscribe[i]] = get(this.data, fieldName) || subSpec.value;
+		}
+	}
+
 	var field = new Form.fields[spec.type](
 		name,
 		this.normalizeAttributes(spec),
-		get(this.data, name)
+		get(this.data, name),
+		subscriptionValues
 	);
 	this.processSubscriptions(name, spec, field);
 

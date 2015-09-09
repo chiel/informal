@@ -46,11 +46,26 @@ MultiOptionField.prototype.build = function(){
 	var inputWrap = document.createElement('div');
 	inputWrap.classList.add('informal-input');
 	wrap.appendChild(inputWrap);
+	this.inputWrap = inputWrap;
 
+	if (this.spec.style === 'checkbox'){
+		this.buildCheckboxes();
+	} else{
+		this.buildSelect();
+	}
+
+	this.wrap = wrap;
+	this.setEvents();
+};
+
+/**
+ *
+ */
+MultiOptionField.prototype.buildSelect = function(){
 	var input = document.createElement('select');
 	input.name = this.spec.name || this.name;
 	input.multiple = true;
-	inputWrap.appendChild(input);
+	this.inputWrap.appendChild(input);
 
 	if (this.spec.attributes){
 		forOwn(this.spec.attributes, function(value, attribute){
@@ -58,21 +73,80 @@ MultiOptionField.prototype.build = function(){
 		});
 	}
 
-	if (this.spec.options){
-		var opt;
-		var option;
-		for (var i = 0; i < this.spec.options.length; i++){
-			opt = this.spec.options[i];
-			option = document.createElement('option');
-			option.value = opt.value || opt.label;
-			option.textContent = opt.label || opt.value;
-			input.appendChild(option);
-		}
-	}
-
 	this.input = input;
-	this.wrap = wrap;
-	this.setEvents();
+
+	this.buildSelectOptions(this.spec.options);
+};
+
+/**
+ *
+ */
+MultiOptionField.prototype.buildCheckboxes = function(){
+	var fieldset = document.createElement('fieldset');
+	fieldset.classList.add('informal-input-options');
+	this.inputWrap.appendChild(fieldset);
+	this.fieldset = fieldset;
+
+	this.buildCheckboxOptions(this.spec.options);
+
+};
+
+/**
+ *
+ */
+MultiOptionField.prototype.buildOptions = function(options){
+	if (this.spec.style === 'checkbox'){
+		this.buildCheckboxOptions(options);
+	} else{
+		this.buildSelectOptions(options);
+	}
+};
+
+/**
+ *
+ */
+MultiOptionField.prototype.buildSelectOptions = function(options){
+	if (!options) return;
+
+	var opt;
+	var option;
+	for (var i = 0; i < options.length; i++){
+		opt = options[i];
+		option = document.createElement('option');
+		option.value = opt.value || opt.label;
+		option.textContent = opt.label || opt.value;
+		this.input.appendChild(option);
+	}
+};
+
+/**
+ *
+ */
+MultiOptionField.prototype.buildCheckboxOptions = function(options){
+	if (!options) return;
+
+	this.inputs = [];
+
+	var opt;
+	var label;
+	var input;
+	var span;
+	for (var i = 0; i < options.length; i++){
+		opt = options[i];
+		label = document.createElement('label');
+
+		input = document.createElement('input');
+		input.type = 'checkbox';
+		input.value = opt.value || opt.label;
+		this.inputs.push(input);
+
+		span = document.createElement('span');
+		span.textContent = opt.label || opt.value;
+
+		label.appendChild(input);
+		label.appendChild(span);
+		this.fieldset.appendChild(label);
+	}
 };
 
 /**
@@ -90,7 +164,13 @@ MultiOptionField.prototype.setEvents = function(){
  * Clear selection
  */
 MultiOptionField.prototype.clear = function(){
-	this.input.selectedIndex = -1;
+	if (this.spec.style === 'checkbox'){
+		for (var i = 0; i < this.inputs.length; i++){
+			this.inputs[i].checked = false;
+		}
+	} else{
+		this.input.selectedIndex = -1;
+	}
 };
 
 module.exports = MultiOptionField;

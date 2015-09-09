@@ -9,9 +9,10 @@ var TextField = require('./text');
  * @param {Object} spec
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
+ * @param {String} value
  */
-var EmailField = function(spec){
-	TextField.call(this, spec);
+var EmailField = function(spec, value){
+	TextField.call(this, spec, value);
 };
 
 require('util').inherits(EmailField, TextField);

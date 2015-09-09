@@ -6,6 +6,7 @@ informal.tabs.default = require('./tabs/default');
 
 informal.groups.default = require('./groups/default');
 
+informal.fields.boolean = require('./fields/boolean');
 informal.fields.email = require('./fields/email');
 informal.fields.multi_option = require('./fields/multi_option');
 informal.fields.password = require('./fields/password');

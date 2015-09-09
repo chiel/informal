@@ -138,7 +138,7 @@ TagsField.prototype.add = function(value){
 
 	var li = document.createElement('li');
 	li.innerHTML = '<span>' + value + '</span>' +
-		'<button type="button" data-tag-remove>remove</button>';
+		'<button type="button" tabindex="-1" data-tag-remove>remove</button>';
 	this.tagsList.appendChild(li);
 	this.tags.push(value);
 

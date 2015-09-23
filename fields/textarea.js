@@ -24,9 +24,11 @@ TextareaField.prototype.build = function(){
 	var wrap = document.createElement('div');
 	wrap.classList.add('informal-field');
 
-	var label = document.createElement('label');
-	label.textContent = this.spec.label;
-	wrap.appendChild(label);
+	if (this.spec.label){
+		var label = document.createElement('label');
+		label.textContent = this.spec.label;
+		wrap.appendChild(label);
+	}
 
 	var inputWrap = document.createElement('div');
 	inputWrap.classList.add('informal-input');

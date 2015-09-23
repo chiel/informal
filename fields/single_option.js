@@ -10,8 +10,9 @@ var forOwn = require('mout/object/forOwn');
  * @param {String} spec.label - The label for the field
  * @param {Array} spec.options - Options for the single option field
  */
-var SingleOptionField = function(spec){
+var SingleOptionField = function(spec, value){
 	this.spec = spec;
+	this.value = value;
 	this.build();
 };
 
@@ -82,6 +83,7 @@ SingleOptionField.prototype.buildSelectOptions = function(options){
 		option = document.createElement('option');
 		option.value = opt.value || opt.label;
 		option.textContent = opt.label || opt.value;
+		option.selected = this.value === (opt.value || opt.label);
 		this.options.push(option);
 		this.input.appendChild(option);
 	}
@@ -116,6 +118,7 @@ SingleOptionField.prototype.buildRadioButtonOptions = function(options){
 		input.type = 'radio';
 		input.name = this.spec.name;
 		input.value = opt.value || opt.label;
+		input.checked = this.value === (opt.value || opt.label);
 		this.inputs.push(input);
 
 		span = document.createElement('span');

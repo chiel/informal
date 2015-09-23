@@ -67,7 +67,7 @@ BooleanField.prototype.setEvents = function(){
  * Returns the current value of the input
  */
 BooleanField.prototype.getValue = function(){
-	return this.input.value;
+	return this.input.checked;
 };
 
 module.exports = BooleanField;

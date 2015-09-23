@@ -70,6 +70,7 @@ TagsField.prototype.build = function(){
 	input.name = this.spec.name;
 	tagInput.appendChild(input);
 
+	this.inputWrap = inputWrap;
 	this.input = input;
 	this.wrap = wrap;
 	this.setEvents();

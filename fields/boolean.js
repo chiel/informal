@@ -49,6 +49,7 @@ BooleanField.prototype.build = function(){
 		});
 	}
 
+	this.inputWrap = inputWrap;
 	this.input = input;
 	this.wrap = wrap;
 	this.setEvents();

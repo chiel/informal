@@ -75,4 +75,11 @@ SingleOptionField.prototype.setEvents = function(){
 	});
 };
 
+/**
+ * Get value for field
+ */
+SingleOptionField.prototype.getValue = function(){
+	return this.input.value;
+};
+
 module.exports = SingleOptionField;

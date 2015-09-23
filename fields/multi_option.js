@@ -17,6 +17,8 @@ var MultiOptionField = function(spec, values){
 	this.build();
 };
 
+require('util').inherits(MultiOptionField, require('events').EventEmitter);
+
 /**
  * Build the field
  */
@@ -153,6 +155,10 @@ MultiOptionField.prototype.setEvents = function(){
 	self.clearBtn.addEventListener('click', function(e){
 		self.clear();
 	});
+
+	self.inputWrap.addEventListener('change', function(){
+		self.emit('change', self.getValue());
+	});
 };
 
 /**
@@ -166,10 +172,12 @@ MultiOptionField.prototype.clear = function(){
 	} else{
 		this.input.selectedIndex = -1;
 	}
+
+	this.emit('change', []);
 };
 
 /**
- *
+ * @return {String[]}
  */
 MultiOptionField.prototype.getValue = function(){
 	var values = [];

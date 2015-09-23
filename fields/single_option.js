@@ -33,6 +33,13 @@ SingleOptionField.prototype.build = function(){
 		wrap.appendChild(label);
 	}
 
+	var clearBtn = document.createElement('button');
+	clearBtn.type = 'button';
+	clearBtn.tabIndex = -1;
+	clearBtn.textContent = 'clear selection';
+	label.appendChild(clearBtn);
+	this.clearBtn = clearBtn;
+
 	var inputWrap = document.createElement('div');
 	inputWrap.classList.add('informal-input');
 	wrap.appendChild(inputWrap);
@@ -136,9 +143,28 @@ SingleOptionField.prototype.buildRadioButtonOptions = function(options){
 SingleOptionField.prototype.setEvents = function(){
 	var self = this;
 
+	self.clearBtn.addEventListener('click', function(e){
+		self.clear();
+	});
+
 	self.inputWrap.addEventListener('change', function(){
 		self.emit('change', self.getValue());
 	});
+};
+
+/**
+ * Clear selection
+ */
+SingleOptionField.prototype.clear = function(){
+	if (this.spec.style === 'radio'){
+		for (var i = 0; i < this.inputs.length; i++){
+			this.inputs[i].checked = false;
+		}
+	} else{
+		this.input.selectedIndex = -1;
+	}
+
+	this.emit('change', '');
 };
 
 /**

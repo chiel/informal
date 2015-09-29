@@ -31,14 +31,16 @@ SingleOptionField.prototype.build = function(){
 		var label = document.createElement('label');
 		label.textContent = this.spec.label;
 		wrap.appendChild(label);
-	}
 
-	var clearBtn = document.createElement('button');
-	clearBtn.type = 'button';
-	clearBtn.tabIndex = -1;
-	clearBtn.textContent = 'clear selection';
-	label.appendChild(clearBtn);
-	this.clearBtn = clearBtn;
+		if (this.spec.style === 'radio'){
+			var clearBtn = document.createElement('button');
+			clearBtn.type = 'button';
+			clearBtn.tabIndex = -1;
+			clearBtn.textContent = 'clear selection';
+			label.appendChild(clearBtn);
+			this.clearBtn = clearBtn;
+		}
+	}
 
 	var inputWrap = document.createElement('div');
 	inputWrap.classList.add('informal-input');
@@ -143,9 +145,11 @@ SingleOptionField.prototype.buildRadioButtonOptions = function(options){
 SingleOptionField.prototype.setEvents = function(){
 	var self = this;
 
-	self.clearBtn.addEventListener('click', function(e){
-		self.clear();
-	});
+	if (self.clearBtn){
+		self.clearBtn.addEventListener('click', function(e){
+			self.clear();
+		});
+	}
 
 	self.inputWrap.addEventListener('change', function(){
 		self.emit('change', self.getValue());

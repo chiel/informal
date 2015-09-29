@@ -77,6 +77,29 @@ SingleOptionField.prototype.buildSelect = function(){
 };
 
 /**
+ *
+ */
+SingleOptionField.prototype.buildRadioButtons = function(){
+	var fieldset = document.createElement('fieldset');
+	fieldset.classList.add('informal-input-options');
+	this.inputWrap.appendChild(fieldset);
+	this.fieldset = fieldset;
+
+	this.buildRadioButtonOptions(this.spec.options);
+};
+
+/**
+ *
+ */
+SingleOptionField.prototype.buildOptions = function(options){
+	if (this.spec.style === 'radio'){
+		this.buildRadioButtonOptions(options);
+	} else{
+		this.buildSelectOptions(options);
+	}
+};
+
+/**
  * Populate select input with given options
  *
  * @param {Object[]} options
@@ -96,18 +119,6 @@ SingleOptionField.prototype.buildSelectOptions = function(options){
 		this.options.push(option);
 		this.input.appendChild(option);
 	}
-};
-
-/**
- *
- */
-SingleOptionField.prototype.buildRadioButtons = function(){
-	var fieldset = document.createElement('fieldset');
-	fieldset.classList.add('informal-input-options');
-	this.inputWrap.appendChild(fieldset);
-	this.fieldset = fieldset;
-
-	this.buildRadioButtonOptions(this.spec.options);
 };
 
 /**

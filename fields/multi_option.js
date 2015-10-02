@@ -28,10 +28,10 @@ MultiOptionField.prototype.build = function() {
 	var wrap = document.createElement('div');
 	wrap.classList.add('informal__field');
 
-	if (this.spec.label) {
+	if (this.spec.label || this.spec.style !== 'checkbox') {
 		var label = document.createElement('label');
 		label.classList.add('informal__label');
-		label.textContent = this.spec.label;
+		label.textContent = this.spec.label || '';
 		wrap.appendChild(label);
 
 		if (this.spec.style !== 'checkbox') {

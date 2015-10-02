@@ -6,24 +6,23 @@
  * @param {Object} spec
  */
 var DefaultGroup = function(spec) {
-	this.build(spec);
+	this.spec = spec;
+	this.build();
 };
 
 /**
  * Build the group
- *
- * @param {Object} spec
  */
-DefaultGroup.prototype.build = function(spec) {
+DefaultGroup.prototype.build = function() {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('fieldset');
 	wrap.classList.add('informal__group');
 
-	if (spec.name) {
+	if (this.spec.name) {
 		var legend = document.createElement('legend');
 		legend.classList.add('informal__group-name');
-		legend.textContent = spec.name;
+		legend.textContent = this.spec.name;
 		wrap.appendChild(legend);
 		this.legend = legend;
 	}

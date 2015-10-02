@@ -20,10 +20,13 @@ DefaultGroup.prototype.build = function(spec) {
 	var wrap = document.createElement('fieldset');
 	wrap.classList.add('informal__group');
 
-	var legend = document.createElement('legend');
-	legend.classList.add('informal__group-name');
-	legend.textContent = spec.name;
-	wrap.appendChild(legend);
+	if (spec.name) {
+		var legend = document.createElement('legend');
+		legend.classList.add('informal__group-name');
+		legend.textContent = spec.name;
+		wrap.appendChild(legend);
+		this.legend = legend;
+	}
 
 	this.wrap = wrap;
 };

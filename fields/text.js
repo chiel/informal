@@ -27,16 +27,17 @@ TextField.prototype.build = function() {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('div');
-	wrap.classList.add('informal-field');
+	wrap.classList.add('informal__field');
 
 	if (this.spec.label) {
 		var label = document.createElement('label');
+		label.classList.add('informal__label');
 		label.textContent = this.spec.label;
 		wrap.appendChild(label);
 	}
 
 	var inputWrap = document.createElement('div');
-	inputWrap.classList.add('informal-input');
+	inputWrap.classList.add('informal__input');
 	wrap.appendChild(inputWrap);
 
 	var input = document.createElement('input');

@@ -18,9 +18,10 @@ DefaultGroup.prototype.build = function(spec) {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('fieldset');
-	wrap.classList.add('informal-group');
+	wrap.classList.add('informal__group');
 
 	var legend = document.createElement('legend');
+	legend.classList.add('informal__group-name');
 	legend.textContent = spec.name;
 	wrap.appendChild(legend);
 

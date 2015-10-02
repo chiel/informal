@@ -28,36 +28,37 @@ TagsField.prototype.build = function() {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('div');
-	wrap.classList.add('informal-field');
+	wrap.classList.add('informal__field');
 
 	if (this.spec.label) {
 		var label = document.createElement('label');
+		label.classList.add('informal__label');
 		label.textContent = this.spec.label;
 		wrap.appendChild(label);
 	}
 
 	var inputWrap = document.createElement('div');
-	inputWrap.classList.add('informal-input');
+	inputWrap.classList.add('informal__input');
 	wrap.appendChild(inputWrap);
 
 	var tagWrap = document.createElement('div');
-	tagWrap.classList.add('informal-input-tags-wrap');
+	tagWrap.classList.add('informal__input-tags');
 	inputWrap.appendChild(tagWrap);
 	this.tagWrap = tagWrap;
 
 	var tagPlaceholder = document.createElement('span');
-	tagPlaceholder.classList.add('informal-input-tags-placeholder');
+	tagPlaceholder.classList.add('informal__input-tags-placeholder');
 	tagPlaceholder.textContent = this.spec.attributes.placeholder || '';
 	tagWrap.appendChild(tagPlaceholder);
 	this.tagPlaceholder = tagPlaceholder;
 
 	var tagsList = document.createElement('ul');
-	tagsList.classList.add('informal-input-tags-list');
+	tagsList.classList.add('informal__input-tags-list');
 	tagWrap.appendChild(tagsList);
 	this.tagsList = tagsList;
 
 	var tagInput = document.createElement('div');
-	tagInput.classList.add('informal-input-tags-input');
+	tagInput.classList.add('informal__input-tags-input');
 	tagWrap.appendChild(tagInput);
 
 	var tagGhost = document.createElement('span');
@@ -83,10 +84,10 @@ TagsField.prototype.setEvents = function() {
 	var self = this;
 
 	self.input.addEventListener('focus', function(e) {
-		self.tagWrap.classList.add('has-focus');
+		self.tagWrap.classList.add('informal__tags_focus');
 	});
 	self.input.addEventListener('blur', function(e) {
-		self.tagWrap.classList.remove('has-focus');
+		self.tagWrap.classList.remove('informal__tags_focus');
 	});
 
 	self.input.addEventListener('keydown', function(e) {

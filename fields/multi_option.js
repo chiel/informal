@@ -26,10 +26,11 @@ MultiOptionField.prototype.build = function() {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('div');
-	wrap.classList.add('informal-field');
+	wrap.classList.add('informal__field');
 
 	if (this.spec.label) {
 		var label = document.createElement('label');
+		label.classList.add('informal__label');
 		label.textContent = this.spec.label;
 		wrap.appendChild(label);
 
@@ -44,7 +45,7 @@ MultiOptionField.prototype.build = function() {
 	}
 
 	var inputWrap = document.createElement('div');
-	inputWrap.classList.add('informal-input');
+	inputWrap.classList.add('informal__input');
 	wrap.appendChild(inputWrap);
 	this.inputWrap = inputWrap;
 
@@ -83,7 +84,7 @@ MultiOptionField.prototype.buildSelect = function() {
  */
 MultiOptionField.prototype.buildCheckboxes = function() {
 	var fieldset = document.createElement('fieldset');
-	fieldset.classList.add('informal-input-options');
+	fieldset.classList.add('informal__input-group');
 	this.inputWrap.appendChild(fieldset);
 	this.fieldset = fieldset;
 

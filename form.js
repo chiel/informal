@@ -104,8 +104,7 @@ Form.prototype.buildObjects = function(objects, wrap) {
  */
 Form.prototype.buildTabs = function(tabs) {
 	var wrap = document.createElement('nav');
-	wrap.classList.add('informal-tabs');
-	wrap.classList.add('btn-group');
+	wrap.classList.add('informal__tabs');
 
 	this.tabButtons = [];
 
@@ -117,8 +116,8 @@ Form.prototype.buildTabs = function(tabs) {
 	var btn;
 	for (var i = 0; i < tabs.length; i++) {
 		btn = document.createElement('button');
+		btn.classList.add('informal__tab-button');
 		btn.type = 'button';
-		btn.classList.add('btn');
 		btn.dataset.index = i;
 		btn.textContent = tabs[i];
 		this.tabButtons.push(btn);
@@ -163,7 +162,7 @@ Form.prototype.buildGroup = function(spec) {
  */
 Form.prototype.buildFieldGroup = function(spec) {
 	var wrap = document.createElement('div');
-	wrap.classList.add('informal-field-group');
+	wrap.classList.add('informal__field-group');
 
 	var widths = [];
 	var consumedWidth = 0;
@@ -321,15 +320,15 @@ Form.prototype.showTab = function(index) {
 
 	if (this.current > -1) {
 		if (this.spec.tabs.length > 1) {
-			this.tabButtons[this.current].classList.remove('is-active');
+			this.tabButtons[this.current].classList.remove('informal__tab-button_active');
 		}
-		this.tabs[this.current].wrap.classList.remove('is-shown');
+		this.tabs[this.current].wrap.classList.remove('informal__tab_shown');
 	}
 
 	if (this.spec.tabs.length > 1) {
-		this.tabButtons[index].classList.add('is-active');
+		this.tabButtons[index].classList.add('informal__tab-button_active');
 	}
-	this.tabs[index].wrap.classList.add('is-shown');
+	this.tabs[index].wrap.classList.add('informal__tab_shown');
 
 	this.current = index;
 };

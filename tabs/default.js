@@ -18,8 +18,7 @@ DefaultPage.prototype.build = function(spec) {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('article');
-	wrap.classList.add('informal-tab');
-	wrap.classList.add('informal-tab-default');
+	wrap.classList.add('informal__tab', 'informal__tab-default');
 
 	this.wrap = wrap;
 };

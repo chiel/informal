@@ -208,6 +208,10 @@ Form.prototype.buildFieldGroup = function(spec) {
  * @return {Field}
  */
 Form.prototype.buildField = function(name, spec) {
+	if (!spec) {
+		throw new Error('No field data found for `' + name + '`');
+	}
+
 	spec.type = spec.type || 'text';
 
 	if (!Form.fields[spec.type]) {

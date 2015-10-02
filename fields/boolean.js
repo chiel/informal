@@ -10,7 +10,7 @@ var forOwn = require('mout/object/forOwn');
  * @param {String} spec.label - The label for the field
  * @param {Boolean} value
  */
-var BooleanField = function(spec, value){
+var BooleanField = function(spec, value) {
 	this.spec = spec;
 	this.value = value;
 	this.build();
@@ -21,13 +21,13 @@ require('util').inherits(BooleanField, require('events').EventEmitter);
 /**
  * Build the field
  */
-BooleanField.prototype.build = function(){
+BooleanField.prototype.build = function() {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('div');
 	wrap.classList.add('informal-field');
 
-	if (this.spec.label){
+	if (this.spec.label) {
 		var label = document.createElement('label');
 		label.textContent = this.spec.label;
 		wrap.appendChild(label);
@@ -43,8 +43,8 @@ BooleanField.prototype.build = function(){
 	input.checked = this.value === true;
 	inputWrap.appendChild(input);
 
-	if (this.spec.attributes){
-		forOwn(this.spec.attributes, function(value, attribute){
+	if (this.spec.attributes) {
+		forOwn(this.spec.attributes, function(value, attribute) {
 			input.setAttribute(attribute, value);
 		});
 	}
@@ -58,10 +58,10 @@ BooleanField.prototype.build = function(){
 /**
  * Set events
  */
-BooleanField.prototype.setEvents = function(){
+BooleanField.prototype.setEvents = function() {
 	var self = this;
 
-	self.input.addEventListener('input', function(){
+	self.input.addEventListener('input', function() {
 		self.emit('change', self.input.value);
 	});
 };
@@ -69,7 +69,7 @@ BooleanField.prototype.setEvents = function(){
 /**
  * Returns the current value of the input
  */
-BooleanField.prototype.getValue = function(){
+BooleanField.prototype.getValue = function() {
 	return this.input.checked;
 };
 

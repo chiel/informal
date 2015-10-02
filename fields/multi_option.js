@@ -11,7 +11,7 @@ var forOwn = require('mout/object/forOwn');
  * @param {Array} spec.options - Options for the multi option field
  * @param {Array} values
  */
-var MultiOptionField = function(spec, values){
+var MultiOptionField = function(spec, values) {
 	this.spec = spec;
 	this.values = values;
 	this.build();
@@ -22,18 +22,18 @@ require('util').inherits(MultiOptionField, require('events').EventEmitter);
 /**
  * Build the field
  */
-MultiOptionField.prototype.build = function(){
+MultiOptionField.prototype.build = function() {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('div');
 	wrap.classList.add('informal-field');
 
-	if (this.spec.label){
+	if (this.spec.label) {
 		var label = document.createElement('label');
 		label.textContent = this.spec.label;
 		wrap.appendChild(label);
 
-		if (this.spec.style !== 'checkbox'){
+		if (this.spec.style !== 'checkbox') {
 			var clearBtn = document.createElement('button');
 			clearBtn.type = 'button';
 			clearBtn.tabIndex = -1;
@@ -48,9 +48,9 @@ MultiOptionField.prototype.build = function(){
 	wrap.appendChild(inputWrap);
 	this.inputWrap = inputWrap;
 
-	if (this.spec.style === 'checkbox'){
+	if (this.spec.style === 'checkbox') {
 		this.buildCheckboxes();
-	} else{
+	} else {
 		this.buildSelect();
 	}
 
@@ -61,14 +61,14 @@ MultiOptionField.prototype.build = function(){
 /**
  *
  */
-MultiOptionField.prototype.buildSelect = function(){
+MultiOptionField.prototype.buildSelect = function() {
 	var input = document.createElement('select');
 	input.name = this.spec.name;
 	input.multiple = true;
 	this.inputWrap.appendChild(input);
 
-	if (this.spec.attributes){
-		forOwn(this.spec.attributes, function(value, attribute){
+	if (this.spec.attributes) {
+		forOwn(this.spec.attributes, function(value, attribute) {
 			input.setAttribute(attribute, value);
 		});
 	}
@@ -81,7 +81,7 @@ MultiOptionField.prototype.buildSelect = function(){
 /**
  *
  */
-MultiOptionField.prototype.buildCheckboxes = function(){
+MultiOptionField.prototype.buildCheckboxes = function() {
 	var fieldset = document.createElement('fieldset');
 	fieldset.classList.add('informal-input-options');
 	this.inputWrap.appendChild(fieldset);
@@ -94,10 +94,10 @@ MultiOptionField.prototype.buildCheckboxes = function(){
 /**
  *
  */
-MultiOptionField.prototype.buildOptions = function(options){
-	if (this.spec.style === 'checkbox'){
+MultiOptionField.prototype.buildOptions = function(options) {
+	if (this.spec.style === 'checkbox') {
 		this.buildCheckboxOptions(options);
-	} else{
+	} else {
 		this.buildSelectOptions(options);
 	}
 };
@@ -105,13 +105,13 @@ MultiOptionField.prototype.buildOptions = function(options){
 /**
  *
  */
-MultiOptionField.prototype.buildSelectOptions = function(options){
+MultiOptionField.prototype.buildSelectOptions = function(options) {
 	if (!options) return;
 
 	this.options = [];
 
 	var opt, option;
-	for (var i = 0; i < options.length; i++){
+	for (var i = 0; i < options.length; i++) {
 		opt = options[i];
 		option = document.createElement('option');
 		option.value = opt.value || opt.label;
@@ -125,13 +125,13 @@ MultiOptionField.prototype.buildSelectOptions = function(options){
 /**
  *
  */
-MultiOptionField.prototype.buildCheckboxOptions = function(options){
+MultiOptionField.prototype.buildCheckboxOptions = function(options) {
 	if (!options) return;
 
 	this.inputs = [];
 
 	var opt, label, input, span;
-	for (var i = 0; i < options.length; i++){
+	for (var i = 0; i < options.length; i++) {
 		opt = options[i];
 		label = document.createElement('label');
 
@@ -153,16 +153,16 @@ MultiOptionField.prototype.buildCheckboxOptions = function(options){
 /**
  * Set events
  */
-MultiOptionField.prototype.setEvents = function(){
+MultiOptionField.prototype.setEvents = function() {
 	var self = this;
 
-	if (self.clearBtn){
-		self.clearBtn.addEventListener('click', function(e){
+	if (self.clearBtn) {
+		self.clearBtn.addEventListener('click', function(e) {
 			self.clear();
 		});
 	}
 
-	self.inputWrap.addEventListener('change', function(){
+	self.inputWrap.addEventListener('change', function() {
 		self.emit('change', self.getValue());
 	});
 };
@@ -170,12 +170,12 @@ MultiOptionField.prototype.setEvents = function(){
 /**
  * Clear selection
  */
-MultiOptionField.prototype.clear = function(){
-	if (this.spec.style === 'checkbox'){
-		for (var i = 0; i < this.inputs.length; i++){
+MultiOptionField.prototype.clear = function() {
+	if (this.spec.style === 'checkbox') {
+		for (var i = 0; i < this.inputs.length; i++) {
 			this.inputs[i].checked = false;
 		}
-	} else{
+	} else {
 		this.input.selectedIndex = -1;
 	}
 
@@ -183,19 +183,21 @@ MultiOptionField.prototype.clear = function(){
 };
 
 /**
+ * Get current value for field
+ *
  * @return {String[]}
  */
-MultiOptionField.prototype.getValue = function(){
+MultiOptionField.prototype.getValue = function() {
 	var values = [];
-	if (this.spec.style === 'checkbox'){
-		for (var i = 0; i < this.inputs.length; i++){
-			if (this.inputs[i].checked){
+	if (this.spec.style === 'checkbox') {
+		for (var i = 0; i < this.inputs.length; i++) {
+			if (this.inputs[i].checked) {
 				values.push(this.inputs[i].value);
 			}
 		}
-	} else{
-		for (var i = 0; i < this.options.length; i++){
-			if (this.options[i].selected){
+	} else {
+		for (var i = 0; i < this.options.length; i++) {
+			if (this.options[i].selected) {
 				values.push(this.options[i].value);
 			}
 		}

@@ -5,7 +5,7 @@
  *
  * @param {Object} spec
  */
-var DefaultPage = function(spec){
+var DefaultPage = function(spec) {
 	this.build(spec);
 };
 
@@ -14,7 +14,7 @@ var DefaultPage = function(spec){
  *
  * @param {Object} spec
  */
-DefaultPage.prototype.build = function(spec){
+DefaultPage.prototype.build = function(spec) {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('article');

@@ -10,7 +10,7 @@ var forOwn = require('mout/object/forOwn');
  * @param {String} spec.label - The label for the field
  * @param {String} value
  */
-var TextField = function(spec, value){
+var TextField = function(spec, value) {
 	spec.attributes.type = spec.type;
 
 	this.spec = spec;
@@ -23,13 +23,13 @@ require('util').inherits(TextField, require('events').EventEmitter);
 /**
  * Build the field
  */
-TextField.prototype.build = function(){
+TextField.prototype.build = function() {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('div');
 	wrap.classList.add('informal-field');
 
-	if (this.spec.label){
+	if (this.spec.label) {
 		var label = document.createElement('label');
 		label.textContent = this.spec.label;
 		wrap.appendChild(label);
@@ -44,8 +44,8 @@ TextField.prototype.build = function(){
 	input.value = this.value || '';
 	inputWrap.appendChild(input);
 
-	if (this.spec.attributes){
-		forOwn(this.spec.attributes, function(value, attribute){
+	if (this.spec.attributes) {
+		forOwn(this.spec.attributes, function(value, attribute) {
 			input.setAttribute(attribute, value);
 		});
 	}
@@ -59,10 +59,10 @@ TextField.prototype.build = function(){
 /**
  * Set events
  */
-TextField.prototype.setEvents = function(){
+TextField.prototype.setEvents = function() {
 	var self = this;
 
-	self.input.addEventListener('input', function(){
+	self.input.addEventListener('input', function() {
 		self.emit('change', self.input.value);
 	});
 };
@@ -70,7 +70,7 @@ TextField.prototype.setEvents = function(){
 /**
  * Returns the current value of the input
  */
-TextField.prototype.getValue = function(){
+TextField.prototype.getValue = function() {
 	return this.input.value;
 };
 

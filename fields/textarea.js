@@ -10,7 +10,7 @@ var forOwn = require('mout/object/forOwn');
  * @param {String} spec.label - The label for the field
  * @param {Boolean} spec.expand - Whether you want the field to expand when a user types in it
  */
-var TextareaField = function(spec){
+var TextareaField = function(spec) {
 	this.spec = spec;
 	this.build();
 };
@@ -18,13 +18,13 @@ var TextareaField = function(spec){
 /**
  * Build the field
  */
-TextareaField.prototype.build = function(){
+TextareaField.prototype.build = function() {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('div');
 	wrap.classList.add('informal-field');
 
-	if (this.spec.label){
+	if (this.spec.label) {
 		var label = document.createElement('label');
 		label.textContent = this.spec.label;
 		wrap.appendChild(label);
@@ -37,7 +37,7 @@ TextareaField.prototype.build = function(){
 	var input = document.createElement('textarea');
 	input.name = this.spec.name || this.name;
 
-	if (this.spec.expand){
+	if (this.spec.expand) {
 		var expandWrap = document.createElement('div');
 		expandWrap.classList.add('informal-input-expand');
 		var pre = document.createElement('pre');
@@ -48,15 +48,15 @@ TextareaField.prototype.build = function(){
 		expandWrap.appendChild(pre);
 		inputWrap.appendChild(expandWrap);
 
-		input.addEventListener('input', function(){
+		input.addEventListener('input', function() {
 			span.textContent = input.value;
 		});
-	} else{
+	} else {
 		inputWrap.appendChild(input);
 	}
 
-	if (this.spec.attributes){
-		forOwn(this.spec.attributes, function(value, attribute){
+	if (this.spec.attributes) {
+		forOwn(this.spec.attributes, function(value, attribute) {
 			input.setAttribute(attribute, value);
 		});
 	}

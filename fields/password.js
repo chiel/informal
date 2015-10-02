@@ -10,7 +10,7 @@ var TextField = require('./text');
  * @param {String} spec.name - Name of the field
  * @param {String} spec.label - The label for the field
  */
-var PasswordField = function(spec){
+var PasswordField = function(spec) {
 	TextField.call(this, spec);
 };
 

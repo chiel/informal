@@ -11,7 +11,7 @@ var TextField = require('./text');
  * @param {String} spec.label - The label for the field
  * @param {String} value
  */
-var EmailField = function(spec, value){
+var EmailField = function(spec, value) {
 	TextField.call(this, spec, value);
 };
 

@@ -15,8 +15,8 @@ var set = require('mout/object/set');
  *
  * @return {Form}
  */
-var Form = function(spec, data){
-	if (!(this instanceof Form)){
+var Form = function(spec, data) {
+	if (!(this instanceof Form)) {
 		return new Form(spec, data);
 	}
 
@@ -37,15 +37,15 @@ require('util').inherits(Form, require('events').EventEmitter);
  *
  * @param {Object[]} tabs
  */
-Form.prototype.build = function(tabs){
-	var wrap = document.createElement('div');
+Form.prototype.build = function(tabs) {
+	var wrap = document.createElement('section');
 	wrap.classList.add('informal');
 
-	if (tabs.length > 1){
+	if (tabs.length > 1) {
 		var header = document.createElement('header');
-		header.classList.add('informal-header');
+		header.classList.add('informal__header');
 
-		var tabWrap = this.buildTabs(map(tabs, function(tab, index){
+		var tabWrap = this.buildTabs(map(tabs, function(tab, index) {
 			return tab.name || index;
 		}));
 		header.appendChild(tabWrap);
@@ -53,7 +53,7 @@ Form.prototype.build = function(tabs){
 	}
 
 	var tab;
-	for (var i = 0; i < tabs.length; i++){
+	for (var i = 0; i < tabs.length; i++) {
 		tab = this.buildTab(tabs[i]);
 		this.tabs.push(tab);
 		wrap.appendChild(tab.wrap);
@@ -68,24 +68,24 @@ Form.prototype.build = function(tabs){
  * @param {Array} objects
  * @param {DOMNode} wrap
  */
-Form.prototype.buildObjects = function(objects, wrap){
+Form.prototype.buildObjects = function(objects, wrap) {
 	var object;
 	var group;
 	var field;
 	var fieldGroup;
 
-	for (var i = 0; i < objects.length; i++){
+	for (var i = 0; i < objects.length; i++) {
 		object = objects[i];
 
 		// groups
-		if (object.objects){
+		if (object.objects) {
 			group = this.buildGroup(object);
 			wrap.appendChild(group.wrap);
 			continue;
 		}
 
 		// field groups
-		if (isArray(object)){
+		if (isArray(object)) {
 			fieldGroup = this.buildFieldGroup(object);
 			wrap.appendChild(fieldGroup);
 			continue;
@@ -102,7 +102,7 @@ Form.prototype.buildObjects = function(objects, wrap){
  *
  * @param {String[]} tabs
  */
-Form.prototype.buildTabs = function(tabs){
+Form.prototype.buildTabs = function(tabs) {
 	var wrap = document.createElement('nav');
 	wrap.classList.add('informal-tabs');
 	wrap.classList.add('btn-group');
@@ -110,12 +110,12 @@ Form.prototype.buildTabs = function(tabs){
 	this.tabButtons = [];
 
 	var self = this;
-	wrap.addEventListener('click', function(e){
+	wrap.addEventListener('click', function(e) {
 		self.showTab(e.target.dataset.index);
 	});
 
 	var btn;
-	for (var i = 0; i < tabs.length; i++){
+	for (var i = 0; i < tabs.length; i++) {
 		btn = document.createElement('button');
 		btn.type = 'button';
 		btn.classList.add('btn');
@@ -135,7 +135,7 @@ Form.prototype.buildTabs = function(tabs){
  *
  * @return {Page}
  */
-Form.prototype.buildTab = function(spec){
+Form.prototype.buildTab = function(spec) {
 	var tab = new Form.tabs.default(spec);
 	this.buildObjects(spec.objects, tab.wrap);
 	return tab;
@@ -148,7 +148,7 @@ Form.prototype.buildTab = function(spec){
  *
  * @return {Group}
  */
-Form.prototype.buildGroup = function(spec){
+Form.prototype.buildGroup = function(spec) {
 	var group = new Form.groups.default(spec);
 	this.buildObjects(spec.objects, group.wrap);
 	return group;
@@ -161,15 +161,15 @@ Form.prototype.buildGroup = function(spec){
  *
  * @return {FieldGroup}
  */
-Form.prototype.buildFieldGroup = function(spec){
+Form.prototype.buildFieldGroup = function(spec) {
 	var wrap = document.createElement('div');
 	wrap.classList.add('informal-field-group');
 
 	var widths = [];
 	var consumedWidth = 0;
 
-	for (var i = 0; i < spec.length; i++){
-		if (isObject(spec[i]) && spec[i].width){
+	for (var i = 0; i < spec.length; i++) {
+		if (isObject(spec[i]) && spec[i].width) {
 			widths.push(spec[i].width * 100);
 			consumedWidth += spec[i].width * 100;
 		}
@@ -182,13 +182,13 @@ Form.prototype.buildFieldGroup = function(spec){
 	var field;
 	var fieldName;
 	var fieldSpec;
-	for (i = 0; i < spec.length; i++){
+	for (i = 0; i < spec.length; i++) {
 		fieldName = isObject(spec[i]) ? spec[i].name : spec[i];
 		fieldSpec = this.spec.fields[fieldName];
 		field = this.buildField(fieldName, fieldSpec);
 
 		var width = widthPerField;
-		if (isObject(spec[i]) && spec[i].width){
+		if (isObject(spec[i]) && spec[i].width) {
 			width = spec[i].width * 100;
 		}
 
@@ -208,20 +208,20 @@ Form.prototype.buildFieldGroup = function(spec){
  *
  * @return {Field}
  */
-Form.prototype.buildField = function(name, spec){
+Form.prototype.buildField = function(name, spec) {
 	spec.type = spec.type || 'text';
 
-	if (!Form.fields[spec.type]){
+	if (!Form.fields[spec.type]) {
 		throw new Error('Field type not found: `' + spec.type + '`');
 	}
 
 	var subscriptionValues = {};
-	if (spec.subscribe){
+	if (spec.subscribe) {
 		if (!isArray(spec.subscribe)) spec.subscribe = [ spec.subscribe ];
 
 		var fieldName;
 		var subSpec;
-		for (var i = 0; i < spec.subscribe.length; i++){
+		for (var i = 0; i < spec.subscribe.length; i++) {
 			subSpec = this.spec.fields[spec.subscribe[i]];
 			fieldName = subSpec.name || spec.subscribe[i];
 			fieldName = fieldName.replace(/\[/g, '.').replace(/\]/g, '');
@@ -236,20 +236,20 @@ Form.prototype.buildField = function(name, spec){
 	);
 	this.processSubscriptions(name, spec, field);
 
-	if (!field.wrap){
+	if (!field.wrap) {
 		throw new Error('Field has no wrap');
 	}
 
 	this.fields[name] = field;
 
-	if (field.on){
+	if (field.on) {
 		var self = this;
-		field.on('change', function(value){
+		field.on('change', function(value) {
 			var subs = self.subscriptions[name];
 			if (!subs) return;
 
-			for (var i = 0; i < subs.length; i++){
-				if (self.fields[subs[i]] && self.fields[subs[i]].notify){
+			for (var i = 0; i < subs.length; i++) {
+				if (self.fields[subs[i]] && self.fields[subs[i]].notify) {
 					self.fields[subs[i]].notify(name, value);
 				}
 			}
@@ -267,7 +267,7 @@ Form.prototype.buildField = function(name, spec){
  *
  * @return {Object}
  */
-Form.prototype.normalizeSpec = function(name, spec){
+Form.prototype.normalizeSpec = function(name, spec) {
 	spec.name = spec.name || name;
 
 	if (!isObject(spec.attributes)) spec.attributes = {};
@@ -278,7 +278,7 @@ Form.prototype.normalizeSpec = function(name, spec){
 		'maxlength',
 		'placeholder',
 		'required'
-	].forEach(function(attribute){
+	].forEach(function(attribute) {
 		if (!spec[attribute]) return;
 		spec.attributes[attribute] = spec[attribute];
 		delete spec[attribute];
@@ -293,17 +293,17 @@ Form.prototype.normalizeSpec = function(name, spec){
  * @param {String} name
  * @param {Object} spec
  */
-Form.prototype.processSubscriptions = function(name, spec){
+Form.prototype.processSubscriptions = function(name, spec) {
 	if (!spec.subscribe) return;
 
-	if (!isArray(spec.subscribe)){
+	if (!isArray(spec.subscribe)) {
 		spec.subscribe = [ spec.subscribe ];
 	}
 
 	var sub;
-	for (var i = 0; i < spec.subscribe.length; i++){
+	for (var i = 0; i < spec.subscribe.length; i++) {
 		sub = spec.subscribe[i];
-		if (!this.subscriptions[sub]){
+		if (!this.subscriptions[sub]) {
 			this.subscriptions[sub] = [];
 		}
 
@@ -314,19 +314,19 @@ Form.prototype.processSubscriptions = function(name, spec){
 /**
  * Show a tab by index
  */
-Form.prototype.showTab = function(index){
+Form.prototype.showTab = function(index) {
 	index = parseInt(index, 10);
 
 	if (isNaN(index) || index < 0) return;
 
-	if (this.current > -1){
-		if (this.spec.tabs.length > 1){
+	if (this.current > -1) {
+		if (this.spec.tabs.length > 1) {
 			this.tabButtons[this.current].classList.remove('is-active');
 		}
 		this.tabs[this.current].wrap.classList.remove('is-shown');
 	}
 
-	if (this.spec.tabs.length > 1){
+	if (this.spec.tabs.length > 1) {
 		this.tabButtons[index].classList.add('is-active');
 	}
 	this.tabs[index].wrap.classList.add('is-shown');
@@ -337,12 +337,12 @@ Form.prototype.showTab = function(index){
 /**
  * Get current values for all fields
  */
-Form.prototype.getValues = function(){
+Form.prototype.getValues = function() {
 	var values = {};
 	var fieldName;
 	var value;
 
-	forOwn(this.fields, function(field, name){
+	forOwn(this.fields, function(field, name) {
 		if (!isFunction(field.getValue)) return;
 
 		fieldName = (field.spec.name || name).replace(/\[/g, '.').replace(/\]/g, '');

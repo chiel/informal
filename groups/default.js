@@ -5,7 +5,7 @@
  *
  * @param {Object} spec
  */
-var DefaultGroup = function(spec){
+var DefaultGroup = function(spec) {
 	this.build(spec);
 };
 
@@ -14,7 +14,7 @@ var DefaultGroup = function(spec){
  *
  * @param {Object} spec
  */
-DefaultGroup.prototype.build = function(spec){
+DefaultGroup.prototype.build = function(spec) {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('fieldset');

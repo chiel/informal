@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * DefaultPage
+ * DefaultTab
  *
  * @param {Object} spec
  */
-var DefaultPage = function(spec) {
+var DefaultTab = function(spec) {
 	this.build(spec);
 };
 
@@ -14,7 +14,7 @@ var DefaultPage = function(spec) {
  *
  * @param {Object} spec
  */
-DefaultPage.prototype.build = function(spec) {
+DefaultTab.prototype.build = function(spec) {
 	if (this.wrap) return;
 
 	var wrap = document.createElement('article');
@@ -23,4 +23,4 @@ DefaultPage.prototype.build = function(spec) {
 	this.wrap = wrap;
 };
 
-module.exports = DefaultPage;
+module.exports = DefaultTab;

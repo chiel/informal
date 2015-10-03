@@ -132,22 +132,25 @@ MultiOptionField.prototype.buildCheckboxOptions = function(options) {
 
 	this.inputs = [];
 
-	var opt, label, input, span;
+	var opt, label, input, span, value;
 	for (var i = 0; i < options.length; i++) {
 		opt = options[i];
+		value = opt.value !== undefined ? opt.value : opt.label;
+
 		label = document.createElement('label');
 		label.classList.add('informal__input-group-option');
-		this.valueOptions[opt.value || opt.label] = label;
+		this.valueOptions[value] = label;
 
 		input = document.createElement('input');
 		input.name = this.spec.name + '[]';
 		input.type = 'checkbox';
-		input.value = opt.value || opt.label;
-		input.checked = this.values && this.values.indexOf(opt.value || opt.label) > -1;
+		input.value = value;
+		input.checked = this.values &&
+			this.values.indexOf(value) > -1;
 		this.inputs.push(input);
 
 		span = document.createElement('span');
-		span.textContent = opt.label || opt.value;
+		span.textContent = opt.label !== undefined ? opt.label : opt.value;
 
 		label.appendChild(input);
 		label.appendChild(span);

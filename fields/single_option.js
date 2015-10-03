@@ -124,29 +124,33 @@ SingleOptionField.prototype.buildSelectOptions = function(options) {
 };
 
 /**
+ * Build radio buttons
  *
+ * @param {Object[]} options
  */
 SingleOptionField.prototype.buildRadioButtonOptions = function(options) {
 	if (!options) return;
 
 	this.inputs = [];
 
-	var opt, label, input, span;
+	var opt, label, input, span, value;
 	for (var i = 0; i < options.length; i++) {
 		opt = options[i];
+		value = opt.value !== undefined ? opt.value : opt.label;
+
 		label = document.createElement('label');
 		label.classList.add('informal__input-group-option');
-		this.valueOptions[opt.value || opt.label] = label;
+		this.valueOptions[value] = label;
 
 		input = document.createElement('input');
 		input.type = 'radio';
 		input.name = this.spec.name;
-		input.value = opt.value || opt.label;
-		input.checked = this.value === (opt.value || opt.label);
+		input.value = value;
+		input.checked = this.value === value;
 		this.inputs.push(input);
 
 		span = document.createElement('span');
-		span.textContent = opt.label || opt.value;
+		span.textContent = opt.label !== undefined ? opt.label : opt.value;
 
 		label.appendChild(input);
 		label.appendChild(span);

@@ -134,6 +134,7 @@ SingleOptionField.prototype.buildRadioButtonOptions = function(options) {
 	for (var i = 0; i < options.length; i++) {
 		opt = options[i];
 		label = document.createElement('label');
+		label.classList.add('informal__input-group-option');
 
 		input = document.createElement('input');
 		input.type = 'radio';

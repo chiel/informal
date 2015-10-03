@@ -13,6 +13,7 @@ var forOwn = require('mout/object/forOwn');
 var SingleOptionField = function(spec, value) {
 	this.spec = spec;
 	this.value = value;
+	this.valueOptions = {};
 	this.build();
 };
 
@@ -135,6 +136,7 @@ SingleOptionField.prototype.buildRadioButtonOptions = function(options) {
 		opt = options[i];
 		label = document.createElement('label');
 		label.classList.add('informal__input-group-option');
+		this.valueOptions[opt.value || opt.label] = label;
 
 		input = document.createElement('input');
 		input.type = 'radio';
@@ -182,6 +184,19 @@ SingleOptionField.prototype.clear = function() {
 	}
 
 	this.emit('change', '');
+};
+
+/**
+ * Attach a built object for given value
+ *
+ * @param {Mixed} value
+ * @param {Element} el
+ */
+SingleOptionField.prototype.attachTrigger = function(value, el) {
+	if (this.spec.style !== 'radio') return false;
+
+	this.fieldset.insertBefore(el, this.valueOptions[value].nextSibling);
+	return true;
 };
 
 /**

@@ -84,10 +84,10 @@ TagsField.prototype.setEvents = function() {
 	var self = this;
 
 	self.input.addEventListener('focus', function(e) {
-		self.tagWrap.classList.add('informal__tags_focus');
+		self.tagWrap.classList.add('informal__input-tags_focus');
 	});
 	self.input.addEventListener('blur', function(e) {
-		self.tagWrap.classList.remove('informal__tags_focus');
+		self.tagWrap.classList.remove('informal__input-tags_focus');
 	});
 
 	self.input.addEventListener('keydown', function(e) {

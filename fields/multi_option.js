@@ -14,6 +14,7 @@ var forOwn = require('mout/object/forOwn');
 var MultiOptionField = function(spec, values) {
 	this.spec = spec;
 	this.values = values;
+	this.valueOptions = {};
 	this.build();
 };
 
@@ -136,6 +137,7 @@ MultiOptionField.prototype.buildCheckboxOptions = function(options) {
 		opt = options[i];
 		label = document.createElement('label');
 		label.classList.add('informal__input-group-option');
+		this.valueOptions[opt.value || opt.label] = label;
 
 		input = document.createElement('input');
 		input.name = this.spec.name + '[]';
@@ -183,6 +185,19 @@ MultiOptionField.prototype.clear = function() {
 	}
 
 	this.emit('change', []);
+};
+
+/**
+ * Attach a built object for given value
+ *
+ * @param {Mixed} value
+ * @param {Element} el
+ */
+MultiOptionField.prototype.attachTrigger = function(value, el) {
+	if (this.spec.style !== 'checkbox') return false;
+
+	this.fieldset.insertBefore(el, this.valueOptions[value].nextSibling);
+	return true;
 };
 
 /**

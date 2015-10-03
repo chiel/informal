@@ -1,0 +1,272 @@
+@charset 'UTF-8';
+
+/**
+ * Wrap
+ */
+.informal {
+	line-height: 24px;
+	box-sizing: border-box;
+}
+.informal * {
+	box-sizing: inherit;
+}
+
+/**
+ * Tab
+ */
+.informal__tab {
+	display: none;
+}
+.informal__tab_shown {
+	display: block;
+}
+
+/**
+ * Field group
+ */
+.informal__field-group {
+	margin: 24px -6px 0;
+}
+.informal__field-group:first-child {
+	margin-top: 0;
+}
+.informal__field-group:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.informal__field-group .informal__field {
+	float: left;
+	margin: 0;
+}
+
+/**
+ * Field
+ */
+.informal__field {
+	margin: 24px -6px 0;
+	padding: 0 6px;
+}
+.informal__field:first-child {
+	margin-top: 0;
+}
+
+/**
+ * Group
+ */
+.informal__group {
+	margin: 24px 0 0;
+	padding: 12px;
+	border: 0;
+	border-radius: 3px;
+	background: #f0f0f0;
+}
+.informal__group-name {
+	padding: 0;
+}
+.informal__group-name + * {
+	margin-top: 0;
+}
+
+/**
+ * Label
+ */
+.informal__label {
+	display: block;
+	padding: 0 6px;
+}
+
+/**
+ * Input
+ */
+.informal__input {
+	display: flex;
+	width: 100%;
+}
+
+/**
+ * All input types
+ */
+.informal__input input,
+.informal__input select,
+.informal__input textarea {
+	flex-grow: 1;
+	width: 100%;
+	padding: 9px 12px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	background: #fff;
+	font: inherit;
+	transition: border-color .1s ease-out, box-shadow .1s ease-out;
+}
+.informal__input input:focus,
+.informal__input select:focus,
+.informal__input textarea:focus {
+	outline: 0;
+	border-color: #66afe9;
+	box-shadow: 0 0 5px rgba(102, 175, 233, .6);
+}
+
+/**
+ * Select boxes
+ */
+.informal__input select {
+	position: relative;
+	background: #fff url('data:image/svg+xml;utf8,<svg width="24px" height="12px" viewBox="0 0 24 12" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L12,12 L24,0" fill="transparent" stroke="#ccc" stroke-width="3px" /></svg>') no-repeat calc(100% - 12px) 20px / 12px auto;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+.informal__input select[multiple] {
+	padding-left: 6px;
+	padding-right: 6px;
+	background: #fff;
+}
+.informal__input select[multiple] option {
+	padding: 3px 6px;
+	/*font: inherit;*/
+}
+
+/**
+ * Textareas
+ */
+.informal__input textarea {
+	min-height: 116px;
+}
+
+/**
+ * Expandable textarea
+ */
+.informal__input-textarea_expandable {
+	position: relative;
+	flex-grow: 1;
+}
+.informal__input-textarea_expandable pre,
+.informal__input-textarea_expandable textarea {
+	min-height: 116px;
+	margin: 0;
+	padding: 9px 12px;
+	border: 1px solid #ccc;
+	font: inherit;
+}
+.informal__input-textarea_expandable pre {
+	visibility: hidden;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+.informal__input-textarea_expandable textarea {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	resize: none;
+}
+
+/**
+ * Tag input
+ */
+.informal__input-tags {
+	flex-grow: 1;
+	position: relative;
+	width: 100%;
+	padding: 9px 12px 9px 6px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	background: #fff;
+	cursor: text;
+	font: inherit;
+	transition: border-color .1s ease-out, box-shadow .1s ease-out;
+}
+.informal__input-tags-placeholder {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 9px 12px;
+	opacity: .5;
+}
+.informal__input-tags-list {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.informal__input-tags-list li {
+	display: inline-block;
+	margin: -1px 0 -1px 6px;
+	padding: 0 0 0 6px;
+	border: 1px solid #eee;
+	border-radius: 3px;
+	background: #fff;
+	transition: border-color .1s ease-out;
+}
+.informal__input-tags-list button {
+	width: 24px;
+	padding: 0;
+	border: 0;
+	background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L24,24" fill="none" stroke="#ccc" stroke-width="2" /><path d="M24,0 L0,24" fill="none" stroke="#ccc" stroke-width="2" /></svg>') no-repeat center / 12px;
+	text-indent: -999em;
+}
+.informal__input-tags-list button:focus {
+	outline: 0;
+}
+.informal__input-tags-input {
+	display: inline-block;
+	position: relative;
+	margin: 0 0 0 6px;
+}
+.informal__input-tags-input span {
+	display: inline-block;
+	padding: 0 2px 0 0;
+	white-space: pre;
+	visibility: hidden;
+}
+.informal__input-tags-input input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	transition: none;
+}
+.informal__input-tags-input input:focus {
+	box-shadow: none;
+}
+
+.informal__input-tags_focus {
+	outline: 0;
+	border-color: #66afe9;
+	box-shadow: 0 0 5px rgba(102, 175, 233, .6);
+}
+.informal__input-tags_focus .informal__input-tags-list li {
+	border-color: #ccc;
+}
+
+/**
+ * Input group
+ */
+.informal__input-group {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.informal__input-group-option {
+	display: block;
+}
+.informal__input-group-option input {
+	width: auto;
+	margin: 0 6px 0 0;
+}
+.informal__input-group > .informal__field,
+.informal__input-group > .informal__field-group {
+	margin-top: 0;
+	margin-left: 12px;
+	margin-bottom: 12px;
+}
+.informal__input-group > .informal__group {
+	margin-top: 0;
+	margin-left: 18px;
+	margin-bottom: 12px;
+}

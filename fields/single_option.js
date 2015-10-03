@@ -45,7 +45,7 @@ SingleOptionField.prototype.build = function() {
 	}
 
 	var inputWrap = document.createElement('div');
-	inputWrap.classList.add('informal__input');
+	inputWrap.classList.add('informal__input', 'informal__input-single-option');
 	wrap.appendChild(inputWrap);
 	this.inputWrap = inputWrap;
 

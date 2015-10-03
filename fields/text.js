@@ -37,7 +37,7 @@ TextField.prototype.build = function() {
 	}
 
 	var inputWrap = document.createElement('div');
-	inputWrap.classList.add('informal__input');
+	inputWrap.classList.add('informal__input', 'informal__input-' + this.spec.attributes.type);
 	wrap.appendChild(inputWrap);
 
 	var input = document.createElement('input');

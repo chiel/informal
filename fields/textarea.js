@@ -32,7 +32,7 @@ TextareaField.prototype.build = function() {
 	}
 
 	var inputWrap = document.createElement('div');
-	inputWrap.classList.add('informal__input');
+	inputWrap.classList.add('informal__input', 'informal__input-textarea');
 	wrap.appendChild(inputWrap);
 
 	var input = document.createElement('textarea');

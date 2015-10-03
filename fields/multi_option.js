@@ -46,7 +46,7 @@ MultiOptionField.prototype.build = function() {
 	}
 
 	var inputWrap = document.createElement('div');
-	inputWrap.classList.add('informal__input');
+	inputWrap.classList.add('informal__input', 'informal__input-multi-option');
 	wrap.appendChild(inputWrap);
 	this.inputWrap = inputWrap;
 

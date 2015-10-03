@@ -35,7 +35,7 @@ BooleanField.prototype.build = function() {
 	}
 
 	var inputWrap = document.createElement('div');
-	inputWrap.classList.add('informal__input');
+	inputWrap.classList.add('informal__input', 'informal__input-boolean');
 	wrap.appendChild(inputWrap);
 
 	var input = document.createElement('input');

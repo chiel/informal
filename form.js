@@ -25,27 +25,37 @@ var Form = function(spec, data) {
 	this.tabs = [];
 	this.fields = {};
 	this.subscriptions = [];
-	this.build(this.spec.tabs);
-	this.current = -1;
-	this.showTab(0);
+	this.build();
+
+	if (this.spec.tabs) {
+		this.current = -1;
+		this.showTab(0);
+	}
 };
 
 require('util').inherits(Form, require('events').EventEmitter);
 
 /**
  * Build the form
- *
- * @param {Object[]} tabs
  */
-Form.prototype.build = function(tabs) {
+Form.prototype.build = function() {
 	var wrap = document.createElement('section');
 	wrap.classList.add('informal');
+	this.wrap = wrap;
 
-	if (tabs.length > 1) {
+	if (!this.spec.tabs || !this.spec.tabs.length) {
+		if (!this.spec.objects) {
+			throw new Error('No tabs or objects found in specification.');
+		}
+
+		return this.buildObjects(this.spec.objects, wrap);
+	}
+
+	if (this.spec.tabs.length > 1) {
 		var header = document.createElement('header');
 		header.classList.add('informal__header');
 
-		var tabWrap = this.buildTabs(map(tabs, function(tab, index) {
+		var tabWrap = this.buildTabs(map(this.spec.tabs, function(tab, index) {
 			return tab.name || index;
 		}));
 		header.appendChild(tabWrap);
@@ -53,13 +63,11 @@ Form.prototype.build = function(tabs) {
 	}
 
 	var tab;
-	for (var i = 0; i < tabs.length; i++) {
-		tab = this.buildTab(tabs[i]);
+	for (var i = 0; i < this.spec.tabs.length; i++) {
+		tab = this.buildTab(this.spec.tabs[i]);
 		this.tabs.push(tab);
 		wrap.appendChild(tab.wrap);
 	}
-
-	this.wrap = wrap;
 };
 
 /**

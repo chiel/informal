@@ -74,35 +74,35 @@ Form.prototype.build = function() {
  * Build objects
  *
  * @param {Array} objects
- * @param {DOMNode} wrap
+ * @param {Element} wrap
  */
 Form.prototype.buildObjects = function(objects, wrap) {
-	var object;
-	var group;
-	var field;
-	var fieldGroup;
+	var object, group, field, fieldGroup;
 
 	for (var i = 0; i < objects.length; i++) {
-		object = objects[i];
-
-		// groups
-		if (object.objects) {
-			group = this.buildGroup(object);
-			wrap.appendChild(group.wrap);
-			continue;
-		}
-
-		// field groups
-		if (isArray(object)) {
-			fieldGroup = this.buildFieldGroup(object);
-			wrap.appendChild(fieldGroup);
-			continue;
-		}
-
-		// regular fields
-		field = this.buildField(object, this.spec.fields[object]);
-		wrap.appendChild(field.wrap);
+		wrap.appendChild(this.buildObject(objects[i]));
 	}
+};
+
+/**
+ * Build a single object, detecting the type
+ *
+ * @param {Mixed} object
+ * @param {Element} wrap
+ */
+Form.prototype.buildObject = function(object, wrap) {
+	// groups
+	if (object.objects) {
+		return this.buildGroup(object).wrap;
+	}
+
+	// field groups
+	if (isArray(object)) {
+		return this.buildFieldGroup(object);
+	}
+
+	// regular fields
+	return this.buildField(object, this.spec.fields[object]).wrap;
 };
 
 /**

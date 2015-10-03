@@ -376,7 +376,10 @@ Form.prototype.processTriggers = function(name, spec, field) {
 				builtTriggers[value[i]] = el;
 			}
 
-			field.wrap.parentNode.insertBefore(el, field.wrap.nextSibling);
+			if (!field.attachTrigger || !field.attachTrigger(value[i], el)) {
+				field.wrap.parentNode.insertBefore(el, field.wrap.nextSibling);
+			}
+
 
 			if (activeValues.indexOf(value[i]) === -1) {
 				activeValues.push(value[i]);

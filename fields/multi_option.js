@@ -64,7 +64,7 @@ MultiOptionField.prototype.build = function() {
  */
 MultiOptionField.prototype.buildSelect = function() {
 	var input = document.createElement('select');
-	input.name = this.spec.name;
+	input.name = this.spec.name + '[]';
 	input.multiple = true;
 	this.inputWrap.appendChild(input);
 
@@ -137,6 +137,7 @@ MultiOptionField.prototype.buildCheckboxOptions = function(options) {
 		label = document.createElement('label');
 
 		input = document.createElement('input');
+		input.name = this.spec.name + '[]';
 		input.type = 'checkbox';
 		input.value = opt.value || opt.label;
 		input.checked = this.values && this.values.indexOf(opt.value || opt.label) > -1;

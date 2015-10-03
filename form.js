@@ -245,7 +245,9 @@ Form.prototype.buildField = function(name, spec) {
 		get(this.data, name),
 		subscriptionValues
 	);
-	this.processSubscriptions(name, spec, field);
+
+	this.processSubscriptions(name, spec);
+	this.processTriggers(name, spec, field);
 
 	if (!field.wrap) {
 		throw new Error('Field has no wrap');
@@ -320,6 +322,69 @@ Form.prototype.processSubscriptions = function(name, spec) {
 
 		this.subscriptions[sub].push(name);
 	}
+};
+
+/**
+ * Process a field's triggers
+ *
+ * @param {String} name
+ * @param {String} spec
+ * @param {Object} field
+ */
+Form.prototype.processTriggers = function(name, spec, field) {
+	if (!spec.triggers || !field.on) return;
+
+	var values = [];
+	var objects = [];
+
+	var trigger;
+	for (var i = 0; i < spec.triggers.length; i++) {
+		trigger = spec.triggers[i];
+
+		if (!this.spec.triggers[trigger.object]) {
+			throw new Error('Could not find trigger object `' + trigger.object + '`');
+		}
+
+		values.push(trigger.value);
+		objects.push(trigger.object);
+	}
+
+	var self = this;
+	var activeObjects = [];
+	var activeValues = [];
+	var builtTriggers = {};
+	var index;
+
+	var processValues = function(value) {
+		if (!isArray(value)) value = [ value ];
+
+		for (i = 0; i < activeValues.length; i++) {
+			if (value.indexOf(activeValues[i]) !== -1) continue;
+
+			console.log('remove object for value', activeValues[i]);
+			var el = builtTriggers[activeValues[i]];
+			el.parentNode.removeChild(el);
+
+			activeObjects.splice(i, 1);
+			activeValues.splice(i, 1);
+		}
+
+		for (i = 0; i < value.length; i++) {
+			index = values.indexOf(value[i]);
+			if (index === -1 || activeValues.indexOf(value[i]) !== -1) continue;
+
+			var el = builtTriggers[value[i]] ||
+				self.buildObject(self.spec.triggers[objects[index]]);
+
+			field.wrap.parentNode.insertBefore(el, field.wrap.nextSibling);
+
+			activeObjects.push(el);
+			activeValues.push(value[i]);
+			builtTriggers[value[i]] = el;
+		}
+	};
+
+	field.on('change', processValues);
 };
 
 /**

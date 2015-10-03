@@ -350,7 +350,6 @@ Form.prototype.processTriggers = function(name, spec, field) {
 	}
 
 	var self = this;
-	var activeObjects = [];
 	var activeValues = [];
 	var builtTriggers = {};
 	var index;
@@ -361,26 +360,27 @@ Form.prototype.processTriggers = function(name, spec, field) {
 		for (i = 0; i < activeValues.length; i++) {
 			if (value.indexOf(activeValues[i]) !== -1) continue;
 
-			console.log('remove object for value', activeValues[i]);
 			var el = builtTriggers[activeValues[i]];
 			el.parentNode.removeChild(el);
 
-			activeObjects.splice(i, 1);
 			activeValues.splice(i, 1);
 		}
 
-		for (i = 0; i < value.length; i++) {
+		for (i = value.length - 1; i >= 0; i--) {
 			index = values.indexOf(value[i]);
-			if (index === -1 || activeValues.indexOf(value[i]) !== -1) continue;
+			if (index === -1) continue;
 
-			var el = builtTriggers[value[i]] ||
-				self.buildObject(self.spec.triggers[objects[index]]);
+			var el = builtTriggers[value[i]];
+			if (!el) {
+				el = self.buildObject(self.spec.triggers[objects[index]]);
+				builtTriggers[value[i]] = el;
+			}
 
 			field.wrap.parentNode.insertBefore(el, field.wrap.nextSibling);
 
-			activeObjects.push(el);
-			activeValues.push(value[i]);
-			builtTriggers[value[i]] = el;
+			if (activeValues.indexOf(value[i]) === -1) {
+				activeValues.push(value[i]);
+			}
 		}
 	};
 

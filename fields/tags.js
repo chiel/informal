@@ -21,6 +21,8 @@ var TagsField = function(spec) {
 	this.build();
 };
 
+require('util').inherits(TagsField, require('events').EventEmitter);
+
 /**
  * Build the field
  */
@@ -146,6 +148,8 @@ TagsField.prototype.add = function(value) {
 
 	this.tagGhost.textContent = '';
 	this.input.value = '';
+
+	this.emit('change', this.getValue());
 };
 
 /**
@@ -160,6 +164,15 @@ TagsField.prototype.remove = function(index) {
 	this.tagsList.removeChild(this.tagsList.children[index]);
 	this.tags.splice(index, 1);
 	this.tagPlaceholder.style.display = this.input.value || this.tags.length ? 'none' : 'block';
+
+	this.emit('change', this.getValue());
+};
+
+/**
+ *
+ */
+TagsField.prototype.getValue = function() {
+	return this.tags.slice();
 };
 
 module.exports = TagsField;

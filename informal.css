@@ -58,7 +58,6 @@
 	margin: 24px 0 0;
 	padding: 12px;
 	border: 0;
-	border-radius: 3px;
 	background: #f0f0f0;
 }
 .informal__group-name {
@@ -94,17 +93,27 @@
 	width: 100%;
 	padding: 9px 12px;
 	border: 1px solid #ccc;
-	border-radius: 3px;
+	border-left-width: 0;
+	border-right-width: 0;
 	background: #fff;
 	font: inherit;
 	transition: border-color .1s ease-out, box-shadow .1s ease-out;
 }
-.informal__input input:focus,
-.informal__input select:focus,
-.informal__input textarea:focus {
-	outline: 0;
-	border-color: #66afe9;
-	box-shadow: 0 0 5px rgba(102, 175, 233, .6);
+
+/**
+ * Pre/suffixes
+ */
+.informal__input > :not(:first-child) {
+	border-right-width: 1px;
+}
+.informal__input > :not(:last-child) {
+	border-left-width: 1px;
+}
+.informal__input > :first-child {
+	border-left-width: 1px;
+}
+.informal__input > :last-child {
+	border-right-width: 1px;
 }
 
 /**
@@ -172,7 +181,6 @@
 	width: 100%;
 	padding: 9px 12px 9px 6px;
 	border: 1px solid #ccc;
-	border-radius: 3px;
 	background: #fff;
 	cursor: text;
 	font: inherit;
@@ -196,7 +204,6 @@
 	margin: -1px 0 -1px 6px;
 	padding: 0 0 0 6px;
 	border: 1px solid #eee;
-	border-radius: 3px;
 	background: #fff;
 	transition: border-color .1s ease-out;
 }
@@ -231,13 +238,12 @@
 	transition: none;
 }
 .informal__input-tags-input input:focus {
-	box-shadow: none;
+	outline: 0;
 }
 
 .informal__input-tags_focus {
-	outline: 0;
-	border-color: #66afe9;
-	box-shadow: 0 0 5px rgba(102, 175, 233, .6);
+	outline: -webkit-focus-ring-color auto 5px;
+	outline-offset: -2px;
 }
 .informal__input-tags_focus .informal__input-tags-list li {
 	border-color: #ccc;

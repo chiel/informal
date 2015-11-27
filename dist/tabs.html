@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Informal demo</title>
+		<link rel="stylesheet" href="/demo.css">
+		<link rel="stylesheet" href="/informal.css">
+	</head>
+
+	<body>
+		<div data-form></div>
+		<script src="/informal.js"></script>
+		<script>
+			var countryOptions = [
+				{ label: '...' },
+				{ value: 'option_1', label: 'Option 1' },
+				{ value: 'option_2', label: 'Option 2' },
+				{ value: 'option_3', label: 'Option 3' },
+				{ value: 'option_4', label: 'Option 4' },
+				{ value: 'option_5', label: 'Option 5' },
+				{ value: 'option_6', label: 'Option 6' }
+			];
+
+			var hobbyOptions = [
+				{ label: '...' },
+				{ value: 'running', label: 'Running' },
+				{ value: 'swimming', label: 'Swimming' },
+				{ value: 'gaming', label: 'Gaming' },
+				{ value: 'cycling', label: 'Cycling' }
+			];
+
+			var baseForm = {
+				tabs: [
+					{
+						name: 'Personal information',
+						objects: [
+							[ 'firstname', 'lastname' ],
+							'address',
+							'hobbies',
+							'hobbies2',
+							[{ name: 'postalcode', width: 0.5 }, 'city' ],
+							'country',
+							{
+								name: 'Shipping information',
+								objects: [
+									'shipping_address',
+									[ 'shipping_postalcode', 'shipping_city', 'shipping_country' ]
+								]
+							}
+						]
+					},
+					{
+						name: 'Creditcard details',
+						objects: [
+							'creditcard_holder',
+							[
+								{ name: 'creditcard_number', width: 0.6 },
+								'creditcard_cvc'
+							]
+						]
+					}
+				],
+
+				triggers: {
+					running_options: [ 'running_location', 'running_shoes' ],
+					swimming_options: {
+						name: 'Swimming options',
+						objects: [ 'swimming_location', 'swimming_gear' ]
+					},
+					gaming_options: 'game_favorite',
+					country_1: 'country_1_opt',
+					cycling_options: ['cycling_opt_1']
+				},
+
+				fields: {
+					cycling_opt_1: {
+						label: 'Cycling!'
+					},
+					country_1_opt: {
+						label: 'Country stuffs'
+					},
+					running_location: {
+						label: 'Running location'
+					},
+					running_shoes: {
+						label: 'Running shoes'
+					},
+					swimming_location: {
+						label: 'Swimming locations'
+					},
+					swimming_gear: {
+						label: 'Swimming gear'
+					},
+					game_favorite: {
+						label: 'Favourite game'
+					},
+					firstname: {
+						label: 'First name',
+						placeholder: 'e.g. John'
+					},
+					lastname: {
+						label: 'Last name',
+						placeholder: 'e.g. Doe'
+					},
+					address: {
+						type: 'textarea',
+						label: 'Address',
+						expand: true
+					},
+					hobbies: {
+						type: 'multi_option',
+						style: 'checkbox',
+						label: 'Hobbies',
+						options: hobbyOptions,
+						triggers: [
+							{ value: 'running', object: 'running_options' },
+							{ value: 'swimming', object: 'swimming_options' },
+							{ value: 'gaming', object: 'gaming_options' },
+							{ value: 'cycling', object: 'cycling_options' }
+						]
+					},
+					hobbies2: {
+						type: 'tags',
+						label: 'Hobbies 2',
+						placeholder: 'Use TAB or ENTER to add a tag'
+					},
+					postalcode: {
+						label: 'Postal code'
+					},
+					city: {
+						label: 'City'
+					},
+					country: {
+						type: 'single_option',
+						style: 'radio',
+						label: 'Country',
+						options: countryOptions,
+						id: 'thingy',
+						triggers: [
+							{ value: 'option_1', object: 'country_1' }
+						]
+					},
+					shipping_address: {
+						label: 'Address'
+					},
+					shipping_postalcode: {
+						label: 'Postal code'
+					},
+					shipping_city: {
+						label: 'City'
+					},
+					shipping_country: {
+						type: 'single_option',
+						label: 'Country',
+						options: countryOptions
+					},
+					creditcard_holder: {
+						label: 'Holder\'s name'
+					},
+					creditcard_number: {
+						label: 'Number'
+					},
+					creditcard_cvc: {
+						label: 'CVC'
+					}
+				}
+			};
+
+			var form = informal(baseForm);
+			document.querySelector('[data-form]').appendChild(form.wrap);
+		</script>
+	</body>
+</html>

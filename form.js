@@ -246,12 +246,12 @@ Form.prototype.buildField = function(name, spec) {
 		subscriptionValues
 	);
 
-	this.processSubscriptions(name, spec);
-	this.processTriggers(name, spec, field);
-
 	if (!field.wrap) {
 		throw new Error('Field has no wrap');
 	}
+
+	this.processSubscriptions(name, spec);
+	this.processTriggers(name, spec, field);
 
 	this.fields[name] = field;
 
@@ -388,6 +388,9 @@ Form.prototype.processTriggers = function(name, spec, field) {
 	};
 
 	field.on('change', processValues);
+	setTimeout(function() {
+		processValues(field.getValue());
+	});
 };
 
 /**

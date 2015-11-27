@@ -79,7 +79,7 @@ SingleOptionField.prototype.buildSelect = function() {
 };
 
 /**
- *
+ * Build radio button-style input
  */
 SingleOptionField.prototype.buildRadioButtons = function() {
 	var fieldset = document.createElement('fieldset');
@@ -91,7 +91,9 @@ SingleOptionField.prototype.buildRadioButtons = function() {
 };
 
 /**
+ * Populate options
  *
+ * @param {Object[]} options
  */
 SingleOptionField.prototype.buildOptions = function(options) {
 	if (this.spec.style === 'radio') {

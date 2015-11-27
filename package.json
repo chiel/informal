@@ -4,7 +4,16 @@
   "description": "Form-building library",
   "author": "chielkunkels",
   "main": "index.js",
+  "scripts": {
+    "build": "browserify -s informal all.js | uglifyjs > dist/informal.min.js",
+    "watch": "watchify all.js -s informal -o dist/informal.js -v"
+  },
   "dependencies": {
     "mout": "^0.11.0"
+  },
+  "devDependencies": {
+    "browserify": "^11.2.0",
+    "uglifyjs": "^2.4.10",
+    "watchify": "^3.4.0"
   }
 }

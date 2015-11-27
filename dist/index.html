@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Informal demo</title>
+		<link rel="stylesheet" href="/demo.css">
+		<link rel="stylesheet" href="/informal.css">
+	</head>
+
+	<body>
+		<div data-form></div>
+		<script src="/informal.js"></script>
+		<script>
+			var countryOptions = [
+				{ value: '', label: '...' },
+				{ value: 'option_1', label: 'Option 1' },
+				{ value: 'option_2', label: 'Option 2' },
+				{ value: 'option_3', label: 'Option 3' },
+				{ value: 'option_4', label: 'Option 4' },
+				{ value: 'option_5', label: 'Option 5' },
+				{ value: 'option_6', label: 'Option 6' }
+			];
+
+			var baseForm = {
+				objects: [
+					[ 'firstname', 'lastname' ],
+					'address',
+					[{ name: 'postalcode', width: 0.25 }, 'city', 'country' ]
+				],
+
+				fields: {
+					firstname: {
+						label: 'First name',
+						placeholder: 'e.g. John'
+					},
+					lastname: {
+						label: 'Last name',
+						placeholder: 'e.g. Doe'
+					},
+					address: {
+						type: 'textarea',
+						label: 'Address'
+					},
+					postalcode: {
+						label: 'Postal code',
+						placeholder: '1234 AB'
+					},
+					city: {
+						label: 'City',
+						placeholder: 'Doeville'
+					},
+					country: {
+						type: 'single_option',
+						label: 'Country',
+						options: countryOptions,
+						id: 'thingy'
+					}
+				}
+			};
+
+			var form = informal(baseForm);
+			document.querySelector('[data-form]').appendChild(form.wrap);
+
+		</script>
+	</body>
+</html>

@@ -24,6 +24,7 @@ require('inherits')(Base, require('events').EventEmitter);
 Base.prototype.build = function(){
 	this.wrap = document.createElement('div');
 	this.wrap.classList.add('informal--field');
+	this.wrap.classList.add('informal--type-' + this.spec.type);
 
 	var label = document.createElement('label');
 	this.input = document.createElement(this.tag);

@@ -186,6 +186,9 @@ Form.prototype.buildGroup = function(name){
 	var i, field, fields = {};
 	for (i = 0; i < spec.fields.length; i++){
 		field = this.buildField(spec.fields[i]);
+		if (field.spec.type === 'wysiwyg') {
+			tinyMCE.execCommand('mceAddEditor', true, field.input.id);
+		}
 		group.wrap.appendChild(field.wrap);
 		fields[spec.fields[i]] = field;
 	}
@@ -297,7 +300,6 @@ Form.prototype.processSubscriptions = function(name){
 Form.prototype.processTriggers = function(name){
 	var spec = this.spec.fields[name];
 	if (!spec || !spec.triggers) return;
-
 	var field = this.fields[name],
 		activeValues = [],
 		groups = {},
@@ -314,6 +316,13 @@ Form.prototype.processTriggers = function(name){
 			if (index != -1) continue;
 
 			groupName = spec.triggers[activeValues[i]];
+
+			setTimeout(function(){
+				var wysiwygs = groups[groupName].wrap.querySelectorAll('.wysiwyg');
+				for (var i = 0; i < wysiwygs.length; i++) {
+					tinyMCE.execCommand('mceRemoveEditor',false, wysiwygs[i].id);
+				}
+			},100)
 			field.wrap.removeChild(groups[groupName].wrap);
 			activeValues.splice(i, 1);
 		}
@@ -329,6 +338,12 @@ Form.prototype.processTriggers = function(name){
 				group = self.buildGroup(groupName);
 				groups[groupName] = group;
 			}
+			setTimeout(function(){
+				var wysiwygs = group.wrap.querySelectorAll('.wysiwyg');
+				for (var i = 0; i < wysiwygs.length; i++) {
+					tinyMCE.execCommand('mceAddEditor',true, wysiwygs[i].id);
+				}
+			},100)
 
 			field.wrap.appendChild(group.wrap);
 			activeValues.push(value[i]);

@@ -188,30 +188,7 @@ Form.prototype.buildGroup = function(name){
 	for (i = 0; i < spec.fields.length; i++){
 		field = this.buildField(spec.fields[i]);
 		if (field.spec.type === 'wysiwyg') {
-			tinyMCE.init({
-				selector: '#' + field.input.id,
-				mode : "none",
-				theme : "modern",
-				statusbar: false,
-				autoresize_min_height: 0,
-				plugins: [
-					"moxiemanager",
-					"code",
-					"link",
-					"paste",
-					"table",
-					"autoresize"
-				],
-				paste_auto_cleanup_on_paste : true,
-				paste_remove_spans: true,
-				paste_remove_styles: true,
-				tools: "inserttable",
-				toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright | sub sup | table | bullist numlist | fullscreen | link unlink | code",
-				relative_urls : false,
-				remove_script_host : false,
-				convert_urls : true
-			})
-			// tinyMCE.execCommand('mceAddEditor', true, field.input.id);
+			tinyMCE.execCommand('mceAddEditor', true, field.input.id);
 		}
 		group.wrap.appendChild(field.wrap);
 		fields[spec.fields[i]] = field;
@@ -344,7 +321,6 @@ Form.prototype.processTriggers = function(name){
 			setTimeout(function(){
 				var wysiwygs = groups[groupName].wrap.querySelectorAll('.wysiwyg');
 				for (var i = 0; i < wysiwygs.length; i++) {
-					// tinyMCE.init({selector: '#' + wysiwygs[i].id })
 					tinyMCE.execCommand('mceRemoveEditor',false, wysiwygs[i].id);
 				}
 			},100)
@@ -366,30 +342,7 @@ Form.prototype.processTriggers = function(name){
 			setTimeout(function(){
 				var wysiwygs = group.wrap.querySelectorAll('.wysiwyg');
 				for (var i = 0; i < wysiwygs.length; i++) {
-					tinyMCE.init({
-						selector: '#' + wysiwygs[i].id,
-						mode : "none",
-						theme : "modern",
-						statusbar: false,
-						autoresize_min_height: 0,
-						plugins: [
-							"moxiemanager",
-							"code",
-							"link",
-							"paste",
-							"table",
-							"autoresize"
-						],
-						paste_auto_cleanup_on_paste : true,
-						paste_remove_spans: true,
-						paste_remove_styles: true,
-						tools: "inserttable",
-						toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright | sub sup | table | bullist numlist | fullscreen | link unlink | code",
-						relative_urls : false,
-						remove_script_host : false,
-						convert_urls : true
-						});
-					// tinyMCE.execCommand('mceAddEditor',true, wysiwygs[i].id);
+					tinyMCE.execCommand('mceAddEditor',true, wysiwygs[i].id);
 				}
 			},100)
 

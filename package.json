@@ -1,6 +1,6 @@
 {
   "name": "sl-informal",
-  "version": "0.3.14",
+  "version": "0.3.15",
   "description": "Fork of informal for internal use, some ugly fixes were applied. So take a look at https://github.com/chielkunkels/informal for more info.",
   "author": "chielkunkels",
   "main": "src/index.js",

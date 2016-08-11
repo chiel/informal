@@ -188,7 +188,7 @@ Form.prototype.buildGroup = function(name){
 	for (i = 0; i < spec.fields.length; i++){
 		field = this.buildField(spec.fields[i]);
 		if (field.spec.type === 'wysiwyg') {
-			tinyMCE.execCommand('mceAddEditor', true, field.input.id);
+			// tinyMCE.execCommand('mceAddEditor', true, field.input.id);
 		}
 		group.wrap.appendChild(field.wrap);
 		fields[spec.fields[i]] = field;

@@ -67,7 +67,7 @@ Base.prototype.setEvents = function(){
 
 	var self = this;
 	this.input.addEventListener('input', function(){
-		self.emit('change', self.input.value);
+		self.emit('change', self.getValue());
 	});
 };
 

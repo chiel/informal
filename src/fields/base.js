@@ -33,8 +33,7 @@ Base.prototype.build = function(){
 		label.innerHTML = this.spec.label;
 		
 		if(this.spec.tip) {
-			label.title = this.spec.tip;
-			label.classList.add('tip');
+			label.dataset.tip = this.spec.tip;
 		}
 	}
 

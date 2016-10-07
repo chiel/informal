@@ -31,6 +31,11 @@ Base.prototype.build = function(){
 
 	if (this.spec.label){
 		label.innerHTML = this.spec.label;
+		
+		if(this.spec.tip) {
+			label.title = this.spec.tip;
+			label.classList.add('tip');
+		}
 	}
 
 	this.setAttributes(this.input, this.spec.attributes);

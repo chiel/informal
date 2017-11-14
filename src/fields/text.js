@@ -21,7 +21,9 @@ require('inherits')(Text, Base);
 Text.prototype.build = function(){
 	Base.prototype.build.call(this);
 	this.input.setAttribute('type', this.spec.type);
-	this.input.value = this.value || this.spec.value || '';
+	if (this.value || this.spec.value) {
+		this.input.value = this.value || this.spec.value
+	}
 };
 
 Text.prototype.notify = function(field, value) {
